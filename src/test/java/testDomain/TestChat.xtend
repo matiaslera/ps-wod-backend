@@ -67,7 +67,7 @@ class TestChat {
 
 	@Test
 	def void envioDeMensajes() {
-		Assert.assertEquals(RepoChats.instance.mensajes.size,3, 0.1)
+		Assert.assertEquals(RepoChats.instance.mensajes.size, 3, 0.1)
 	}
 
 	@Test

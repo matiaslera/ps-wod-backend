@@ -5,8 +5,6 @@ import org.eclipse.xtend.lib.annotations.Accessors
 @Accessors
 class Profesional extends Cliente {
 
-	Long id
-
 	String profesion
 
 	String titulosObtenidos
@@ -14,5 +12,7 @@ class Profesional extends Cliente {
 	String experienciaLaboral
 
 	String zonaDeTrabajo
+	
+	Boolean guardia = false
 
 }

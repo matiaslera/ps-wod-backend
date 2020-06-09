@@ -18,7 +18,10 @@ class RepoChats {
 
 	ArrayList<Chat> mensajes = new ArrayList
 
-	def void agregarChat(Chat chat) {
+	def void persistirChat(Chat chat) {
 		mensajes.add(chat)
 	}
+	
+	
+
 }

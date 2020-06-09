@@ -49,19 +49,19 @@ class TestChat {
 		conversacion1.origen = jose.usuario
 		conversacion1.destinatario = daniel.usuario
 		conversacion1.mensaje = "Deseo cambiar fecha del turno"
-		RepoChats.instance.agregarChat(conversacion1)
+		jose.enviarChat(conversacion1)
 
 		conversacion2 = new Chat
 		conversacion2.origen = daniel.usuario
 		conversacion2.destinatario = jose.usuario
 		conversacion2.mensaje = "No se puede, no tengo libre hasta dentro de tres meses"
-		RepoChats.instance.agregarChat(conversacion2)
+		daniel.enviarChat(conversacion2)
 
 		conversacion3 = new Chat
 		conversacion3.origen = jose.usuario
 		conversacion3.destinatario = daniel.usuario
 		conversacion3.mensaje = "Ok, lo dejamos así entonces"
-		RepoChats.instance.agregarChat(conversacion3)
+		jose.enviarChat(conversacion3)
 
 	}
 

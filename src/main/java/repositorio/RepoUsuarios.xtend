@@ -1,6 +1,8 @@
 package repositorio
 
 import domain.Cliente
+import java.util.ArrayList
+import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
@@ -15,8 +17,15 @@ class RepoUsuarios extends AbstractRepository<Cliente> {
 		repoUsuarios
 	}
 
+	List<Cliente> usuarios = new ArrayList
+
 	override getEntityType() {
 		Cliente
 	}
+
+	def void persistirUsuario(Cliente usuario) {
+		usuarios.add(usuario)
+	}
+	
 
 }

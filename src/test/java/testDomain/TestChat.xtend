@@ -1,67 +1,41 @@
 package testDomain
 
+import domain.Chat
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import domain.Cliente
-import java.time.LocalDate
-import domain.Profesional
-import domain.Chat
 import repositorio.RepoChats
-import org.junit.Assert
 
 class TestChat {
-
-	Cliente jose
-	Profesional daniel
+	
+	JuegoDeDatos datos
 	Chat conversacion1
 	Chat conversacion2
 	Chat conversacion3
 
 	@Before
 	def void init() {
-		jose = new Cliente => [
-			usuario = "josep"
-			contrasenia = "12345"
-			nombreyApellido = "Jose Gimenez"
-			dni = "94562345"
-			direccion = "Juan B. Justo 2734"
-			fechaDeNacimiento = LocalDate.of(1990, 06, 15);
-			telefono = "34652817"
-
-		]
-
-		daniel = new Profesional => [
-			usuario = "dani"
-			contrasenia = "2468"
-			nombreyApellido = "Danel Ruiz"
-			dni = "45621356"
-			direccion = "Las Heras 2734"
-			fechaDeNacimiento = LocalDate.of(1980, 08, 27);
-			telefono = "45621367"
-			profesion = "electricista"
-			titulosObtenidos = "ecnico superior"
-			experienciaLaboral = "mantenimiento en UNSAM"
-			zonaDeTrabajo = "San Martin"
-		]
+		datos = new JuegoDeDatos
+		datos.inicializarDatos
 
 		// simulacion de conversación por chat
 		conversacion1 = new Chat
-		conversacion1.origen = jose.usuario
-		conversacion1.destinatario = daniel.usuario
+		conversacion1.origen = datos.jose.usuario
+		conversacion1.destinatario = datos.daniel.usuario
 		conversacion1.mensaje = "Deseo cambiar fecha del turno"
-		jose.enviarChat(conversacion1)
+		datos.jose.enviarChat(conversacion1)
 
 		conversacion2 = new Chat
-		conversacion2.origen = daniel.usuario
-		conversacion2.destinatario = jose.usuario
+		conversacion2.origen = datos.daniel.usuario
+		conversacion2.destinatario = datos.jose.usuario
 		conversacion2.mensaje = "No se puede, no tengo libre hasta dentro de tres meses"
-		daniel.enviarChat(conversacion2)
+		datos.daniel.enviarChat(conversacion2)
 
 		conversacion3 = new Chat
-		conversacion3.origen = jose.usuario
-		conversacion3.destinatario = daniel.usuario
+		conversacion3.origen = datos.jose.usuario
+		conversacion3.destinatario = datos.daniel.usuario
 		conversacion3.mensaje = "Ok, lo dejamos así entonces"
-		jose.enviarChat(conversacion3)
+		datos.jose.enviarChat(conversacion3)
 
 	}
 

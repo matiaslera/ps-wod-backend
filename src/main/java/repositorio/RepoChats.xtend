@@ -21,7 +21,5 @@ class RepoChats {
 	def void persistirChat(Chat chat) {
 		mensajes.add(chat)
 	}
-	
-	
 
 }

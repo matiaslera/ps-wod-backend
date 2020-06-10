@@ -2,8 +2,11 @@ package domain
 
 import java.awt.Image
 import java.time.LocalDate
+import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import repositorio.RepoChats
+import repositorio.RepoPresupuestos
+import repositorio.RepoUsuarios
 
 @Accessors
 class Cliente {
@@ -28,6 +31,12 @@ class Cliente {
 		RepoChats.instance.persistirChat(chat)
 	}
 
-	def double obtenerPresupuesto() {
-	}	
+	def List<Presupuesto> obtenerPresupuesto(Presupuesto problema) {
+		RepoPresupuestos.instance.buscarPresupuesto(problema)
+	}
+
+	def void enviarNotificacionPresupuesto(Presupuesto problema) {
+		RepoUsuarios.instance.enviarNotificacionDePresupuesto(problema)
+	}
+	
 }

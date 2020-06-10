@@ -12,12 +12,12 @@ class Turno {
 
 	LocalDate fecha
 
-	Boolean maniana = false
+	boolean maniana = false
 
-	Boolean tarde = false
+	boolean tarde = false
 
-	Boolean noche = false
+	boolean noche = false
 
-	Boolean guardia = false
+	boolean guardia = false
 
 }

@@ -1,5 +1,7 @@
 package domain
 
+import java.util.ArrayList
+import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
@@ -12,7 +14,13 @@ class Profesional extends Cliente {
 	String experienciaLaboral
 
 	String zonaDeTrabajo
-	
-	Boolean guardia = false
 
+	boolean guardia = false
+
+	List<Presupuesto> presupuestos = new ArrayList
+
+	def void agregarPresupuesto(Presupuesto problema) {
+		presupuestos.add(problema)
+	}
+	
 }

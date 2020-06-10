@@ -51,7 +51,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 		// persistencia de clientes
 		//listaClientes.forEach[c|RepoUsuarios.instance.create(c)]
 
-		RepoUsuarios.instance.create(jose)
+		//RepoUsuarios.instance.create(jose)
 		
 		// persistencia de profesionales
 		//listaProfesionales.forEach[p|RepoUsuarios.instance.create(p)]

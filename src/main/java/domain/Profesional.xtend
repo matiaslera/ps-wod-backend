@@ -5,7 +5,7 @@ import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
-class Profesional extends Cliente {
+class Profesional extends Usuario {
 
 	String profesion
 
@@ -22,5 +22,5 @@ class Profesional extends Cliente {
 	def void agregarPresupuesto(Presupuesto problema) {
 		presupuestos.add(problema)
 	}
-	
+
 }

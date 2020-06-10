@@ -28,7 +28,6 @@ class JuegoDeDatos {
 			contrasenia = "2468"
 			nombreyApellido = "Danel Ruiz"
 			dni = "45621356"
-			direccion = "Las Heras 2734"
 			fechaDeNacimiento = LocalDate.of(1980, 08, 27);
 			telefono = "45621367"
 			profesion = "ElectricistaElectricista"

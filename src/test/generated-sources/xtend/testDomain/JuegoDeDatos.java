@@ -37,7 +37,6 @@ public class JuegoDeDatos {
         it.setContrasenia("2468");
         it.setNombreyApellido("Danel Ruiz");
         it.setDni("45621356");
-        it.setDireccion("Las Heras 2734");
         it.setFechaDeNacimiento(LocalDate.of(1980, 8, 27));
         it.setTelefono("45621367");
         it.setProfesion("ElectricistaElectricista");

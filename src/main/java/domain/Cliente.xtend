@@ -18,4 +18,8 @@ class Cliente extends Usuario {
 		RepoProfesionales.instance.enviarNotificacionDePresupuesto(problema)
 	}
 
+	def void seleccionarTurno() {
+		
+	}
+
 }

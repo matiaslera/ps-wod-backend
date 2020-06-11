@@ -6,7 +6,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import repositorio.RepoChats
 
 @Accessors
-abstract class Usuario {
+class Usuario {
 
 	String usuario
 

@@ -26,4 +26,16 @@ class RepoProfesionales {
 		]
 	}
 
+	def List<Profesional> busquedaPorProfesion(String profesion) {
+		profesionales.filter(profesional|profesional.profesion.equals(profesion)).toList
+	}
+
+	def List<Profesional> busquedaPorZona(String zona) {
+		profesionales.filter(profesional|profesional.zonaDeTrabajo.equals(zona)).toList
+	}
+
+	def List<Profesional> busquedaPorNombreYApellido(String nombre) {
+		profesionales.filter(profesional|profesional.nombreyApellido.equals(nombre)).toList
+	}
+
 }

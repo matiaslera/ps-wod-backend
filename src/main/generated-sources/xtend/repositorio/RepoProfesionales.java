@@ -5,6 +5,8 @@ import domain.Profesional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 
 @SuppressWarnings("all")
 public class RepoProfesionales {
@@ -34,5 +36,32 @@ public class RepoProfesionales {
       }
     };
     this.profesionales.forEach(_function);
+  }
+  
+  public List<Profesional> busquedaPorProfesion(final String profesion) {
+    final Function1<Profesional, Boolean> _function = new Function1<Profesional, Boolean>() {
+      public Boolean apply(final Profesional profesional) {
+        return Boolean.valueOf(profesional.getProfesion().equals(profesion));
+      }
+    };
+    return IterableExtensions.<Profesional>toList(IterableExtensions.<Profesional>filter(this.profesionales, _function));
+  }
+  
+  public List<Profesional> busquedaPorZona(final String zona) {
+    final Function1<Profesional, Boolean> _function = new Function1<Profesional, Boolean>() {
+      public Boolean apply(final Profesional profesional) {
+        return Boolean.valueOf(profesional.getZonaDeTrabajo().equals(zona));
+      }
+    };
+    return IterableExtensions.<Profesional>toList(IterableExtensions.<Profesional>filter(this.profesionales, _function));
+  }
+  
+  public List<Profesional> busquedaPorNombreYApellido(final String nombre) {
+    final Function1<Profesional, Boolean> _function = new Function1<Profesional, Boolean>() {
+      public Boolean apply(final Profesional profesional) {
+        return Boolean.valueOf(profesional.getNombreyApellido().equals(nombre));
+      }
+    };
+    return IterableExtensions.<Profesional>toList(IterableExtensions.<Profesional>filter(this.profesionales, _function));
   }
 }

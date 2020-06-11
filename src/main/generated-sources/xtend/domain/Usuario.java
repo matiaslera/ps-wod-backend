@@ -9,7 +9,7 @@ import repositorio.RepoChats;
 
 @Accessors
 @SuppressWarnings("all")
-public abstract class Usuario {
+public class Usuario {
   private String usuario;
   
   private String contrasenia;

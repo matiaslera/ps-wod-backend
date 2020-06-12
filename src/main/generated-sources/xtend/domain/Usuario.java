@@ -5,7 +5,9 @@ import java.awt.Image;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import org.eclipse.xtend.lib.annotations.Accessors;
 import org.eclipse.xtext.xbase.lib.Pure;
 import repositorio.RepoChats;
@@ -15,6 +17,7 @@ import repositorio.RepoChats;
 @SuppressWarnings("all")
 public class Usuario {
   @Id
+  @GeneratedValue
   private Long id;
   
   @Column(length = 50)
@@ -29,11 +32,13 @@ public class Usuario {
   @Column(length = 50)
   private String dni;
   
+  @Column
   private LocalDate fechaDeNacimiento;
   
   @Column(length = 50)
   private String telefono;
   
+  @Transient
   private Image foto;
   
   public void enviarChat(final Chat chat) {

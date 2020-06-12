@@ -7,12 +7,15 @@ import repositorio.RepoChats
 import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.Column
+import javax.persistence.GeneratedValue
+import javax.persistence.Transient
 
 @Accessors
 @Entity
 class Usuario {
 	
 	@Id
+	@GeneratedValue
 	Long id
 
 	@Column(length=50)
@@ -27,11 +30,13 @@ class Usuario {
 	@Column(length=50)
 	String dni
 
+	@Column
 	LocalDate fechaDeNacimiento
 
 	@Column(length=50)
 	String telefono
 
+	@Transient
 	Image foto
 
 	def void enviarChat(Chat chat) {

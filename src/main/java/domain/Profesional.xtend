@@ -5,9 +5,12 @@ import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import javax.persistence.Entity
 import javax.persistence.Column
+import javax.persistence.Table
+import javax.persistence.Transient
 
 @Accessors
 @Entity
+@Table(name="Profesional")
 class Profesional extends Usuario {
 
 	@Column(length=50)
@@ -24,7 +27,8 @@ class Profesional extends Usuario {
 
 	@Column(length=50)
 	boolean guardia = false
-
+		
+	@Transient
 	List<Presupuesto> presupuestos = new ArrayList
 
 	def void agregarPresupuesto(Presupuesto problema) {

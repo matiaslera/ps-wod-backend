@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.function.Consumer;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import repositorio.AbstractRepository;
 
 @SuppressWarnings("all")
-public class RepoProfesionales {
+public class RepoProfesionales extends AbstractRepository<Profesional> {
   private static RepoProfesionales repoProfesionales;
   
   public static RepoProfesionales getInstance() {
@@ -63,5 +64,9 @@ public class RepoProfesionales {
       }
     };
     return IterableExtensions.<Profesional>toList(IterableExtensions.<Profesional>filter(this.profesionales, _function));
+  }
+  
+  public Class<Profesional> getEntityType() {
+    return Profesional.class;
   }
 }

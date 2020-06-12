@@ -6,9 +6,11 @@ import repositorio.RepoPresupuestos
 import repositorio.RepoProfesionales
 import javax.persistence.Entity
 import javax.persistence.Column
+import javax.persistence.Table
 
 @Accessors
 @Entity
+@Table(name="Cliente")
 class Cliente extends Usuario {
 
 	@Column(length=50)

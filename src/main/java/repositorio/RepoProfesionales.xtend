@@ -5,7 +5,7 @@ import java.util.ArrayList
 import java.util.List
 import domain.Presupuesto
 
-class RepoProfesionales {
+class RepoProfesionales extends AbstractRepository <Profesional>{
 
 	static RepoProfesionales repoProfesionales
 
@@ -36,6 +36,10 @@ class RepoProfesionales {
 
 	def List<Profesional> busquedaPorNombreYApellido(String nombre) {
 		profesionales.filter(profesional|profesional.nombreyApellido.equals(nombre)).toList
+	}
+	
+	override getEntityType() {
+		Profesional
 	}
 
 }

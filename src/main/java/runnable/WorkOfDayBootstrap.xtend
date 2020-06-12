@@ -5,6 +5,7 @@ import domain.Cliente
 import java.time.LocalDate
 import domain.Profesional
 import repositorio.RepoClientes
+import repositorio.RepoProfesionales
 
 class WorkOfDayBootstrap implements Bootstrap {
 
@@ -49,9 +50,8 @@ class WorkOfDayBootstrap implements Bootstrap {
 
 		// persistencia de clientes
 		listaClientes.forEach[cli|RepoClientes.instance.create(cli)]
-	// RepoUsuarios.instance.create(jose)
-	// persistencia de profesionales
-	// listaProfesionales.forEach[p|RepoUsuarios.instance.create(p)]
+
+		listaProfesionales.forEach[p|RepoProfesionales.instance.create(p)]
 	}
 
 	override isPending() {

@@ -3,29 +3,50 @@ package domain;
 import domain.Chat;
 import java.awt.Image;
 import java.time.LocalDate;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import org.eclipse.xtend.lib.annotations.Accessors;
 import org.eclipse.xtext.xbase.lib.Pure;
 import repositorio.RepoChats;
 
 @Accessors
+@Entity
 @SuppressWarnings("all")
 public class Usuario {
+  @Id
+  private Long id;
+  
+  @Column(length = 50)
   private String usuario;
   
+  @Column(length = 50)
   private String contrasenia;
   
+  @Column(length = 50)
   private String nombreyApellido;
   
+  @Column(length = 50)
   private String dni;
   
   private LocalDate fechaDeNacimiento;
   
+  @Column(length = 50)
   private String telefono;
   
   private Image foto;
   
   public void enviarChat(final Chat chat) {
     RepoChats.getInstance().persistirChat(chat);
+  }
+  
+  @Pure
+  public Long getId() {
+    return this.id;
+  }
+  
+  public void setId(final Long id) {
+    this.id = id;
   }
   
   @Pure

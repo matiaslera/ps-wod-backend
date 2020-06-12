@@ -7,7 +7,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import domain.Usuario
 
 @Accessors
-class RepoClientes {
+class RepoClientes extends AbstractRepository<Cliente> {
 
 	static RepoClientes repoClientes
 
@@ -26,6 +26,10 @@ class RepoClientes {
 
 	def login(Usuario usuario) {
 		usuarios.forEach[usu|usu.usuario.equals(usuario)]
+	}
+
+	override getEntityType() {
+		Cliente
 	}
 
 }

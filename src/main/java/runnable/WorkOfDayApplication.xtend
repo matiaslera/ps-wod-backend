@@ -1,9 +1,13 @@
 package runnable
 
+import org.uqbar.xtrest.api.XTRest
+import org.uqbar.xtrest.api.annotation.Controller
+
+@Controller
 class WorkOfDayApplication {
 
-	static def void main(String[] args) {
-		val inicializador = new WorkOfDayBootstrap()
-		inicializador.run()
+	def static void main(String[] args) {
+		(new WorkOfDayBootstrap).run
+		XTRest.start(8080, WorkOfDayApplication)
 	}
 }

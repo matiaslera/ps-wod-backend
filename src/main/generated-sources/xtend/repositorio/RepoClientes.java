@@ -7,10 +7,11 @@ import java.util.List;
 import java.util.function.Consumer;
 import org.eclipse.xtend.lib.annotations.Accessors;
 import org.eclipse.xtext.xbase.lib.Pure;
+import repositorio.AbstractRepository;
 
 @Accessors
 @SuppressWarnings("all")
-public class RepoClientes {
+public class RepoClientes extends AbstractRepository<Cliente> {
   private static RepoClientes repoClientes;
   
   public static RepoClientes getInstance() {
@@ -38,6 +39,10 @@ public class RepoClientes {
       }
     };
     this.usuarios.forEach(_function);
+  }
+  
+  public Class<Cliente> getEntityType() {
+    return Cliente.class;
   }
   
   @Pure

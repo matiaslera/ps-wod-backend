@@ -4,6 +4,10 @@ import domain.Profesional
 import java.util.ArrayList
 import java.util.List
 import domain.Presupuesto
+import javax.persistence.criteria.CriteriaBuilder
+import javax.persistence.criteria.CriteriaQuery
+import javax.persistence.criteria.Root
+import org.hibernate.HibernateException
 
 class RepoProfesionales extends AbstractRepository <Profesional>{
 
@@ -41,5 +45,48 @@ class RepoProfesionales extends AbstractRepository <Profesional>{
 	override getEntityType() {
 		Profesional
 	}
+	
+	override generateWhere(CriteriaBuilder criteria, CriteriaQuery<Profesional> query, Root<Profesional> camposCandidato, Profesional user) {
+			if (user.usuario !== null) {
+			query.where(criteria.equal(camposCandidato.get("id"), user.id))
+		}
+		
+	}
+	
+	def Profesional searchById(Long id) {
+		val entityManager = entityManager
+		try {
+			val criteria = entityManager.criteriaBuilder
+			val query = criteria.createQuery(entityType)
+			val _User = query.from(entityType)
+			query.select(_User)
+			query.where(criteria.equal(_User.get("id"), id))
+			entityManager.createQuery(query).singleResult
+		} catch (HibernateException e) {
+			e.printStackTrace
+			entityManager.transaction.rollback
+			throw new RuntimeException("ERROR: La BD no tiene informacion del cliente.", e)
+		} finally {
+			entityManager?.close
+		}
+	}
 
+	def Profesional searchByIdUser(String id) {
+		val entityManager = entityManager
+		try {
+			val criteria = entityManager.criteriaBuilder
+			val query = criteria.createQuery(entityType)
+			val _User = query.from(entityType)
+			query.select(_User)
+			query.where(criteria.equal(_User.get("idUsuario"), id))
+			entityManager.createQuery(query).singleResult
+		} catch (HibernateException e) {
+			e.printStackTrace
+			entityManager.transaction.rollback
+			throw new RuntimeException("ERROR: La BD no tiene informacion del cliente.", e)
+		} finally {
+			entityManager?.close
+		}
+
+}
 }

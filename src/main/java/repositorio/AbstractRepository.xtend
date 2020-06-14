@@ -7,6 +7,7 @@ import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.Root
 import javax.persistence.criteria.CriteriaQuery
 import java.util.List
+import domain.Usuario
 
 abstract class AbstractRepository<T> {
 
@@ -90,4 +91,8 @@ abstract class AbstractRepository<T> {
 	def getEntityManager() {
 		entityManagerFactory.createEntityManager
 	}
+
+	//jety.server.Autentication
+	
+	
 }

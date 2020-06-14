@@ -22,10 +22,8 @@ public class JuegoDeDatos {
         it.setUsuario("josep");
         it.setContrasenia("12345");
         it.setNombreyApellido("Jose Gimenez");
-        it.setDni("94562345");
         it.setDireccion("Juan B. Justo 2734");
         it.setFechaDeNacimiento(LocalDate.of(1990, 6, 15));
-        it.setTelefono("34652817");
       }
     };
     Cliente _doubleArrow = ObjectExtensions.<Cliente>operator_doubleArrow(_cliente, _function);
@@ -36,9 +34,7 @@ public class JuegoDeDatos {
         it.setUsuario("dani");
         it.setContrasenia("2468");
         it.setNombreyApellido("Danel Ruiz");
-        it.setDni("45621356");
         it.setFechaDeNacimiento(LocalDate.of(1980, 8, 27));
-        it.setTelefono("45621367");
         it.setProfesion("ElectricistaElectricista");
         it.setTitulosObtenidos("Técnico superior");
         it.setExperienciaLaboral("mantenimiento en UNSAM");

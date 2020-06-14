@@ -11,8 +11,6 @@ public class Login {
   
   public Login() {
     this.repoClientes = RepoClientes.getInstance();
-    Usuario _usuario = new Usuario();
-    this.login = _usuario;
   }
   
   public void autenticar() {

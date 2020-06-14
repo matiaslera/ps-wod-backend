@@ -4,7 +4,6 @@ import org.uqbar.xtrest.api.annotation.Controller
 import runnable.WorkOfDayBootstrap
 import org.uqbar.xtrest.json.JSONUtils
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.type.TypeFactory
 import org.uqbar.xtrest.api.Result
 import org.uqbar.xtrest.api.annotation.Get
 import domain.Usuario
@@ -14,6 +13,10 @@ import org.uqbar.commons.model.exceptions.UserException
 import domain.Cliente
 import domain.Profesional
 import repositorio.RepoProfesionales
+import org.uqbar.xtrest.api.annotation.Body
+import org.uqbar.xtrest.api.annotation.Post
+import repositorio.RepoUsuario
+import serializacion.UsuarioSerializable
 
 @Controller
 class RestControllerUser {
@@ -23,10 +26,21 @@ class RestControllerUser {
 	
 	RepoClientes repoClientes = new RepoClientes
 	RepoProfesionales repoProfesionales = new RepoProfesionales
+	RepoUsuario repoUser = new RepoUsuario()
 	
 	new(WorkOfDayBootstrap object) {
 	}
-
+	
+	@Get('/usuarios')
+	def Result usuarios() {
+		try {
+			val Set<Usuario> lista = repoUser.allInstances.toSet
+			ok(lista.toJson)
+		} catch (UserException e) {
+			notFound("No existe ningun usuario")
+		}
+	}
+	
 	@Get('/clientes')
 	def Result clientes() {
 		try {
@@ -68,5 +82,28 @@ class RestControllerUser {
 			notFound("No se encontro al profesional por id")
 		}
 	}
-
+	
+	@Post("/login")
+	def Result login(@Body String body) {
+		try {
+			println(body)
+			val loginData = body.fromJson(Cliente)
+			println(loginData.usuario)
+			val usarioLogueado = repoUser.searchUserByLogin(loginData)
+			ok(UsuarioSerializable.toJson(usarioLogueado)) 
+		} catch (Exception e) {
+			internalServerError(e.message)
+		}
+	}
+	
+	@Get("/perfil_completo/:id")
+	def Result login(@Body String body) {
+		try {
+			val usuarioCompleto = repoUser.searchById(Long.valueOf(id))
+			ok(usuarioCompleto.toJson)
+		} catch (Exception e) {
+			internalServerError(e.message)
+		}
+	}
+	
 }

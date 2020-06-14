@@ -9,10 +9,19 @@ import javax.persistence.Id
 import javax.persistence.Column
 import javax.persistence.GeneratedValue
 import javax.persistence.Transient
+import org.uqbar.commons.model.annotations.Observable
+import javax.persistence.InheritanceType
+import javax.persistence.Inheritance
+import javax.persistence.DiscriminatorType
+import javax.persistence.DiscriminatorColumn
+import java.io.Serializable
 
-@Accessors
+@Observable
 @Entity
-class Usuario {
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="TIPO_USER", discriminatorType=DiscriminatorType.STRING)
+@Accessors
+abstract class Usuario  implements Serializable {
 	
 	@Id
 	@GeneratedValue
@@ -28,13 +37,13 @@ class Usuario {
 	String nombreyApellido
 
 	@Column(length=50)
-	String dni
+	int dni
 
 	@Column
 	LocalDate fechaDeNacimiento
 
 	@Column(length=50)
-	String telefono
+	int telefono
 
 	@Transient
 	Image foto

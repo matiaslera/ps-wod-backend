@@ -7,10 +7,12 @@ import repositorio.RepoProfesionales
 import javax.persistence.Entity
 import javax.persistence.Column
 import javax.persistence.Table
+import javax.persistence.DiscriminatorValue
 
 @Accessors
 @Entity
-@Table(name="Cliente")
+//@Table(name="Cliente")
+@DiscriminatorValue("CLI")
 class Cliente extends Usuario {
 
 	@Column(length=50)

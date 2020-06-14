@@ -7,10 +7,12 @@ import javax.persistence.Entity
 import javax.persistence.Column
 import javax.persistence.Table
 import javax.persistence.Transient
+import javax.persistence.DiscriminatorValue
 
 @Accessors
 @Entity
-@Table(name="Profesional")
+//@Table(name="Profesional")
+@DiscriminatorValue("PROF")
 class Profesional extends Usuario {
 
 	@Column(length=50)

@@ -2,20 +2,29 @@ package domain;
 
 import domain.Chat;
 import java.awt.Image;
+import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Transient;
 import org.eclipse.xtend.lib.annotations.Accessors;
 import org.eclipse.xtext.xbase.lib.Pure;
+import org.uqbar.commons.model.annotations.Observable;
 import repositorio.RepoChats;
 
-@Accessors
+@Observable
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "TIPO_USER", discriminatorType = DiscriminatorType.STRING)
+@Accessors
 @SuppressWarnings("all")
-public class Usuario {
+public abstract class Usuario implements Serializable {
   @Id
   @GeneratedValue
   private Long id;
@@ -30,13 +39,13 @@ public class Usuario {
   private String nombreyApellido;
   
   @Column(length = 50)
-  private String dni;
+  private int dni;
   
   @Column
   private LocalDate fechaDeNacimiento;
   
   @Column(length = 50)
-  private String telefono;
+  private int telefono;
   
   @Transient
   private Image foto;
@@ -82,11 +91,11 @@ public class Usuario {
   }
   
   @Pure
-  public String getDni() {
+  public int getDni() {
     return this.dni;
   }
   
-  public void setDni(final String dni) {
+  public void setDni(final int dni) {
     this.dni = dni;
   }
   
@@ -100,11 +109,11 @@ public class Usuario {
   }
   
   @Pure
-  public String getTelefono() {
+  public int getTelefono() {
     return this.telefono;
   }
   
-  public void setTelefono(final String telefono) {
+  public void setTelefono(final int telefono) {
     this.telefono = telefono;
   }
   

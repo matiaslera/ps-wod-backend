@@ -88,5 +88,6 @@ class RepoProfesionales extends AbstractRepository <Profesional>{
 			entityManager?.close
 		}
 
-}
+	}
+
 }

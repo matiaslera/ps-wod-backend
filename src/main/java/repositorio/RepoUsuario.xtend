@@ -1,48 +1,49 @@
 package repositorio
 
-import domain.Cliente
-import java.util.ArrayList
-import java.util.List
-import org.eclipse.xtend.lib.annotations.Accessors
 import domain.Usuario
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Root
 import org.hibernate.HibernateException
 
-@Accessors
-class RepoClientes extends AbstractRepository<Cliente> {
+class RepoUsuario extends AbstractRepository<Usuario> {
+	
+	
+	static RepoUsuario instance = null
 
-	static RepoClientes repoClientes
+	 new() {
+	}
 
-	def static RepoClientes getInstance() {
-		if (repoClientes === null) {
-			repoClientes = new RepoClientes
+	static def getInstance() {
+		if (instance === null) {
+			instance = new RepoUsuario
 		}
-		repoClientes
+		instance
 	}
-
-	List<Cliente> usuarios = new ArrayList
-
-	def void persistirUsuario(Cliente usuario) {
-		usuarios.add(usuario)
-	}
-
-	def login(Usuario usuario) {
-		usuarios.forEach[usu|usu.usuario.equals(usuario)]
-	}
-
+	
 	override getEntityType() {
-		Cliente
+		Usuario
 	}
 	
-	override generateWhere(CriteriaBuilder criteria, CriteriaQuery<Cliente> query, Root<Cliente> camposCandidato, Cliente user) {
-		if (user.usuario !== null) {
+	override generateWhere(CriteriaBuilder criteria, CriteriaQuery<Usuario> query, Root<Usuario> camposCandidato, Usuario user) {
+		if (user.usuario === null) {
 			query.where(criteria.equal(camposCandidato.get("id"), user.id))
-		}
+	}
 	}
 	
-	def Cliente searchById(Long id) {
+	def searchUserByLogin(Usuario login) {
+	val userALogear = allInstances.findFirst(user|user.usuario == login.usuario)
+		if (userALogear === null) {
+			throw new Exception("No existe ningun User con ese Id, por favor intente de nuevo")
+		}
+		if (userALogear.contrasenia != login.contrasenia) {
+			throw new Exception("Password incorrecto")
+		}
+		userALogear
+	}
+	
+	
+		def Usuario searchById(Long id) {
 		val entityManager = entityManager
 		try {
 			val criteria = entityManager.criteriaBuilder
@@ -54,13 +55,13 @@ class RepoClientes extends AbstractRepository<Cliente> {
 		} catch (HibernateException e) {
 			e.printStackTrace
 			entityManager.transaction.rollback
-			throw new RuntimeException("ERROR: La BD no tiene informacion del cliente.", e)
+			throw new RuntimeException("ERROR: La BD no tiene informacion del user.", e)
 		} finally {
 			entityManager?.close
 		}
 	}
 
-	def Cliente searchByIdUser(String id) {
+	def Usuario searchByIdUser(String id) {
 		val entityManager = entityManager
 		try {
 			val criteria = entityManager.criteriaBuilder
@@ -72,12 +73,10 @@ class RepoClientes extends AbstractRepository<Cliente> {
 		} catch (HibernateException e) {
 			e.printStackTrace
 			entityManager.transaction.rollback
-			throw new RuntimeException("ERROR: La BD no tiene informacion del cliente.", e)
+			throw new RuntimeException("ERROR: La BD no tiene informacion del user.", e)
 		} finally {
 			entityManager?.close
 		}
 	}
 	
-	
-
 }

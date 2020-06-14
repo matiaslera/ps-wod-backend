@@ -11,7 +11,7 @@ class Login {
 
 	new() {
 		repoClientes = RepoClientes.instance
-		login = new Usuario()
+		//login = new Usuario()
 	}
 
 	def autenticar() {

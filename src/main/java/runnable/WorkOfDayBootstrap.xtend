@@ -5,10 +5,14 @@ import domain.Cliente
 import domain.Profesional
 import domain.Usuario
 import repositorio.RepoUsuario
+import domain.Presupuesto
+import java.time.LocalDate
+import repositorio.RepoPresupuestos
 
 class WorkOfDayBootstrap implements Bootstrap {
 
 	RepoUsuario repoUser = new RepoUsuario()
+	RepoPresupuestos repoPresupuesto = new RepoPresupuestos()
 	
 	Usuario usuario
 	Usuario usuario1
@@ -17,6 +21,10 @@ class WorkOfDayBootstrap implements Bootstrap {
 	Usuario usuario4
 	Usuario usuario5
 	
+	Presupuesto presupuesto1
+	Presupuesto presupuesto2
+	Presupuesto presupuesto3
+	Presupuesto presupuesto4
 	
 	new() {
 		isPending
@@ -90,53 +98,57 @@ class WorkOfDayBootstrap implements Bootstrap {
 		}
 	}
 
-	
+	def void starPresupuesto(){
+			presupuesto1 = new Presupuesto => [
+			especialidad = "Electricidad"
+			nombre="cambio de tablero"
+			descripcion = "cambio de tablero para una sala de rack informatica primer piso"
+			direccion = "Santa Rosalia 2720"
+			notas = ""
+			monto = 3000
+			fecha = LocalDate.of(2020, 02, 02)
+		]
 
+		presupuesto2 = new Presupuesto => [
+			especialidad = "Plomeria"
+			nombre="cambio de caños "
+			descripcion = "cambio de caños de agua por 2mm en el lugar del estacionamiento"
+			direccion = "Belgrano 2720"
+			notas = ""
+			monto = 5000
+			fecha = LocalDate.of(2014, 02, 10)
+		]
 
-//	override run() {
-//		var jose = new Cliente => [
-//			usuario = "josep"
-//			contrasenia = "12345"
-//			nombreyApellido = "Jose Gimenez"
-//			dni = "94562345"
-//			direccion = "Juan B. Justo 2734"
-//			fechaDeNacimiento = LocalDate.of(1990, 06, 15);
-//			telefono = "34652817"
-//
-//		]
-//
-//		var pepe = new Cliente => [
-//			usuario = "pepepe"
-//			contrasenia = "54321"
-//			nombreyApellido = "Pepe Gonzales"
-//			dni = "94346213"
-//			direccion = "Condarco 2734"
-//			fechaDeNacimiento = LocalDate.of(1985, 03, 25);
-//			telefono = "34612356"
-//
-//		]
-//
-//		var daniel = new Profesional => [
-//			usuario = "dani"
-//			contrasenia = "2468"
-//			nombreyApellido = "Danel Ruiz"
-//			dni = "45621356"
-//			fechaDeNacimiento = LocalDate.of(1980, 08, 27);
-//			telefono = "45621367"
-//
-//		]
-//
-//		// lista de clientes para poder persistir mejor 
-//		val listaClientes = #[jose, pepe]
-//
-//		// lista de profesionales para poder persistir mejor 
-//		val listaProfesionales = #[daniel]
-//
-//		// persistencia de clientes
-//		listaClientes.forEach[cli|RepoClientes.instance.create(cli)]
-//
-//		listaProfesionales.forEach[p|RepoProfesionales.instance.create(p)]
-//	}
+		presupuesto3 = new Presupuesto => [
+			especialidad = "Electricidad"
+			nombre="armar tablero "
+			descripcion = "armar tablero de comando para bomba trifasica"
+		]
+
+		presupuesto4 = new Presupuesto => [
+			especialidad = "Electricidad"
+			nombre="instalacion de cables "
+			descripcion = "instalacion de cables por bandeja desde el 1 hasta 3 el piso"
+		]
+		
+		this.createPresupesto(presupuesto1)
+		this.createPresupesto(presupuesto2)
+		this.createPresupesto(presupuesto3)
+		this.createPresupesto(presupuesto4)
+	}
+
+	def createPresupesto(Presupuesto pres){
+		val listaUsuarios = repoPresupuesto.searchByExample(pres)
+		if (listaUsuarios.isEmpty) {
+			repoPresupuesto.create(pres)
+			println("Candidato presupuesto nombre:" + pres.nombre + " creado")
+		} else {
+			val vueloBD = listaUsuarios.head
+			pres.id = vueloBD.id
+			repoPresupuesto.update(pres)
+			println("Candidato presupuesto id:" + pres.id + " creado")
+		}
+	}
 
 	override isPending() {
 		true
@@ -144,6 +156,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 	
 	override run() {
 		startUsuario
+		starPresupuesto
 	}
 	
 }

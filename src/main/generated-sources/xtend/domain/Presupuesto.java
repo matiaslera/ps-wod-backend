@@ -4,25 +4,63 @@ import java.awt.Image;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import org.eclipse.xtend.lib.annotations.Accessors;
 import org.eclipse.xtext.xbase.lib.Pure;
 
+@Entity
 @Accessors
 @SuppressWarnings("all")
 public class Presupuesto {
+  @Id
+  @GeneratedValue
+  private Long id;
+  
+  @Column(length = 50)
+  private String nombre;
+  
+  @Column(length = 50)
   private String especialidad;
   
+  @Column(length = 250)
   private String descripcion;
   
+  @Column(length = 50)
   private String direccion;
   
+  @Column(length = 250)
   private String notas;
   
-  private float presupuesto;
+  @Column(length = 50)
+  private float monto;
   
+  @Column
   private LocalDate fecha;
   
+  @Transient
   private List<Image> fotos = new ArrayList<Image>();
+  
+  @Pure
+  public Long getId() {
+    return this.id;
+  }
+  
+  public void setId(final Long id) {
+    this.id = id;
+  }
+  
+  @Pure
+  public String getNombre() {
+    return this.nombre;
+  }
+  
+  public void setNombre(final String nombre) {
+    this.nombre = nombre;
+  }
   
   @Pure
   public String getEspecialidad() {
@@ -61,12 +99,12 @@ public class Presupuesto {
   }
   
   @Pure
-  public float getPresupuesto() {
-    return this.presupuesto;
+  public float getMonto() {
+    return this.monto;
   }
   
-  public void setPresupuesto(final float presupuesto) {
-    this.presupuesto = presupuesto;
+  public void setMonto(final float monto) {
+    this.monto = monto;
   }
   
   @Pure

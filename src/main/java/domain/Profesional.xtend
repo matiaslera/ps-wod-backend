@@ -11,7 +11,7 @@ import javax.persistence.DiscriminatorValue
 
 @Accessors
 @Entity
-//@Table(name="Profesional")
+@Table(name="Profesional")
 @DiscriminatorValue("PROF")
 class Profesional extends Usuario {
 

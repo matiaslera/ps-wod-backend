@@ -3,7 +3,6 @@ package restApi
 import org.uqbar.xtrest.api.annotation.Controller
 import runnable.WorkOfDayBootstrap
 import org.uqbar.xtrest.json.JSONUtils
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.uqbar.xtrest.api.Result
 import org.uqbar.xtrest.api.annotation.Get
 import domain.Usuario
@@ -17,16 +16,17 @@ import org.uqbar.xtrest.api.annotation.Body
 import org.uqbar.xtrest.api.annotation.Post
 import repositorio.RepoUsuario
 import serializacion.UsuarioSerializable
+import repositorio.RepoPresupuestos
 
 @Controller
 class RestControllerUser {
 	
 	extension JSONUtils = new JSONUtils
-	ObjectMapper mapper = new ObjectMapper();
 	
 	RepoClientes repoClientes = new RepoClientes
 	RepoProfesionales repoProfesionales = new RepoProfesionales
 	RepoUsuario repoUser = new RepoUsuario()
+	RepoPresupuestos repoPresupuesto = new RepoPresupuestos()
 	
 	new(WorkOfDayBootstrap object) {
 	}
@@ -101,6 +101,30 @@ class RestControllerUser {
 		try {
 			val usuarioCompleto = repoUser.searchById(Long.valueOf(id))
 			ok(usuarioCompleto.toJson)
+		} catch (Exception e) {
+			internalServerError(e.message)
+		}
+	}
+	
+	@Get("/presupuestos")
+	def Result presupuestos() {
+		try {
+			val presupuesto = repoPresupuesto.allInstances()
+			ok(presupuesto.toJson)
+		} catch (Exception e) {
+			internalServerError(e.message)
+		}
+	}
+	
+	@Get("/search_presupuestos")
+	def Result busquedaPresupuestos(@Body String body) {
+		try {
+			val especialidad= getPropertyValue(body,"especialidad")
+			val nombre= getPropertyValue(body,"nombre")
+			println(especialidad +" : " + nombre)
+			val busqueda= repoPresupuesto.search(especialidad,nombre)
+			
+			ok(busqueda.toJson)
 		} catch (Exception e) {
 			internalServerError(e.message)
 		}

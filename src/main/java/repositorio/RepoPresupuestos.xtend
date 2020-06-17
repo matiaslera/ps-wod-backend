@@ -5,38 +5,64 @@ import java.util.ArrayList
 import java.util.List
 import domain.Presupuesto
 import exceptions.BusinessException
+import javax.persistence.criteria.CriteriaBuilder
+import javax.persistence.criteria.CriteriaQuery
+import javax.persistence.criteria.Root
 
 @Accessors
-class RepoPresupuestos {
+class RepoPresupuestos extends AbstractRepository<Presupuesto> {
+	
+	static RepoPresupuestos instance = null
 
-	static RepoPresupuestos repoPresupuestos
+	 new() {
+	}
 
-	def static RepoPresupuestos getInstance() {
-		if (repoPresupuestos === null) {
-			repoPresupuestos = new RepoPresupuestos
+	static def getInstance() {
+		if (instance === null) {
+			instance = new RepoPresupuestos
 		}
-		repoPresupuestos
+		instance
 	}
-
-	List<Presupuesto> presupuestos = new ArrayList
-
-	def void persistirPresupuesto(Presupuesto presupuesto) {
-		presupuestos.add(presupuesto)
+//	List<Presupuesto> presupuestos = new ArrayList
+//
+//	def void persistirPresupuesto(Presupuesto presupuesto) {
+//		presupuestos.add(presupuesto)
+//	}
+//
+//	def List<Presupuesto> buscarPresupuesto(Presupuesto problema) {
+//		var filtroProfesional = (this.filtrarPresupuestoPorProfesion(problema))
+//		var filtro = filtroProfesional.filter([p|p.descripcion.contains(problema.descripcion)])
+//		if (filtro.isEmpty) {
+//			throw new BusinessException("No se encontro presupuesto para el problema")
+//		}
+//		else{
+//			return (filtro).toList
+//		}
+//	}
+//
+	def List<Presupuesto> filtrarPresupuestoPorProfesion(String especialidad) {
+		(allInstances.filter[p|p.especialidad.equals(especialidad)]).toList
 	}
-
-	def List<Presupuesto> buscarPresupuesto(Presupuesto problema) {
-		var filtroProfesional = (this.filtrarPresupuestoPorProfesion(problema))
-		var filtro = filtroProfesional.filter([p|p.descripcion.contains(problema.descripcion)])
-		if (filtro.isEmpty) {
+	
+	override getEntityType() {
+		Presupuesto
+	}
+	
+	override generateWhere(CriteriaBuilder criteria, CriteriaQuery<Presupuesto> query, Root<Presupuesto> camposCandidato, Presupuesto pre) {
+		if (pre.id === null) {
+			query.where(criteria.equal(camposCandidato.get("id"), pre.id))
+			}
+	}
+	
+	def search(String especialidad, String nombre) {
+		var filtroProfesional = (this.filtrarPresupuestoPorProfesion(especialidad))
+		var listBusqueda = filtroProfesional.filter([p|p.descripcion.contains(nombre)])
+		if (listBusqueda.isEmpty) {
 			throw new BusinessException("No se encontro presupuesto para el problema")
 		}
 		else{
-			return (filtro).toList
+			return (listBusqueda).toSet
 		}
-	}
-
-	def List<Presupuesto> filtrarPresupuestoPorProfesion(Presupuesto problema) {
-		(presupuestos.filter[p|p.especialidad.equals(problema.especialidad)]).toList
 	}
 
 }

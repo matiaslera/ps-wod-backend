@@ -26,7 +26,7 @@ class TestObtenerPresupuesto {
 			descripcion = "cambio de tablero"
 			direccion = "Santa Rosalia 2720"
 			notas = ""
-			presupuesto = 3000
+			monto = 3000
 			fecha = LocalDate.of(2020, 02, 02)
 		]
 
@@ -35,7 +35,7 @@ class TestObtenerPresupuesto {
 			descripcion = "cambio de caños de agua"
 			direccion = "Belgrano 2720"
 			notas = ""
-			presupuesto = 5000
+			monto = 5000
 			fecha = LocalDate.of(2014, 02, 10)
 		]
 
@@ -49,20 +49,20 @@ class TestObtenerPresupuesto {
 			descripcion = "instalacion de cables"
 		]
 
-		RepoPresupuestos.instance.persistirPresupuesto(presupuesto1)
-		RepoPresupuestos.instance.persistirPresupuesto(presupuesto2)
+		//RepoPresupuestos.instance.persistirPresupuesto(presupuesto1)
+		//RepoPresupuestos.instance.persistirPresupuesto(presupuesto2)
 	}
 
 	@Test
 	def void consultaPresupuestoYLoEncuentra() {
 		var presupuestos = datos.jose.obtenerPresupuesto(presupuesto3)
-		Assert.assertEquals(presupuestos.get(0).presupuesto, 3000, 0.1)
+		Assert.assertEquals(presupuestos.get(0).monto, 3000, 0.1)
 	}
 
 	@Test(expected=BusinessException)
 	def void consultaPresupuestoYNoLoEncuentra() {
 		var presupuestos = datos.jose.obtenerPresupuesto(presupuesto4)
-		Assert.assertEquals(presupuestos.get(0).presupuesto, 3000, 0.1)
+		Assert.assertEquals(presupuestos.get(0).monto, 3000, 0.1)
 	}
 
 	@Test

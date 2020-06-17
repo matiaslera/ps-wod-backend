@@ -9,7 +9,6 @@ import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import repositorio.RepoPresupuestos;
 import testDomain.JuegoDeDatos;
 
 @SuppressWarnings("all")
@@ -36,7 +35,7 @@ public class TestObtenerPresupuesto {
         it.setDescripcion("cambio de tablero");
         it.setDireccion("Santa Rosalia 2720");
         it.setNotas("");
-        it.setPresupuesto(3000);
+        it.setMonto(3000);
         it.setFecha(LocalDate.of(2020, 2, 2));
       }
     };
@@ -49,7 +48,7 @@ public class TestObtenerPresupuesto {
         it.setDescripcion("cambio de caños de agua");
         it.setDireccion("Belgrano 2720");
         it.setNotas("");
-        it.setPresupuesto(5000);
+        it.setMonto(5000);
         it.setFecha(LocalDate.of(2014, 2, 10));
       }
     };
@@ -73,20 +72,18 @@ public class TestObtenerPresupuesto {
     };
     Presupuesto _doubleArrow_3 = ObjectExtensions.<Presupuesto>operator_doubleArrow(_presupuesto_3, _function_3);
     this.presupuesto4 = _doubleArrow_3;
-    RepoPresupuestos.getInstance().persistirPresupuesto(this.presupuesto1);
-    RepoPresupuestos.getInstance().persistirPresupuesto(this.presupuesto2);
   }
   
   @Test
   public void consultaPresupuestoYLoEncuentra() {
     List<Presupuesto> presupuestos = this.datos.getJose().obtenerPresupuesto(this.presupuesto3);
-    Assert.assertEquals(presupuestos.get(0).getPresupuesto(), 3000, 0.1);
+    Assert.assertEquals(presupuestos.get(0).getMonto(), 3000, 0.1);
   }
   
   @Test(expected = BusinessException.class)
   public void consultaPresupuestoYNoLoEncuentra() {
     List<Presupuesto> presupuestos = this.datos.getJose().obtenerPresupuesto(this.presupuesto4);
-    Assert.assertEquals(presupuestos.get(0).getPresupuesto(), 3000, 0.1);
+    Assert.assertEquals(presupuestos.get(0).getMonto(), 3000, 0.1);
   }
   
   @Test

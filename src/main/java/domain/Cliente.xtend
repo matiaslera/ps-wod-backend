@@ -11,7 +11,7 @@ import javax.persistence.DiscriminatorValue
 
 @Accessors
 @Entity
-//@Table(name="Cliente")
+@Table(name="Cliente")
 @DiscriminatorValue("CLI")
 class Cliente extends Usuario {
 
@@ -19,7 +19,7 @@ class Cliente extends Usuario {
 	String direccion
 
 	def List<Presupuesto> obtenerPresupuesto(Presupuesto problema) {
-		RepoPresupuestos.instance.buscarPresupuesto(problema)
+//		RepoPresupuestos.instance.buscarPresupuesto(problema)
 	}
 
 	def void enviarNotificacionPresupuesto(Presupuesto problema) {

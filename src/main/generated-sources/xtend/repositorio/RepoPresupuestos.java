@@ -2,72 +2,75 @@ package repositorio;
 
 import domain.Presupuesto;
 import exceptions.BusinessException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.eclipse.xtend.lib.annotations.Accessors;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
-import org.eclipse.xtext.xbase.lib.Pure;
+import repositorio.AbstractRepository;
 
 @Accessors
 @SuppressWarnings("all")
-public class RepoPresupuestos {
-  private static RepoPresupuestos repoPresupuestos;
+public class RepoPresupuestos extends AbstractRepository<Presupuesto> {
+  private static RepoPresupuestos instance = null;
+  
+  public RepoPresupuestos() {
+  }
   
   public static RepoPresupuestos getInstance() {
     RepoPresupuestos _xblockexpression = null;
     {
-      if ((RepoPresupuestos.repoPresupuestos == null)) {
+      if ((RepoPresupuestos.instance == null)) {
         RepoPresupuestos _repoPresupuestos = new RepoPresupuestos();
-        RepoPresupuestos.repoPresupuestos = _repoPresupuestos;
+        RepoPresupuestos.instance = _repoPresupuestos;
       }
-      _xblockexpression = RepoPresupuestos.repoPresupuestos;
+      _xblockexpression = RepoPresupuestos.instance;
     }
     return _xblockexpression;
   }
   
-  private List<Presupuesto> presupuestos = new ArrayList<Presupuesto>();
-  
-  public void persistirPresupuesto(final Presupuesto presupuesto) {
-    this.presupuestos.add(presupuesto);
+  public List<Presupuesto> filtrarPresupuestoPorProfesion(final String especialidad) {
+    final Function1<Presupuesto, Boolean> _function = new Function1<Presupuesto, Boolean>() {
+      public Boolean apply(final Presupuesto p) {
+        return Boolean.valueOf(p.getEspecialidad().equals(especialidad));
+      }
+    };
+    return IterableExtensions.<Presupuesto>toList(IterableExtensions.<Presupuesto>filter(this.allInstances(), _function));
   }
   
-  public List<Presupuesto> buscarPresupuesto(final Presupuesto problema) {
+  public Class<Presupuesto> getEntityType() {
+    return Presupuesto.class;
+  }
+  
+  public void generateWhere(final CriteriaBuilder criteria, final CriteriaQuery<Presupuesto> query, final Root<Presupuesto> camposCandidato, final Presupuesto pre) {
+    Long _id = pre.getId();
+    boolean _tripleEquals = (_id == null);
+    if (_tripleEquals) {
+      query.where(criteria.equal(camposCandidato.<Object>get("id"), pre.getId()));
+    }
+  }
+  
+  public Set<Presupuesto> search(final String especialidad, final String nombre) {
     try {
-      List<Presupuesto> filtroProfesional = this.filtrarPresupuestoPorProfesion(problema);
+      List<Presupuesto> filtroProfesional = this.filtrarPresupuestoPorProfesion(especialidad);
       final Function1<Presupuesto, Boolean> _function = new Function1<Presupuesto, Boolean>() {
         public Boolean apply(final Presupuesto p) {
-          return Boolean.valueOf(p.getDescripcion().contains(problema.getDescripcion()));
+          return Boolean.valueOf(p.getDescripcion().contains(nombre));
         }
       };
-      Iterable<Presupuesto> filtro = IterableExtensions.<Presupuesto>filter(filtroProfesional, _function);
-      boolean _isEmpty = IterableExtensions.isEmpty(filtro);
+      Iterable<Presupuesto> listBusqueda = IterableExtensions.<Presupuesto>filter(filtroProfesional, _function);
+      boolean _isEmpty = IterableExtensions.isEmpty(listBusqueda);
       if (_isEmpty) {
         throw new BusinessException("No se encontro presupuesto para el problema");
       } else {
-        return IterableExtensions.<Presupuesto>toList(filtro);
+        return IterableExtensions.<Presupuesto>toSet(listBusqueda);
       }
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
-  }
-  
-  public List<Presupuesto> filtrarPresupuestoPorProfesion(final Presupuesto problema) {
-    final Function1<Presupuesto, Boolean> _function = new Function1<Presupuesto, Boolean>() {
-      public Boolean apply(final Presupuesto p) {
-        return Boolean.valueOf(p.getEspecialidad().equals(problema.getEspecialidad()));
-      }
-    };
-    return IterableExtensions.<Presupuesto>toList(IterableExtensions.<Presupuesto>filter(this.presupuestos, _function));
-  }
-  
-  @Pure
-  public List<Presupuesto> getPresupuestos() {
-    return this.presupuestos;
-  }
-  
-  public void setPresupuestos(final List<Presupuesto> presupuestos) {
-    this.presupuestos = presupuestos;
   }
 }

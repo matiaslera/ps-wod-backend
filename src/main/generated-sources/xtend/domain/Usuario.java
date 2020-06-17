@@ -54,6 +54,10 @@ public abstract class Usuario implements Serializable {
     RepoChats.getInstance().persistirChat(chat);
   }
   
+  public String toString() {
+    return ((("id: " + this.id) + "usuario: ") + this.usuario);
+  }
+  
   @Pure
   public Long getId() {
     return this.id;

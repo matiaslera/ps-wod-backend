@@ -1,7 +1,6 @@
 package repositorio
 
 import org.eclipse.xtend.lib.annotations.Accessors
-import java.util.ArrayList
 import java.util.List
 import domain.Presupuesto
 import exceptions.BusinessException

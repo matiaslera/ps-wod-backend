@@ -44,6 +44,10 @@ public class Presupuesto {
   @Transient
   private List<Image> fotos = new ArrayList<Image>();
   
+  public String toString() {
+    return ((("id: " + this.id) + "nombre: ") + this.nombre);
+  }
+  
   @Pure
   public Long getId() {
     return this.id;

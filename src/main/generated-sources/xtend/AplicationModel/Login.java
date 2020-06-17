@@ -13,7 +13,7 @@ public class Login {
     this.repoClientes = RepoClientes.getInstance();
   }
   
-  public void autenticar() {
-    this.repoClientes.login(this.login);
+  public Object autenticar() {
+    return null;
   }
 }

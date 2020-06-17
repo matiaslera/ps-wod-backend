@@ -1,11 +1,9 @@
 package restApi;
 
 import domain.Cliente;
-import domain.Presupuesto;
 import domain.Profesional;
 import domain.Usuario;
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,7 +24,6 @@ import org.uqbar.xtrest.api.annotation.Post;
 import org.uqbar.xtrest.json.JSONUtils;
 import org.uqbar.xtrest.result.ResultFactory;
 import repositorio.RepoClientes;
-import repositorio.RepoPresupuestos;
 import repositorio.RepoProfesionales;
 import repositorio.RepoUsuario;
 import runnable.WorkOfDayBootstrap;
@@ -43,8 +40,6 @@ public class RestControllerUser extends ResultFactory {
   private RepoProfesionales repoProfesionales = new RepoProfesionales();
   
   private RepoUsuario repoUser = new RepoUsuario();
-  
-  private RepoPresupuestos repoPresupuesto = new RepoPresupuestos();
   
   public RestControllerUser(final WorkOfDayBootstrap object) {
   }
@@ -194,51 +189,6 @@ public class RestControllerUser extends ResultFactory {
     return _xtrycatchfinallyexpression;
   }
   
-  @Get("/presupuestos")
-  public Result presupuestos(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
-    Result _xtrycatchfinallyexpression = null;
-    try {
-      Result _xblockexpression = null;
-      {
-        final List<Presupuesto> presupuesto = this.repoPresupuesto.allInstances();
-        _xblockexpression = ResultFactory.ok(this._jSONUtils.toJson(presupuesto));
-      }
-      _xtrycatchfinallyexpression = _xblockexpression;
-    } catch (final Throwable _t) {
-      if (_t instanceof Exception) {
-        final Exception e = (Exception)_t;
-        _xtrycatchfinallyexpression = ResultFactory.internalServerError(e.getMessage());
-      } else {
-        throw Exceptions.sneakyThrow(_t);
-      }
-    }
-    return _xtrycatchfinallyexpression;
-  }
-  
-  @Get("/search_presupuestos")
-  public Result busquedaPresupuestos(@Body final String body, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
-    Result _xtrycatchfinallyexpression = null;
-    try {
-      Result _xblockexpression = null;
-      {
-        final String especialidad = this._jSONUtils.getPropertyValue(body, "especialidad");
-        final String nombre = this._jSONUtils.getPropertyValue(body, "nombre");
-        InputOutput.<String>println(((especialidad + " : ") + nombre));
-        final Set<Presupuesto> busqueda = this.repoPresupuesto.search(especialidad, nombre);
-        _xblockexpression = ResultFactory.ok(this._jSONUtils.toJson(busqueda));
-      }
-      _xtrycatchfinallyexpression = _xblockexpression;
-    } catch (final Throwable _t) {
-      if (_t instanceof Exception) {
-        final Exception e = (Exception)_t;
-        _xtrycatchfinallyexpression = ResultFactory.internalServerError(e.getMessage());
-      } else {
-        throw Exceptions.sneakyThrow(_t);
-      }
-    }
-    return _xtrycatchfinallyexpression;
-  }
-  
   public void handle(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) throws IOException, ServletException {
     {
     	Matcher matcher = 
@@ -290,45 +240,6 @@ public class RestControllerUser extends ResultFactory {
             response.setContentType("application/json");
     		
     	    Result result = profesionales(target, baseRequest, request, response);
-    	    result.process(response);
-    	    
-    		response.addHeader("Access-Control-Allow-Origin", "*");
-    	    baseRequest.setHandled(true);
-    	    return;
-    	}
-    }
-    {
-    	Matcher matcher = 
-    		Pattern.compile("/presupuestos").matcher(target);
-    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
-    		// take parameters from request
-    		
-    		// take variables from url
-    		
-            // set default content type (it can be overridden during next call)
-            response.setContentType("application/json");
-    		
-    	    Result result = presupuestos(target, baseRequest, request, response);
-    	    result.process(response);
-    	    
-    		response.addHeader("Access-Control-Allow-Origin", "*");
-    	    baseRequest.setHandled(true);
-    	    return;
-    	}
-    }
-    {
-    	Matcher matcher = 
-    		Pattern.compile("/search_presupuestos").matcher(target);
-    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
-    		// take parameters from request
-    		String body = readBodyAsString(request);
-    		
-    		// take variables from url
-    		
-            // set default content type (it can be overridden during next call)
-            response.setContentType("application/json");
-    		
-    	    Result result = busquedaPresupuestos(body, target, baseRequest, request, response);
     	    result.process(response);
     	    
     		response.addHeader("Access-Control-Allow-Origin", "*");

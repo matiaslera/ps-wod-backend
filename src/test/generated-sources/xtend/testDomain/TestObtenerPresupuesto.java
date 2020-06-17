@@ -89,7 +89,7 @@ public class TestObtenerPresupuesto {
   @Test
   public void enviarNotificacion() {
     this.datos.getJose().enviarNotificacionPresupuesto(this.presupuesto4);
-    System.out.println(this.datos.getDaniel().getPresupuestos().size());
-    Assert.assertEquals(this.datos.getDaniel().getPresupuestos().size(), 1, 0.1);
+    System.out.println(this.datos.getDaniel().getConsutasPres().size());
+    Assert.assertEquals(this.datos.getDaniel().getConsutasPres().size(), 1, 0.1);
   }
 }

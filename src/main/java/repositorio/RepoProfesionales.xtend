@@ -1,7 +1,6 @@
 package repositorio
 
 import domain.Profesional
-import java.util.ArrayList
 import java.util.List
 import domain.Presupuesto
 import javax.persistence.criteria.CriteriaBuilder
@@ -20,10 +19,9 @@ class RepoProfesionales extends AbstractRepository <Profesional>{
 		repoProfesionales
 	}
 
-	List<Profesional> profesionales = new ArrayList
-
+	
 	def enviarNotificacionDePresupuesto(Presupuesto problema) {
-		profesionales.forEach [ profesional |
+		allInstances.forEach [ profesional |
 			if (profesional.profesion.equals(problema.especialidad)) {
 				profesional.agregarPresupuesto(problema)
 			}
@@ -31,15 +29,15 @@ class RepoProfesionales extends AbstractRepository <Profesional>{
 	}
 
 	def List<Profesional> busquedaPorProfesion(String profesion) {
-		profesionales.filter(profesional|profesional.profesion.equals(profesion)).toList
+		allInstances.filter(profesional|profesional.profesion.equals(profesion)).toList
 	}
 
 	def List<Profesional> busquedaPorZona(String zona) {
-		profesionales.filter(profesional|profesional.zonaDeTrabajo.equals(zona)).toList
+		allInstances.filter(profesional|profesional.zonaDeTrabajo.equals(zona)).toList
 	}
 
 	def List<Profesional> busquedaPorNombreYApellido(String nombre) {
-		profesionales.filter(profesional|profesional.nombreyApellido.equals(nombre)).toList
+		allInstances.filter(profesional|profesional.nombreyApellido.equals(nombre)).toList
 	}
 	
 	override getEntityType() {

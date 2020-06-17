@@ -43,4 +43,8 @@ class Presupuesto {
 	@Transient
 	List<Image> fotos = new ArrayList
 	
+	
+	override toString(){
+		"id: "+ id + "nombre: "+ nombre
+	}
 }

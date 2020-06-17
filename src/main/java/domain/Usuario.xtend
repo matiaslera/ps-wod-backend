@@ -51,4 +51,8 @@ abstract class Usuario  implements Serializable {
 	def void enviarChat(Chat chat) {
 		RepoChats.instance.persistirChat(chat)
 	}
+	
+	override toString(){
+		"id: "+ id + "usuario: " + usuario
+	}
 }

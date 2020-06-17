@@ -1,7 +1,6 @@
 package testDomain
 
 import domain.Presupuesto
-import repositorio.RepoPresupuestos
 import java.time.LocalDate
 import org.junit.Test
 import org.junit.Before
@@ -68,8 +67,8 @@ class TestObtenerPresupuesto {
 	@Test
 	def void enviarNotificacion() {
 		datos.jose.enviarNotificacionPresupuesto(presupuesto4)
-		System.out.println(datos.daniel.presupuestos.size)
-		Assert.assertEquals(datos.daniel.presupuestos.size, 1 ,0.1)
+		System.out.println(datos.daniel.consutasPres.size)
+		Assert.assertEquals(datos.daniel.consutasPres.size, 1 ,0.1)
 	}
 	
 }

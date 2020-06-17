@@ -22,16 +22,6 @@ class RepoClientes extends AbstractRepository<Cliente> {
 		repoClientes
 	}
 
-	List<Cliente> usuarios = new ArrayList
-
-	def void persistirUsuario(Cliente usuario) {
-		usuarios.add(usuario)
-	}
-
-	def login(Usuario usuario) {
-		usuarios.forEach[usu|usu.usuario.equals(usuario)]
-	}
-
 	override getEntityType() {
 		Cliente
 	}

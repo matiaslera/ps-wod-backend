@@ -31,10 +31,10 @@ class Profesional extends Usuario {
 	boolean guardia = false
 		
 	@Transient
-	List<Presupuesto> presupuestos = new ArrayList
+	List<Presupuesto> consutasPres = new ArrayList
 
 	def void agregarPresupuesto(Presupuesto problema) {
-		presupuestos.add(problema)
+		consutasPres.add(problema)
 	}
 
 }

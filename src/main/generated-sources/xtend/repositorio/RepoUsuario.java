@@ -1,7 +1,10 @@
 package repositorio;
 
 import com.google.common.base.Objects;
+import domain.Cliente;
+import domain.Profesional;
 import domain.Usuario;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -37,8 +40,8 @@ public class RepoUsuario extends AbstractRepository<Usuario> {
   
   public void generateWhere(final CriteriaBuilder criteria, final CriteriaQuery<Usuario> query, final Root<Usuario> camposCandidato, final Usuario user) {
     String _usuario = user.getUsuario();
-    boolean _tripleEquals = (_usuario == null);
-    if (_tripleEquals) {
+    boolean _tripleNotEquals = (_usuario != null);
+    if (_tripleNotEquals) {
       query.where(criteria.equal(camposCandidato.<Object>get("id"), user.getId()));
     }
   }
@@ -140,5 +143,13 @@ public class RepoUsuario extends AbstractRepository<Usuario> {
       _xblockexpression = _xtrycatchfinallyexpression;
     }
     return _xblockexpression;
+  }
+  
+  public Set<Cliente> getClientes() {
+    return null;
+  }
+  
+  public Set<Profesional> getProfesional() {
+    return null;
   }
 }

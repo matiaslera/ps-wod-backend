@@ -15,7 +15,7 @@ class Login {
 	}
 
 	def autenticar() {
-		repoClientes.login(login)
+	//	repoClientes.login(login)
 	}
 	
 }

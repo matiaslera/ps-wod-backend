@@ -1,17 +1,12 @@
 package repositorio;
 
 import domain.Cliente;
-import domain.Usuario;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.eclipse.xtend.lib.annotations.Accessors;
 import org.eclipse.xtext.xbase.lib.Exceptions;
-import org.eclipse.xtext.xbase.lib.Pure;
 import org.hibernate.HibernateException;
 import repositorio.AbstractRepository;
 
@@ -30,21 +25,6 @@ public class RepoClientes extends AbstractRepository<Cliente> {
       _xblockexpression = RepoClientes.repoClientes;
     }
     return _xblockexpression;
-  }
-  
-  private List<Cliente> usuarios = new ArrayList<Cliente>();
-  
-  public void persistirUsuario(final Cliente usuario) {
-    this.usuarios.add(usuario);
-  }
-  
-  public void login(final Usuario usuario) {
-    final Consumer<Cliente> _function = new Consumer<Cliente>() {
-      public void accept(final Cliente usu) {
-        usu.getUsuario().equals(usuario);
-      }
-    };
-    this.usuarios.forEach(_function);
   }
   
   public Class<Cliente> getEntityType() {
@@ -127,14 +107,5 @@ public class RepoClientes extends AbstractRepository<Cliente> {
       _xblockexpression = _xtrycatchfinallyexpression;
     }
     return _xblockexpression;
-  }
-  
-  @Pure
-  public List<Cliente> getUsuarios() {
-    return this.usuarios;
-  }
-  
-  public void setUsuarios(final List<Cliente> usuarios) {
-    this.usuarios = usuarios;
   }
 }

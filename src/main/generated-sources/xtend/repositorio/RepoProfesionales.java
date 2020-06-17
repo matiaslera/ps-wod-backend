@@ -2,7 +2,6 @@ package repositorio;
 
 import domain.Presupuesto;
 import domain.Profesional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import javax.persistence.EntityManager;
@@ -31,8 +30,6 @@ public class RepoProfesionales extends AbstractRepository<Profesional> {
     return _xblockexpression;
   }
   
-  private List<Profesional> profesionales = new ArrayList<Profesional>();
-  
   public void enviarNotificacionDePresupuesto(final Presupuesto problema) {
     final Consumer<Profesional> _function = new Consumer<Profesional>() {
       public void accept(final Profesional profesional) {
@@ -42,7 +39,7 @@ public class RepoProfesionales extends AbstractRepository<Profesional> {
         }
       }
     };
-    this.profesionales.forEach(_function);
+    this.allInstances().forEach(_function);
   }
   
   public List<Profesional> busquedaPorProfesion(final String profesion) {
@@ -51,7 +48,7 @@ public class RepoProfesionales extends AbstractRepository<Profesional> {
         return Boolean.valueOf(profesional.getProfesion().equals(profesion));
       }
     };
-    return IterableExtensions.<Profesional>toList(IterableExtensions.<Profesional>filter(this.profesionales, _function));
+    return IterableExtensions.<Profesional>toList(IterableExtensions.<Profesional>filter(this.allInstances(), _function));
   }
   
   public List<Profesional> busquedaPorZona(final String zona) {
@@ -60,7 +57,7 @@ public class RepoProfesionales extends AbstractRepository<Profesional> {
         return Boolean.valueOf(profesional.getZonaDeTrabajo().equals(zona));
       }
     };
-    return IterableExtensions.<Profesional>toList(IterableExtensions.<Profesional>filter(this.profesionales, _function));
+    return IterableExtensions.<Profesional>toList(IterableExtensions.<Profesional>filter(this.allInstances(), _function));
   }
   
   public List<Profesional> busquedaPorNombreYApellido(final String nombre) {
@@ -69,7 +66,7 @@ public class RepoProfesionales extends AbstractRepository<Profesional> {
         return Boolean.valueOf(profesional.getNombreyApellido().equals(nombre));
       }
     };
-    return IterableExtensions.<Profesional>toList(IterableExtensions.<Profesional>filter(this.profesionales, _function));
+    return IterableExtensions.<Profesional>toList(IterableExtensions.<Profesional>filter(this.allInstances(), _function));
   }
   
   public Class<Profesional> getEntityType() {

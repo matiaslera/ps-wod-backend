@@ -16,7 +16,6 @@ import org.uqbar.xtrest.api.annotation.Body
 import org.uqbar.xtrest.api.annotation.Post
 import repositorio.RepoUsuario
 import serializacion.UsuarioSerializable
-import repositorio.RepoPresupuestos
 
 @Controller
 class RestControllerUser {
@@ -26,7 +25,7 @@ class RestControllerUser {
 	RepoClientes repoClientes = new RepoClientes
 	RepoProfesionales repoProfesionales = new RepoProfesionales
 	RepoUsuario repoUser = new RepoUsuario()
-	RepoPresupuestos repoPresupuesto = new RepoPresupuestos()
+	//RepoPresupuestos repoPresupuesto = new RepoPresupuestos()
 	
 	new(WorkOfDayBootstrap object) {
 	}
@@ -106,28 +105,6 @@ class RestControllerUser {
 		}
 	}
 	
-	@Get("/presupuestos")
-	def Result presupuestos() {
-		try {
-			val presupuesto = repoPresupuesto.allInstances()
-			ok(presupuesto.toJson)
-		} catch (Exception e) {
-			internalServerError(e.message)
-		}
-	}
 	
-	@Get("/search_presupuestos")
-	def Result busquedaPresupuestos(@Body String body) {
-		try {
-			val especialidad= getPropertyValue(body,"especialidad")
-			val nombre= getPropertyValue(body,"nombre")
-			println(especialidad +" : " + nombre)
-			val busqueda= repoPresupuesto.search(especialidad,nombre)
-			
-			ok(busqueda.toJson)
-		} catch (Exception e) {
-			internalServerError(e.message)
-		}
-	}
 	
 }

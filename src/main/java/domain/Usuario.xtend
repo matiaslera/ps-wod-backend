@@ -18,7 +18,7 @@ import java.io.Serializable
 
 @Observable
 @Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorColumn(name="TIPO_USER", discriminatorType=DiscriminatorType.STRING)
 @Accessors
 abstract class Usuario  implements Serializable {
@@ -46,13 +46,13 @@ abstract class Usuario  implements Serializable {
 	int telefono
 
 	@Transient
-	Image foto
+	String foto
 
 	def void enviarChat(Chat chat) {
 		RepoChats.instance.persistirChat(chat)
 	}
 	
 	override toString(){
-		"id: "+ id + "usuario: " + usuario
+		"id: "+ id + " usuario: " + usuario +" nombre: " + nombreyApellido
 	}
 }

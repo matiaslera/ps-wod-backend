@@ -1,14 +1,16 @@
 package domain
 
-import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
-import repositorio.RepoProfesionales
 import javax.persistence.Entity
 import javax.persistence.Column
 import javax.persistence.Table
 import javax.persistence.DiscriminatorValue
 import java.util.Set
-import javax.persistence.Transient
+import java.util.HashSet
+import javax.persistence.FetchType
+import javax.persistence.OneToMany
+import javax.persistence.CascadeType
+import repositorio.RepoProfesionales
 
 @Accessors
 @Entity
@@ -16,34 +18,28 @@ import javax.persistence.Transient
 @DiscriminatorValue("CLI")
 class Cliente extends Usuario {
 	
-	@Transient
-	RepoProfesionales repoProfesionales = new RepoProfesionales
-	
 	@Column(length=50)
 	String direccion
 	
-	@Transient
-	Set<Presupuesto> consultas =newHashSet
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	Set<Presupuesto> demandaJob =new HashSet<Presupuesto>()
+	
 	
 	def void addPresupuesto(Presupuesto presupuesto){
-		consultas.add(presupuesto)
-		this.enviarNotificacionPresupuesto(presupuesto)
+		demandaJob.add(presupuesto)
 	}
 	
 	def void removePresupuesto(Presupuesto presupuesto){
-		consultas.remove(presupuesto)
+		demandaJob.remove(presupuesto)
 	}
 	
 	def Presupuesto encontrarPresupuesto(Presupuesto presupuesto){
-		return consultas.filter[pre|pre.equals(presupuesto)].head
+		return demandaJob.filter[pre|pre.equals(presupuesto)].head
 	}
 	
-	def List<Presupuesto> obtenerPresupuesto(Presupuesto problema) {
-//		RepoPresupuestos.instance.buscarPresupuesto(problema)
-	}
 
 	def void enviarNotificacionPresupuesto(Presupuesto problema) {
-		repoProfesionales.enviarNotificacionDePresupuesto(problema)
+		RepoProfesionales.instance.enviarNotificacionDePresupuesto(problema)
 	}
 
 }

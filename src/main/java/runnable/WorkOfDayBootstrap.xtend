@@ -77,6 +77,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			nombreyApellido = "Bartolome Mitre"
 			dni = 25778899
 			telefono = 1500601473
+			profesion="Electricidad"
 		]
 		usuario4 = new Profesional() => [
 			usuario = "user4"
@@ -84,6 +85,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			nombreyApellido = "Carlos Villate"
 			dni = 45447788
 			telefono = 1500601472
+			profesion="Electricidad"
 		]
 		usuario5 = new Profesional() => [
 			usuario = "user5"
@@ -91,6 +93,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			nombreyApellido = "Juan Rosas"
 			dni = 32996633
 			telefono = 1500601471
+			profesion="Gasista"
 		]
 		usuario6 = new Cliente() => [
 			usuario = "user6"
@@ -106,6 +109,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			nombreyApellido = "Hanna Baker"
 			dni = 37200188
 			telefono = 1500601445
+			profesion="Plomeria"
 		]
 		usuario8 = new Cliente() => [
 			usuario = "user8"
@@ -113,6 +117,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			nombreyApellido = "Noel steven"
 			dni = 37200195
 			telefono = 1500601474
+			
 		]
 		usuario9 = new Profesional() => [
 			usuario = "user9"
@@ -120,6 +125,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			nombreyApellido = "Bartolito Finn"
 			dni = 37200123
 			telefono = 1500601474
+			profesion="Plomeria"
 		]
 		usuario10 = new Cliente() => [
 			usuario = "user10"
@@ -145,14 +151,26 @@ class WorkOfDayBootstrap implements Bootstrap {
 	}
 
 	def createUser(Usuario user) {
-		val listaUsuarios = repoUser.searchByExample(user)
+//		val listaUsuarios = repoUser.searchByExample(user)
+//		if (listaUsuarios.isEmpty) {
+//			repoUser.create(user)
+//			println("Candidato user:" + user.usuario + " creado")
+//		} else {
+//			val vueloBD = listaUsuarios.head
+//			user.id = vueloBD.id
+//			repoUser.update(user)
+//			println("Candidato usuario:" + user.id + " creado")
+//		}
+		
+		val repoUsuarios = RepoUsuario.instance
+		val listaUsuarios = repoUsuarios.searchByExample(user)
 		if (listaUsuarios.isEmpty) {
-			repoUser.create(user)
+			repoUsuarios.create(user)
 			println("Candidato user:" + user.usuario + " creado")
 		} else {
 			val vueloBD = listaUsuarios.head
 			user.id = vueloBD.id
-			repoUser.update(user)
+			repoUsuarios.update(user)
 			println("Candidato usuario:" + user.id + " creado")
 		}
 	}
@@ -160,113 +178,125 @@ class WorkOfDayBootstrap implements Bootstrap {
 	def void starPresupuesto(){
 		presupuesto1 = new Presupuesto => [
 			especialidad = "Electricidad"
-			nombre="cambio de tablero"
+			setProblema="cambio de tablero"
 			descripcion = "cambio de tablero para una sala de rack informatica primer piso"
 			direccion = "Santa Rosalia 2720"
 			notas = ""
+			realizado=true
 			monto = 3000
 			fecha = LocalDate.of(2020, 02, 02)
 		]
 
 		presupuesto2 = new Presupuesto => [
 			especialidad = "Plomeria"
-			nombre="cambio de caños "
+			setProblema="cambio de caños "
 			descripcion = "cambio de caños de agua por 2mm en el lugar del estacionamiento"
 			direccion = "Belgrano 2720"
 			notas = ""
+			realizado=true
 			monto = 5000
 			fecha = LocalDate.of(2014, 02, 10)
 		]
 
 		presupuesto3 = new Presupuesto => [
 			especialidad = "Electricidad"
-			nombre="armar tablero "
+			setProblema="armar tablero "
 			descripcion = "armar tablero de comando para bomba trifasica"
 			direccion = "Santa Rosa 2720"
 			notas = ""
+			realizado=true
 			monto = 5000
 			fecha = LocalDate.of(2017, 02, 10)
 		]
 
 		presupuesto4 = new Presupuesto => [
 			especialidad = "Electricidad"
-			nombre="instalacion de cables "
+			setProblema="instalacion de cables "
 			descripcion = "instalacion de cables por bandeja desde el 1 hasta 3 el piso"
 		    direccion = "Avenina siempre viva 1234"
 			notas = ""
+			realizado=true
 			monto = 6000
 			fecha = LocalDate.of(2016, 02, 10)
 		]
 		presupuesto5 = new Presupuesto => [
 			especialidad = "Herreria"
-			nombre="Soldadura de Rejas "
+			setProblema="Soldadura de Rejas "
 			descripcion = "Soldadura de rejas para ventanas"
 			direccion = "adrogue 6145"
 			notas = ""
+			realizado=true
 			monto = 10000
 			fecha = LocalDate.of(2016, 03, 10)
 		]
 		
 		presupuesto6 = new Presupuesto => [
 			especialidad = "Herreria"
-			nombre="soldadura de estructuras "
+			setProblema="soldadura de estructuras "
 			descripcion = "soldar una estructura para escaleras de planta baja al primer piso "
 			direccion = "cordoba 2773"
 			notas = ""
+			realizado=true
 			monto = 16000
 			fecha = LocalDate.of(2016, 02, 10)
 		]
 		presupuesto7 = new Presupuesto => [
 			especialidad = "Gasista"
-			nombre="cambio de caños "
+			setProblema="cambio de caños "
 			descripcion = "se cambian caños por caños fisurados"
 			direccion = "cerrito 6969"
 			notas = ""
+			realizado=true
 			monto = 12000
 			fecha = LocalDate.of(2017, 05, 10)
 		]
 		presupuesto8 = new Presupuesto => [
 			especialidad = "Gasista"
-			nombre="instalacion de termotanque "
+			setProblema="instalacion de termotanque "
 			descripcion = "instalacion de un termotanque en planta baja"
 			direccion = "mendoza 5489"
 			notas = ""
+			realizado=true
 			monto = 18000
 			fecha = LocalDate.of(2016, 02, 10)
 		]
 		presupuesto9 = new Presupuesto => [
 			especialidad = "Carpinteria"
-			nombre="restauracion "
+			setProblema="restauracion "
 			descripcion = "se restaura una mesa antiguaa , se cambian tornillos y se pinta"
 			direccion = "avenida santa fe 4720"
 			notas = ""
+			realizado=true
 			monto = 5000
 			fecha = LocalDate.of(2018, 12, 10)
 		]
 		presupuesto10 = new Presupuesto => [
 			especialidad = "Carpinteria"
-			nombre="respaldar de cama "
+			setProblema="respaldar de cama "
 			descripcion = "se realiza un respaldar a medida con mesa de luz flotante y estacion de carga de celulares"
 			direccion = "bondpland 2720"
 			notas = ""
+			realizado=true
 			monto = 10000
 			fecha = LocalDate.of(2019, 11, 10)
 		]
 		presupuesto11 = new Presupuesto => [
 			especialidad = "Armado en Seco"
-			nombre="colocacion de divisiones "
+			setProblema="colocacion de divisiones "
 			descripcion = "se coloca una nueva division entre la sala de estar y el comedor"
 				direccion = "avenida rivadavia 8752"
 			notas = ""
+			realizado=true
 			monto = 20000
 			fecha = LocalDate.of(2019, 08, 10)
 		]
 		presupuesto12 = new Presupuesto => [
 			especialidad = "Pintor"
-			nombre="paredes exteriores "
+			setProblema="paredes exteriores "
 			descripcion = "se pintan las paredes exteriores , con una liquido especial , para que tenga durabilidad en la interperie ya sea calor , lluvia o humedad"
 			direccion = "rosedal 6348"
 			notas = ""
+			realizado=true
 			monto = 35000
 			fecha = LocalDate.of(2017, 03, 11)
 		]
@@ -290,7 +320,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 		val listaUsuarios = repoPresupuesto.searchByExample(pres)
 		if (listaUsuarios.isEmpty) {
 			repoPresupuesto.create(pres)
-			println("Candidato presupuesto nombre:" + pres.nombre + " creado")
+			println("Candidato presupuesto nombre:" + pres.getProblema + " creado")
 		} else {
 			val vueloBD = listaUsuarios.head
 			pres.id = vueloBD.id

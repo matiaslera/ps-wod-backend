@@ -23,9 +23,14 @@ class RepoProfesionales extends AbstractRepository <Profesional>{
 	def enviarNotificacionDePresupuesto(Presupuesto problema) {
 		allInstances.forEach [ profesional |
 			if (profesional.profesion.equals(problema.especialidad)) {
-				profesional.agregarPresupuesto(problema)
+				//val profesionalEncontrado=searchById(profesional.id)
+				//profesionalEncontrado.agregarPresupuesto(problema)
+				profesional.agregarTrabajo(problema)
+				update(profesional)
+				println(profesional.toString)
 			}
 		]
+		allInstances.forEach [ profesional |update(profesional)]
 	}
 
 	def List<Profesional> busquedaPorProfesion(String profesion) {
@@ -45,10 +50,9 @@ class RepoProfesionales extends AbstractRepository <Profesional>{
 	}
 	
 	override generateWhere(CriteriaBuilder criteria, CriteriaQuery<Profesional> query, Root<Profesional> camposCandidato, Profesional user) {
-			if (user.usuario !== null) {
+			if (user.id !== null) {
 			query.where(criteria.equal(camposCandidato.get("id"), user.id))
 		}
-		
 	}
 	
 	def Profesional searchById(Long id) {
@@ -57,6 +61,8 @@ class RepoProfesionales extends AbstractRepository <Profesional>{
 			val criteria = entityManager.criteriaBuilder
 			val query = criteria.createQuery(entityType)
 			val _User = query.from(entityType)
+			//val camposZona = query.from(entityType)
+			//camposZona.fetch("ofertasJob")
 			query.select(_User)
 			query.where(criteria.equal(_User.get("id"), id))
 			entityManager.createQuery(query).singleResult

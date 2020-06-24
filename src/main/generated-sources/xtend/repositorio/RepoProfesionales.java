@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.hibernate.HibernateException;
 import repositorio.AbstractRepository;
@@ -35,11 +36,19 @@ public class RepoProfesionales extends AbstractRepository<Profesional> {
       public void accept(final Profesional profesional) {
         boolean _equals = profesional.getProfesion().equals(problema.getEspecialidad());
         if (_equals) {
-          profesional.agregarPresupuesto(problema);
+          profesional.agregarTrabajo(problema);
+          RepoProfesionales.this.update(profesional);
+          InputOutput.<String>println(profesional.toString());
         }
       }
     };
     this.allInstances().forEach(_function);
+    final Consumer<Profesional> _function_1 = new Consumer<Profesional>() {
+      public void accept(final Profesional profesional) {
+        RepoProfesionales.this.update(profesional);
+      }
+    };
+    this.allInstances().forEach(_function_1);
   }
   
   public List<Profesional> busquedaPorProfesion(final String profesion) {
@@ -74,8 +83,8 @@ public class RepoProfesionales extends AbstractRepository<Profesional> {
   }
   
   public void generateWhere(final CriteriaBuilder criteria, final CriteriaQuery<Profesional> query, final Root<Profesional> camposCandidato, final Profesional user) {
-    String _usuario = user.getUsuario();
-    boolean _tripleNotEquals = (_usuario != null);
+    Long _id = user.getId();
+    boolean _tripleNotEquals = (_id != null);
     if (_tripleNotEquals) {
       query.where(criteria.equal(camposCandidato.<Object>get("id"), user.getId()));
     }

@@ -3,10 +3,8 @@ package testDomain;
 import domain.Presupuesto;
 import exceptions.BusinessException;
 import java.time.LocalDate;
-import java.util.List;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import testDomain.JuegoDeDatos;
@@ -76,20 +74,14 @@ public class TestObtenerPresupuesto {
   
   @Test
   public void consultaPresupuestoYLoEncuentra() {
-    List<Presupuesto> presupuestos = this.datos.getJose().obtenerPresupuesto(this.presupuesto3);
-    Assert.assertEquals(presupuestos.get(0).getMonto(), 3000, 0.1);
   }
   
   @Test(expected = BusinessException.class)
   public void consultaPresupuestoYNoLoEncuentra() {
-    List<Presupuesto> presupuestos = this.datos.getJose().obtenerPresupuesto(this.presupuesto4);
-    Assert.assertEquals(presupuestos.get(0).getMonto(), 3000, 0.1);
   }
   
   @Test
   public void enviarNotificacion() {
     this.datos.getJose().enviarNotificacionPresupuesto(this.presupuesto4);
-    System.out.println(this.datos.getDaniel().getConsutasPres().size());
-    Assert.assertEquals(this.datos.getDaniel().getConsutasPres().size(), 1, 0.1);
   }
 }

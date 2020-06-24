@@ -1,8 +1,11 @@
 package restApi;
 
 import domain.Cliente;
+import domain.Oferta;
 import domain.Presupuesto;
+import domain.Profesional;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -14,6 +17,8 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.InputOutput;
+import org.eclipse.xtext.xbase.lib.ObjectExtensions;
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.uqbar.xtrest.api.Result;
 import org.uqbar.xtrest.api.annotation.Body;
 import org.uqbar.xtrest.api.annotation.Controller;
@@ -22,9 +27,9 @@ import org.uqbar.xtrest.api.annotation.Post;
 import org.uqbar.xtrest.json.JSONUtils;
 import org.uqbar.xtrest.result.ResultFactory;
 import repositorio.RepoClientes;
+import repositorio.RepoOferta;
 import repositorio.RepoPresupuestos;
 import repositorio.RepoProfesionales;
-import repositorio.RepoUsuario;
 
 @Controller
 @SuppressWarnings("all")
@@ -36,9 +41,9 @@ public class RestControllerPresupuesto extends ResultFactory {
   
   private RepoProfesionales repoProfesionales = new RepoProfesionales();
   
-  private RepoUsuario repoUser = new RepoUsuario();
-  
   private RepoPresupuestos repoPresupuesto = new RepoPresupuestos();
+  
+  private RepoOferta repoOferta = new RepoOferta();
   
   @Get("/presupuestos")
   public Result presupuestos(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
@@ -46,7 +51,7 @@ public class RestControllerPresupuesto extends ResultFactory {
     try {
       Result _xblockexpression = null;
       {
-        final List<Presupuesto> presupuesto = this.repoPresupuesto.allInstances();
+        final List<Presupuesto> presupuesto = this.repoPresupuesto.trabajosRealizados();
         _xblockexpression = ResultFactory.ok(this._jSONUtils.toJson(presupuesto));
       }
       _xtrycatchfinallyexpression = _xblockexpression;
@@ -91,13 +96,175 @@ public class RestControllerPresupuesto extends ResultFactory {
     try {
       Result _xblockexpression = null;
       {
-        final Presupuesto presNuevo = this._jSONUtils.<Presupuesto>fromJson(body, Presupuesto.class);
+        Presupuesto _presupuesto = new Presupuesto();
+        final Procedure1<Presupuesto> _function = new Procedure1<Presupuesto>() {
+          public void apply(final Presupuesto it) {
+            it.setDescripcion(RestControllerPresupuesto.this._jSONUtils.getPropertyValue(body, "descripcion"));
+            it.setDireccion(RestControllerPresupuesto.this._jSONUtils.getPropertyValue(body, "direccion"));
+            it.setEspecialidad(RestControllerPresupuesto.this._jSONUtils.getPropertyValue(body, "especialidad"));
+            it.setProblema(RestControllerPresupuesto.this._jSONUtils.getPropertyValue(body, "problema"));
+            it.setIdCreador(Long.valueOf(id));
+            it.setRealizado(false);
+            it.setFecha(LocalDate.now());
+          }
+        };
+        final Presupuesto consulta = ObjectExtensions.<Presupuesto>operator_doubleArrow(_presupuesto, _function);
+        this.repoPresupuesto.create(consulta);
+        final Presupuesto consultaCreada = this.repoPresupuesto.searchById(Long.valueOf((consulta.getId()).longValue()));
         final Cliente cliente = this.repoClientes.searchById(Long.valueOf(id));
-        cliente.addPresupuesto(presNuevo);
+        cliente.addPresupuesto(consultaCreada);
         this.repoClientes.update(cliente);
-        InputOutput.<String>println(presNuevo.toString());
-        InputOutput.<String>println(cliente.toString());
+        InputOutput.<String>println(consultaCreada.toString());
         _xblockexpression = ResultFactory.ok("{ \"status\" : \"OK\" }");
+      }
+      _xtrycatchfinallyexpression = _xblockexpression;
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception e = (Exception)_t;
+        _xtrycatchfinallyexpression = ResultFactory.internalServerError(e.getMessage());
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    return _xtrycatchfinallyexpression;
+  }
+  
+  @Get("/query_made/:id")
+  public Result consultas(final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    Result _xtrycatchfinallyexpression = null;
+    try {
+      Result _xblockexpression = null;
+      {
+        final Cliente cliente = this.repoClientes.searchById(Long.valueOf(id));
+        final Set<Presupuesto> presupuesto = cliente.getDemandaJob();
+        _xblockexpression = ResultFactory.ok(this._jSONUtils.toJson(presupuesto));
+      }
+      _xtrycatchfinallyexpression = _xblockexpression;
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception e = (Exception)_t;
+        _xtrycatchfinallyexpression = ResultFactory.internalServerError(e.getMessage());
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    return _xtrycatchfinallyexpression;
+  }
+  
+  @Get("/job_completo/:id")
+  public Result jobCompleto(final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    Result _xtrycatchfinallyexpression = null;
+    try {
+      Result _xblockexpression = null;
+      {
+        final Presupuesto presupuesto = this.repoPresupuesto.searchById(Long.valueOf(id));
+        _xblockexpression = ResultFactory.ok(this._jSONUtils.toJson(presupuesto));
+      }
+      _xtrycatchfinallyexpression = _xblockexpression;
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception e = (Exception)_t;
+        _xtrycatchfinallyexpression = ResultFactory.internalServerError(e.getMessage());
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    return _xtrycatchfinallyexpression;
+  }
+  
+  @Get("/query_tecnica/:id")
+  public Result consultasTecnicas(final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    Result _xtrycatchfinallyexpression = null;
+    try {
+      Result _xblockexpression = null;
+      {
+        final Profesional tecnico = this.repoProfesionales.searchById(Long.valueOf(id));
+        final Set<Presupuesto> trabajos = tecnico.getTrabajos();
+        _xblockexpression = ResultFactory.ok(this._jSONUtils.toJson(trabajos));
+      }
+      _xtrycatchfinallyexpression = _xblockexpression;
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception e = (Exception)_t;
+        _xtrycatchfinallyexpression = ResultFactory.internalServerError(e.getMessage());
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    return _xtrycatchfinallyexpression;
+  }
+  
+  @Post("/job_answer/:id")
+  public Result repuestaTrabajo(@Body final String body, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    Result _xtrycatchfinallyexpression = null;
+    try {
+      Result _xblockexpression = null;
+      {
+        Oferta _oferta = new Oferta();
+        final Procedure1<Oferta> _function = new Procedure1<Oferta>() {
+          public void apply(final Oferta it) {
+            it.setComentario(RestControllerPresupuesto.this._jSONUtils.getPropertyValue(body, "comentario"));
+            it.setMonto((RestControllerPresupuesto.this._jSONUtils.getPropertyAsInteger(body, "monto")).intValue());
+            it.setIdProfesional((RestControllerPresupuesto.this._jSONUtils.getPropertyAsInteger(body, "idProfesional")).intValue());
+            it.setNombreApellido(RestControllerPresupuesto.this._jSONUtils.getPropertyValue(body, "nombreApellido"));
+            it.setFechaCreacion(LocalDate.now());
+          }
+        };
+        final Oferta oferta = ObjectExtensions.<Oferta>operator_doubleArrow(_oferta, _function);
+        this.repoOferta.create(oferta);
+        final Presupuesto presupuesto = this.repoPresupuesto.searchById(Long.valueOf(id));
+        InputOutput.<String>println(presupuesto.toString());
+        presupuesto.addOferta(oferta);
+        this.repoPresupuesto.update(presupuesto);
+        _xblockexpression = ResultFactory.ok("{ \"status\" : \"OK\" }");
+      }
+      _xtrycatchfinallyexpression = _xblockexpression;
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception e = (Exception)_t;
+        _xtrycatchfinallyexpression = ResultFactory.internalServerError(e.getMessage());
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    return _xtrycatchfinallyexpression;
+  }
+  
+  @Post("/prof_tecnica")
+  public Result especialidadTecnica(@Body final String body, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    Result _xtrycatchfinallyexpression = null;
+    try {
+      Result _xblockexpression = null;
+      {
+        InputOutput.<String>println(body);
+        final Profesional user = this._jSONUtils.<Profesional>fromJson(body, Profesional.class);
+        InputOutput.<String>println(user.getProfesion());
+        final List<Presupuesto> jobEspecialidad = this.repoPresupuesto.listPorProfesion(user.getProfesion());
+        _xblockexpression = ResultFactory.ok(this._jSONUtils.toJson(jobEspecialidad));
+      }
+      _xtrycatchfinallyexpression = _xblockexpression;
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception e = (Exception)_t;
+        _xtrycatchfinallyexpression = ResultFactory.internalServerError(e.getMessage());
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    return _xtrycatchfinallyexpression;
+  }
+  
+  @Post("/add_job/:id")
+  public Result crearTrabajo(@Body final String body, final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    Result _xtrycatchfinallyexpression = null;
+    try {
+      Result _xblockexpression = null;
+      {
+        InputOutput.<String>println(body);
+        final Profesional user = this._jSONUtils.<Profesional>fromJson(body, Profesional.class);
+        InputOutput.<String>println(user.getProfesion());
+        final List<Presupuesto> jobEspecialidad = this.repoPresupuesto.listPorProfesion(user.getProfesion());
+        _xblockexpression = ResultFactory.ok(this._jSONUtils.toJson(jobEspecialidad));
       }
       _xtrycatchfinallyexpression = _xblockexpression;
     } catch (final Throwable _t) {
@@ -153,6 +320,86 @@ public class RestControllerPresupuesto extends ResultFactory {
     }
     {
     	Matcher matcher = 
+    		Pattern.compile("/prof_tecnica").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Post") && matcher.matches()) {
+    		// take parameters from request
+    		String body = readBodyAsString(request);
+    		
+    		// take variables from url
+    		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
+    		
+    	    Result result = especialidadTecnica(body, target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
+    		Pattern.compile("/query_made/(\\w+)").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
+    		// take parameters from request
+    		
+    		// take variables from url
+    		String id = matcher.group(1);
+    		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
+    		
+    	    Result result = consultas(id, target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
+    		Pattern.compile("/job_completo/(\\w+)").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
+    		// take parameters from request
+    		
+    		// take variables from url
+    		String id = matcher.group(1);
+    		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
+    		
+    	    Result result = jobCompleto(id, target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
+    		Pattern.compile("/query_tecnica/(\\w+)").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
+    		// take parameters from request
+    		
+    		// take variables from url
+    		String id = matcher.group(1);
+    		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
+    		
+    	    Result result = consultasTecnicas(id, target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
     		Pattern.compile("/new_qery/(\\w+)").matcher(target);
     	if (request.getMethod().equalsIgnoreCase("Post") && matcher.matches()) {
     		// take parameters from request
@@ -165,6 +412,48 @@ public class RestControllerPresupuesto extends ResultFactory {
             response.setContentType("application/json");
     		
     	    Result result = nuevaConsulta(body, id, target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
+    		Pattern.compile("/job_answer/(\\w+)").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Post") && matcher.matches()) {
+    		// take parameters from request
+    		String body = readBodyAsString(request);
+    		
+    		// take variables from url
+    		String id = matcher.group(1);
+    		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
+    		
+    	    Result result = repuestaTrabajo(body, id, target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
+    		Pattern.compile("/add_job/(\\w+)").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Post") && matcher.matches()) {
+    		// take parameters from request
+    		String body = readBodyAsString(request);
+    		
+    		// take variables from url
+    		String id = matcher.group(1);
+    		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
+    		
+    	    Result result = crearTrabajo(body, id, target, baseRequest, request, response);
     	    result.process(response);
     	    
     		response.addHeader("Access-Control-Allow-Origin", "*");

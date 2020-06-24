@@ -8,11 +8,17 @@ import javax.persistence.Column
 import javax.persistence.Table
 import javax.persistence.Transient
 import javax.persistence.DiscriminatorValue
+import javax.persistence.OneToMany
+import javax.persistence.FetchType
+import javax.persistence.CascadeType
+import java.util.HashSet
+import java.util.Set
 
-@Accessors
+
 @Entity
 @Table(name="Profesional")
 @DiscriminatorValue("PROF")
+@Accessors
 class Profesional extends Usuario {
 
 	@Column(length=50)
@@ -30,11 +36,21 @@ class Profesional extends Usuario {
 	@Column(length=50)
 	boolean guardia = false
 		
-	@Transient
-	List<Presupuesto> consutasPres = new ArrayList
+	@OneToMany(fetch=FetchType.EAGER,cascade =CascadeType.ALL)
+	Set<Presupuesto> trabajos =new HashSet<Presupuesto>()
 
-	def void agregarPresupuesto(Presupuesto problema) {
-		consutasPres.add(problema)
+	def void agregarTrabajo(Presupuesto problema) {
+		if(!trabajos.contains(problema)){
+		trabajos.add(problema)
+			//problema.setProfesional(this)
+		}
+	}
+	
+	def void removeTrabajo(Presupuesto problema) {
+		if(trabajos.contains(problema)){
+			trabajos.remove(problema)
+			//problema.setProfesional(null)
+		}
 	}
 
 }

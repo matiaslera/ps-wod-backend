@@ -1,15 +1,19 @@
 package domain;
 
-import java.awt.Image;
+import domain.Oferta;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.OneToMany;
 import org.eclipse.xtend.lib.annotations.Accessors;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 @Entity
@@ -21,7 +25,10 @@ public class Presupuesto {
   private Long id;
   
   @Column(length = 50)
-  private String nombre;
+  private Long idCreador;
+  
+  @Column(length = 50)
+  private String problema;
   
   @Column(length = 50)
   private String especialidad;
@@ -39,13 +46,36 @@ public class Presupuesto {
   private float monto;
   
   @Column
+  private boolean realizado = false;
+  
+  @Column
+  private boolean contratado = false;
+  
+  @Column
   private LocalDate fecha;
   
-  @Transient
-  private List<Image> fotos = new ArrayList<Image>();
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  private Set<Oferta> ofertas = new HashSet<Oferta>();
+  
+  public void addOferta(final Oferta presupuesto) {
+    this.ofertas.add(presupuesto);
+  }
+  
+  public void removeOferta(final Oferta presupuesto) {
+    this.ofertas.remove(presupuesto);
+  }
+  
+  public Oferta encontrarOferta(final Oferta presupuesto) {
+    final Function1<Oferta, Boolean> _function = new Function1<Oferta, Boolean>() {
+      public Boolean apply(final Oferta pre) {
+        return Boolean.valueOf(pre.equals(presupuesto));
+      }
+    };
+    return IterableExtensions.<Oferta>head(IterableExtensions.<Oferta>filter(this.ofertas, _function));
+  }
   
   public String toString() {
-    return ((("id: " + this.id) + "nombre: ") + this.nombre);
+    return ((((("id: " + this.id) + " nombre: ") + this.problema) + " especialidad: ") + this.especialidad);
   }
   
   @Pure
@@ -58,12 +88,21 @@ public class Presupuesto {
   }
   
   @Pure
-  public String getNombre() {
-    return this.nombre;
+  public Long getIdCreador() {
+    return this.idCreador;
   }
   
-  public void setNombre(final String nombre) {
-    this.nombre = nombre;
+  public void setIdCreador(final Long idCreador) {
+    this.idCreador = idCreador;
+  }
+  
+  @Pure
+  public String getProblema() {
+    return this.problema;
+  }
+  
+  public void setProblema(final String problema) {
+    this.problema = problema;
   }
   
   @Pure
@@ -112,6 +151,24 @@ public class Presupuesto {
   }
   
   @Pure
+  public boolean isRealizado() {
+    return this.realizado;
+  }
+  
+  public void setRealizado(final boolean realizado) {
+    this.realizado = realizado;
+  }
+  
+  @Pure
+  public boolean isContratado() {
+    return this.contratado;
+  }
+  
+  public void setContratado(final boolean contratado) {
+    this.contratado = contratado;
+  }
+  
+  @Pure
   public LocalDate getFecha() {
     return this.fecha;
   }
@@ -121,11 +178,11 @@ public class Presupuesto {
   }
   
   @Pure
-  public List<Image> getFotos() {
-    return this.fotos;
+  public Set<Oferta> getOfertas() {
+    return this.ofertas;
   }
   
-  public void setFotos(final List<Image> fotos) {
-    this.fotos = fotos;
+  public void setOfertas(final Set<Oferta> ofertas) {
+    this.ofertas = ofertas;
   }
 }

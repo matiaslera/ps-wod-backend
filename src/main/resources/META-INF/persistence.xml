@@ -12,6 +12,8 @@
 		<class>domain.Cliente</class>
 		<class>domain.Usuario</class>
 		<class>domain.Profesional</class>
+		<class>domain.Oferta</class>
+		<class>domain.Presupuesto</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url"
 				value="jdbc:mysql://localhost/workofday?serverTimezone=UTC" />

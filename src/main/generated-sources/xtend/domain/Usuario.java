@@ -1,7 +1,6 @@
 package domain;
 
 import domain.Chat;
-import java.awt.Image;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.Column;
@@ -20,7 +19,7 @@ import repositorio.RepoChats;
 
 @Observable
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorColumn(name = "TIPO_USER", discriminatorType = DiscriminatorType.STRING)
 @Accessors
 @SuppressWarnings("all")
@@ -48,14 +47,14 @@ public abstract class Usuario implements Serializable {
   private int telefono;
   
   @Transient
-  private Image foto;
+  private String foto;
   
   public void enviarChat(final Chat chat) {
     RepoChats.getInstance().persistirChat(chat);
   }
   
   public String toString() {
-    return ((("id: " + this.id) + "usuario: ") + this.usuario);
+    return ((((("id: " + this.id) + " usuario: ") + this.usuario) + " nombre: ") + this.nombreyApellido);
   }
   
   @Pure
@@ -122,11 +121,11 @@ public abstract class Usuario implements Serializable {
   }
   
   @Pure
-  public Image getFoto() {
+  public String getFoto() {
     return this.foto;
   }
   
-  public void setFoto(final Image foto) {
+  public void setFoto(final String foto) {
     this.foto = foto;
   }
 }

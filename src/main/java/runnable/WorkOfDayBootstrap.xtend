@@ -8,10 +8,11 @@ import repositorio.RepoUsuario
 import domain.Presupuesto
 import java.time.LocalDate
 import repositorio.RepoPresupuestos
+import repositorio.RepoClientes
 
 class WorkOfDayBootstrap implements Bootstrap {
 
-	RepoUsuario repoUser = new RepoUsuario()
+	RepoClientes repoCliente = new RepoClientes()
 	RepoPresupuestos repoPresupuesto = new RepoPresupuestos()
 	
 	Usuario usuario
@@ -26,8 +27,6 @@ class WorkOfDayBootstrap implements Bootstrap {
 	Usuario usuario9
 	Usuario usuario10
 	
-	
-	
 	Presupuesto presupuesto1
 	Presupuesto presupuesto2
 	Presupuesto presupuesto3
@@ -41,13 +40,13 @@ class WorkOfDayBootstrap implements Bootstrap {
 	Presupuesto presupuesto11
 	Presupuesto presupuesto12
 	
-						
+	Presupuesto finalizado01
+	Presupuesto finalizado02					
 	
 	new() {
 		isPending
 		run
 	}
-	
 	
 	def void startUsuario() {
 		usuario = new Cliente() => [
@@ -135,6 +134,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			telefono = 15006014
 		]
 		
+		
 		this.createUser(usuario)
 		this.createUser(usuario1)
 		this.createUser(usuario2)
@@ -146,8 +146,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 		this.createUser(usuario8)
 		this.createUser(usuario9)
 		this.createUser(usuario10)
-		
-
+		//this.updateUser(finalizado01,usuario1)
 	}
 
 	def createUser(Usuario user) {
@@ -161,9 +160,8 @@ class WorkOfDayBootstrap implements Bootstrap {
 //			repoUser.update(user)
 //			println("Candidato usuario:" + user.id + " creado")
 //		}
-		
 		val repoUsuarios = RepoUsuario.instance
-		val listaUsuarios = repoUsuarios.searchByExample(user)
+		val listaUsuarios = repoUsuarios.searchByExample(user)//2 lista cliente, profesionales
 		if (listaUsuarios.isEmpty) {
 			repoUsuarios.create(user)
 			println("Candidato user:" + user.usuario + " creado")
@@ -182,7 +180,8 @@ class WorkOfDayBootstrap implements Bootstrap {
 			descripcion = "cambio de tablero para una sala de rack informatica primer piso"
 			direccion = "Santa Rosalia 2720"
 			notas = ""
-			realizado=true
+			contratado= false
+			realizado=false
 			monto = 3000
 			fecha = LocalDate.of(2020, 02, 02)
 		]
@@ -193,7 +192,8 @@ class WorkOfDayBootstrap implements Bootstrap {
 			descripcion = "cambio de caños de agua por 2mm en el lugar del estacionamiento"
 			direccion = "Belgrano 2720"
 			notas = ""
-			realizado=true
+			contratado= false
+			realizado=false
 			monto = 5000
 			fecha = LocalDate.of(2014, 02, 10)
 		]
@@ -204,7 +204,8 @@ class WorkOfDayBootstrap implements Bootstrap {
 			descripcion = "armar tablero de comando para bomba trifasica"
 			direccion = "Santa Rosa 2720"
 			notas = ""
-			realizado=true
+			contratado= true
+			realizado=false
 			monto = 5000
 			fecha = LocalDate.of(2017, 02, 10)
 		]
@@ -215,6 +216,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			descripcion = "instalacion de cables por bandeja desde el 1 hasta 3 el piso"
 		    direccion = "Avenina siempre viva 1234"
 			notas = ""
+			contratado= true
 			realizado=true
 			monto = 6000
 			fecha = LocalDate.of(2016, 02, 10)
@@ -225,6 +227,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			descripcion = "Soldadura de rejas para ventanas"
 			direccion = "adrogue 6145"
 			notas = ""
+			contratado= true
 			realizado=true
 			monto = 10000
 			fecha = LocalDate.of(2016, 03, 10)
@@ -236,6 +239,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			descripcion = "soldar una estructura para escaleras de planta baja al primer piso "
 			direccion = "cordoba 2773"
 			notas = ""
+			contratado= true
 			realizado=true
 			monto = 16000
 			fecha = LocalDate.of(2016, 02, 10)
@@ -246,6 +250,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			descripcion = "se cambian caños por caños fisurados"
 			direccion = "cerrito 6969"
 			notas = ""
+			contratado= true
 			realizado=true
 			monto = 12000
 			fecha = LocalDate.of(2017, 05, 10)
@@ -256,6 +261,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			descripcion = "instalacion de un termotanque en planta baja"
 			direccion = "mendoza 5489"
 			notas = ""
+			contratado= true
 			realizado=true
 			monto = 18000
 			fecha = LocalDate.of(2016, 02, 10)
@@ -266,6 +272,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			descripcion = "se restaura una mesa antiguaa , se cambian tornillos y se pinta"
 			direccion = "avenida santa fe 4720"
 			notas = ""
+			contratado= true
 			realizado=true
 			monto = 5000
 			fecha = LocalDate.of(2018, 12, 10)
@@ -276,6 +283,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			descripcion = "se realiza un respaldar a medida con mesa de luz flotante y estacion de carga de celulares"
 			direccion = "bondpland 2720"
 			notas = ""
+			contratado= true
 			realizado=true
 			monto = 10000
 			fecha = LocalDate.of(2019, 11, 10)
@@ -286,6 +294,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			descripcion = "se coloca una nueva division entre la sala de estar y el comedor"
 				direccion = "avenida rivadavia 8752"
 			notas = ""
+			contratado= true
 			realizado=true
 			monto = 20000
 			fecha = LocalDate.of(2019, 08, 10)
@@ -296,11 +305,35 @@ class WorkOfDayBootstrap implements Bootstrap {
 			descripcion = "se pintan las paredes exteriores , con una liquido especial , para que tenga durabilidad en la interperie ya sea calor , lluvia o humedad"
 			direccion = "rosedal 6348"
 			notas = ""
+			contratado= true
 			realizado=true
 			monto = 35000
 			fecha = LocalDate.of(2017, 03, 11)
 		]
 		
+		finalizado01 = new Presupuesto => [
+			especialidad = "Electricidad"
+			setProblema="instalacion de puesta tierra "
+			descripcion = "instalacion de puesta tierra en el estacionamiento del edificio"
+		    direccion = "Av. corrientes 1122"
+			notas = ""
+			contratado= true
+			realizado=true
+			monto = 7500
+			fecha = LocalDate.of(2017, 09, 11)
+		]
+		
+		finalizado02 = new Presupuesto => [
+			especialidad = "Electricidad"
+			setProblema="instalacion de termica "
+			descripcion = "instalacion de termica piso 1 dpto a, b, c"
+		    direccion = "Av. cordoba 2000"
+			notas = ""
+			contratado= false
+			realizado=false
+			monto = 19500
+			fecha = LocalDate.of(2017, 05, 11)
+		]
 		
 		this.createPresupesto(presupuesto1)
 		this.createPresupesto(presupuesto2)
@@ -314,6 +347,8 @@ class WorkOfDayBootstrap implements Bootstrap {
 		this.createPresupesto(presupuesto10)
 		this.createPresupesto(presupuesto11)
 		this.createPresupesto(presupuesto12)
+		this.createPresupesto(finalizado01)
+		this.createPresupesto(finalizado02)
 	}
 
 	def createPresupesto(Presupuesto pres){
@@ -328,14 +363,31 @@ class WorkOfDayBootstrap implements Bootstrap {
 			println("Candidato presupuesto id:" + pres.id + " creado")
 		}
 	}
-
+	
+	
+	def updateUser(Presupuesto pres,Cliente cli){
+		val listaUsuarios = repoCliente.searchByExample(cli)
+		if (listaUsuarios.isEmpty) {
+			repoCliente.create(cli)
+			println("Candidato presupuesto nombre:" + pres.getProblema + " creado")
+		} else {
+			cli.addPresupuesto(pres)
+			val vueloBD = listaUsuarios.head
+			pres.id = vueloBD.id
+			repoCliente.update(cli)
+			println("Cliente actualizado id:" + pres.id + " creado")
+		}
+	}
+	
+	
+	
 	override isPending() {
 		true
 	}
 	
 	override run() {
-		startUsuario
 		starPresupuesto
+		startUsuario
 	}
 	
 }

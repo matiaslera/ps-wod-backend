@@ -14,6 +14,8 @@ import domain.Oferta
 import java.time.LocalDate
 import repositorio.RepoOferta
 import domain.Profesional
+import org.uqbar.xtrest.api.annotation.Put
+import java.util.Set
 
 @Controller
 class RestControllerPresupuesto {
@@ -58,7 +60,6 @@ class RestControllerPresupuesto {
 			direccion=body.getPropertyValue("direccion")
 			especialidad=body.getPropertyValue("especialidad")
 			problema=body.getPropertyValue("problema")
-			idCreador=Long.valueOf(id)
 			realizado=false
 			fecha= LocalDate.now
 			]
@@ -78,9 +79,8 @@ class RestControllerPresupuesto {
 	@Get("/query_made/:id")
 	def Result consultas() {
 		try {
-			val cliente= repoClientes.searchById(Long.valueOf(id))
-			val presupuesto = cliente.demandaJob
-			ok(presupuesto.toJson)
+			val consultas= repoClientes.consultasRealizadas(Long.valueOf(id))
+			ok(consultas.toJson)
 		} catch (Exception e) {
 			internalServerError(e.message)
 		}
@@ -147,28 +147,71 @@ class RestControllerPresupuesto {
 	
 	
 	//crea los trabajos pedientes
-	@Post("/add_job/:id")
+	@Post("/add_job")
 	def Result crearTrabajo(@Body String body) {
 		try {
+			val presupuestoOb=body.fromJson(Presupuesto)
+			///val id=body.getPropertyValue("id")
+			//val montoBody=body.getPropertyAsInteger("monto")
+			//val idProfBody=body.getPropertyAsInteger("idProfesional")
+			//val notasBody=body.getPropertyValue("notas")
+			println("estoy aquiiiiiiiiiiiiiiiiiii")
+			presupuestoOb.realizado=false
+			presupuestoOb.contratado=true
+			//val presupuesto=repoPresupuesto.searchById(Long.valueOf(id))
+			//presupuesto.monto=montoBody
+			//presupuesto.notas=notasBody
+			//presupuesto.idProfesional=Long.valueOf(idProfBody)
+		//	presupuesto.realizado=false
+			//presupuesto.contratado=true
+			//println("estoy aquiiiiiiiiiiiiiiiiiii 2 222222222222222")
+
+			//this.presupuesto.monto=this.oferta.monto
+   			// this.presupuesto.notas=this.oferta.comentario
+   			//this.presupuesto.idProfesional=this.oferta.idProfesional
 			
-			//recibo una oferta elegida
-			
-			//actualizo el presupuesto con eso valores y le pongo contratado true
-			//borro todas
-			// 
-			println(body)
-			val user = body.fromJson(Profesional)
-			println(user.profesion)
-			val jobEspecialidad = repoPresupuesto.listPorProfesion(user.profesion)
-			ok(jobEspecialidad.toJson)
+			//println(presupuesto.toString)
+			repoPresupuesto.update(presupuestoOb)
+			//println(presupuesto.toString)
+			ok('{ "status" : "OK" }')
 		} catch (Exception e) {
 			internalServerError(e.message)
 		}
 	}
 	
-	//hacer llamados para obtener trabajos pendientes de un usuario en particular
-	//hacer llamados para obtener trabajos finalizados para un usuario en particular
 	
+	//hacer llamados para obtener trabajos pendientes de un usuario en particular
+	@Get("/jod_pendiente/:id")
+	def Result trabajosPendientes() {
+		try {
+			val trabajos = repoClientes.trabajosPendiente(Long.valueOf(id))
+			ok(trabajos.toJson)
+		} catch (Exception e) {
+			internalServerError(e.message)
+		}
+	}
+	
+		//hacer llamados para obtener trabajos finalizados para un usuario en particular
+	@Get("/jod_finalizados/:id")
+	def Result trabajosFinalizados() {
+		try {
+			val trabajos = repoClientes.trabajosFinalizado(Long.valueOf(id))
+			ok(trabajos.toJson)
+		} catch (Exception e) {
+			internalServerError(e.message)
+		}
+	}
+	
+	@Post("/end_job")
+	def Result finalizarTrabajo(@Body String body) {
+		try {
+			val presupuesto=body.fromJson(Presupuesto)
+			repoPresupuesto.update(presupuesto)
+			ok('{ "status" : "OK" }')
+		} catch (Exception e) {
+			internalServerError(e.message)
+		}
+	}
 	
 	//1--- El tecnico debe poder constestar los presupuesto
 	//2--- se tiene crear una tabla con los resultado de las respuseta que recibe el cliente, es decir con los prespuesto q hacen los tecnicos

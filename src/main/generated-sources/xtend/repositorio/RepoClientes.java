@@ -1,12 +1,17 @@
 package repositorio;
 
 import domain.Cliente;
+import domain.Presupuesto;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.eclipse.xtend.lib.annotations.Accessors;
 import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.InputOutput;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.hibernate.HibernateException;
 import repositorio.AbstractRepository;
 
@@ -33,8 +38,8 @@ public class RepoClientes extends AbstractRepository<Cliente> {
   
   public void generateWhere(final CriteriaBuilder criteria, final CriteriaQuery<Cliente> query, final Root<Cliente> camposCandidato, final Cliente user) {
     String _usuario = user.getUsuario();
-    boolean _tripleEquals = (_usuario == null);
-    if (_tripleEquals) {
+    boolean _tripleNotEquals = (_usuario != null);
+    if (_tripleNotEquals) {
       query.where(criteria.equal(camposCandidato.<Object>get("id"), user.getId()));
     }
   }
@@ -107,5 +112,36 @@ public class RepoClientes extends AbstractRepository<Cliente> {
       _xblockexpression = _xtrycatchfinallyexpression;
     }
     return _xblockexpression;
+  }
+  
+  public Set<Presupuesto> trabajosPendiente(final Long id) {
+    final Cliente user = this.searchById(id);
+    final Function1<Presupuesto, Boolean> _function = new Function1<Presupuesto, Boolean>() {
+      public Boolean apply(final Presupuesto job) {
+        return Boolean.valueOf(((job.isContratado() == true) && (job.isRealizado() == false)));
+      }
+    };
+    return IterableExtensions.<Presupuesto>toSet(IterableExtensions.<Presupuesto>filter(user.getDemandaJob(), _function));
+  }
+  
+  public Set<Presupuesto> trabajosFinalizado(final Long id) {
+    final Cliente user = this.searchById(id);
+    InputOutput.<String>println(user.toString());
+    final Function1<Presupuesto, Boolean> _function = new Function1<Presupuesto, Boolean>() {
+      public Boolean apply(final Presupuesto job) {
+        return Boolean.valueOf(((job.isContratado() == true) && (job.isRealizado() == true)));
+      }
+    };
+    return IterableExtensions.<Presupuesto>toSet(IterableExtensions.<Presupuesto>filter(user.getDemandaJob(), _function));
+  }
+  
+  public Set<Presupuesto> consultasRealizadas(final Long id) {
+    final Cliente user = this.searchById(id);
+    final Function1<Presupuesto, Boolean> _function = new Function1<Presupuesto, Boolean>() {
+      public Boolean apply(final Presupuesto job) {
+        return Boolean.valueOf(((job.isContratado() == false) && (job.isRealizado() == false)));
+      }
+    };
+    return IterableExtensions.<Presupuesto>toSet(IterableExtensions.<Presupuesto>filter(user.getDemandaJob(), _function));
   }
 }

@@ -38,7 +38,7 @@ public class RepoPresupuestos extends AbstractRepository<Presupuesto> {
   public List<Presupuesto> filtrarPresupuestoPorProfesion(final String especialidad) {
     final Function1<Presupuesto, Boolean> _function = new Function1<Presupuesto, Boolean>() {
       public Boolean apply(final Presupuesto p) {
-        return Boolean.valueOf((p.getEspecialidad().equals(especialidad) && (p.getMonto() == 0)));
+        return Boolean.valueOf(p.getEspecialidad().equals(especialidad));
       }
     };
     return IterableExtensions.<Presupuesto>toList(IterableExtensions.<Presupuesto>filter(this.trabajosRealizados(), _function));
@@ -59,7 +59,7 @@ public class RepoPresupuestos extends AbstractRepository<Presupuesto> {
   public List<Presupuesto> listPorProfesion(final String especialidad) {
     final Function1<Presupuesto, Boolean> _function = new Function1<Presupuesto, Boolean>() {
       public Boolean apply(final Presupuesto p) {
-        return Boolean.valueOf((p.getEspecialidad().equals(especialidad) && (p.getMonto() == 0)));
+        return Boolean.valueOf((p.getEspecialidad().equals(especialidad) && (Boolean.valueOf(p.isRealizado()) == Boolean.valueOf(false))));
       }
     };
     return IterableExtensions.<Presupuesto>toList(IterableExtensions.<Presupuesto>filter(this.allInstances(), _function));

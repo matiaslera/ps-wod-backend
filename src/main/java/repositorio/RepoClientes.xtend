@@ -27,7 +27,7 @@ class RepoClientes extends AbstractRepository<Cliente> {
 	}
 	
 	override generateWhere(CriteriaBuilder criteria, CriteriaQuery<Cliente> query, Root<Cliente> camposCandidato, Cliente user) {
-		if (user.usuario === null) {
+		if (user.usuario !== null) {
 			query.where(criteria.equal(camposCandidato.get("id"), user.id))
 		}
 	}
@@ -68,6 +68,19 @@ class RepoClientes extends AbstractRepository<Cliente> {
 		}
 	}
 	
+	def trabajosPendiente(Long id){
+		val user=searchById(id)
+		return user.demandaJob.filter[job|job.contratado==true && job.realizado==false].toSet
+	}
 	
-
+	def trabajosFinalizado(Long id){
+		val user=searchById(id)
+		println(user.toString)
+		return user.demandaJob.filter[job|job.contratado==true && job.realizado==true].toSet
+	}
+	
+	def consultasRealizadas(Long id){
+		val user=searchById(id)
+		return user.demandaJob.filter[job|job.contratado==false && job.realizado==false].toSet
+	}
 }

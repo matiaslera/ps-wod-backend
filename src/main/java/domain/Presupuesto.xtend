@@ -14,6 +14,16 @@ import java.util.HashSet
 import java.util.Set
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
+import com.fasterxml.jackson.annotation.JsonFormat
+import java.time.format.DateTimeFormatter
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonIgnore
+import java.util.List
 
 @Entity
 @Accessors
@@ -24,7 +34,7 @@ class Presupuesto {
 	Long id
 	
 	@Column(length=50)
-	Long idCreador
+	Long idProfesional
 	
 	@Column(length=50)
 	String problema
@@ -50,20 +60,29 @@ class Presupuesto {
 	@Column
 	boolean contratado = false
 	
+	
+	//@JsonFormat(pattern = "YYYY-MM-dd")
 	@Column
+	@JsonSerialize(using=LocalDateSerializer)
+	@JsonDeserialize(using=LocalDateDeserializer)
+	@JsonFormat(pattern="yyyy-MM-dd")
 	LocalDate fecha
 	
 	//@ManyToOne(fetch=FetchType.EAGER,cascade =CascadeType.ALL)
 	//@JoinColumn(name = "PROFESIONAL_ID")
 	//Profesional profesional
 	
-	//@Transient
+	//@Transient @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
 	//List<Image> fotos = new ArrayList
 	
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	Set<Oferta> ofertas =new HashSet<Oferta>()
+	@JsonProperty("ofertas")
+	Set<Oferta> ofertas ///=new HashSet<Oferta>()
 	
+	//@Transient
+	//@JsonIgnore
+	//List<Oferta> X 
 	
 	def void addOferta(Oferta presupuesto){
 		ofertas.add(presupuesto)

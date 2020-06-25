@@ -1,8 +1,13 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import domain.Oferta;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,7 +30,7 @@ public class Presupuesto {
   private Long id;
   
   @Column(length = 50)
-  private Long idCreador;
+  private Long idProfesional;
   
   @Column(length = 50)
   private String problema;
@@ -52,10 +57,14 @@ public class Presupuesto {
   private boolean contratado = false;
   
   @Column
+  @JsonSerialize(using = LocalDateSerializer.class)
+  @JsonDeserialize(using = LocalDateDeserializer.class)
+  @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate fecha;
   
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  private Set<Oferta> ofertas = new HashSet<Oferta>();
+  @JsonProperty("ofertas")
+  private Set<Oferta> ofertas;
   
   public void addOferta(final Oferta presupuesto) {
     this.ofertas.add(presupuesto);
@@ -88,12 +97,12 @@ public class Presupuesto {
   }
   
   @Pure
-  public Long getIdCreador() {
-    return this.idCreador;
+  public Long getIdProfesional() {
+    return this.idProfesional;
   }
   
-  public void setIdCreador(final Long idCreador) {
-    this.idCreador = idCreador;
+  public void setIdProfesional(final Long idProfesional) {
+    this.idProfesional = idProfesional;
   }
   
   @Pure

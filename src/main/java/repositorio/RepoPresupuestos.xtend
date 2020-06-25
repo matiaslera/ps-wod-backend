@@ -25,7 +25,7 @@ class RepoPresupuestos extends AbstractRepository<Presupuesto> {
 	}
 
 	def List<Presupuesto> filtrarPresupuestoPorProfesion(String especialidad) {
-		(trabajosRealizados.filter[p|p.especialidad.equals(especialidad) && p.monto===0]).toList
+		(trabajosRealizados.filter[p|p.especialidad.equals(especialidad)]).toList
 	}
 	
 	override getEntityType() {
@@ -38,7 +38,7 @@ class RepoPresupuestos extends AbstractRepository<Presupuesto> {
 			}
 	}
 	def List<Presupuesto> listPorProfesion(String especialidad) {
-		(allInstances.filter[p|p.especialidad.equals(especialidad) && p.monto===0]).toList
+		(allInstances.filter[p|p.especialidad.equals(especialidad) && p.realizado===false]).toList
 	}
 	
 	def search(String especialidad, String nombre) {

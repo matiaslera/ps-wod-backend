@@ -1,2 +1,5 @@
 /target/
 /src/main/resources/META-INF/persistence.xml
+.settings
+.classpath
+.project

@@ -1,14 +1,14 @@
 package repositorio
 
 import domain.Cliente
-import java.util.ArrayList
-import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
-import domain.Usuario
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Root
 import org.hibernate.HibernateException
+import javax.persistence.EntityManagerFactory
+import javax.persistence.Persistence
+import javax.persistence.EntityManager
 
 @Accessors
 class RepoClientes extends AbstractRepository<Cliente> {
@@ -27,8 +27,8 @@ class RepoClientes extends AbstractRepository<Cliente> {
 	}
 	
 	override generateWhere(CriteriaBuilder criteria, CriteriaQuery<Cliente> query, Root<Cliente> camposCandidato, Cliente user) {
-		if (user.usuario !== null) {
-			query.where(criteria.equal(camposCandidato.get("id"), user.id))
+		if (user.usuario.nombre !== null) {
+			query.where(criteria.equal(camposCandidato.get("id"), user.usuario.uid))
 		}
 	}
 	
@@ -83,4 +83,21 @@ class RepoClientes extends AbstractRepository<Cliente> {
 		val user=searchById(id)
 		return user.demandaJob.filter[job|job.contratado==false && job.realizado==false].toSet
 	}
+}
+
+@Accessors
+class SingletonClientes{
+	
+	 static SingletonClientes clientePers = new SingletonClientes()
+	
+	 EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("WorkOfDay")
+	EntityManager entityManager = entityManagerFactory.createEntityManager()
+	
+	def static SingletonClientes getInstance() {
+		if (clientePers === null) {
+			clientePers = new SingletonClientes()
+		}
+		clientePers
+	}
+	
 }

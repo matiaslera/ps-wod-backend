@@ -21,10 +21,10 @@ import java.util.Set
 class RestControllerPresupuesto {
 	
 	extension JSONUtils = new JSONUtils
-	RepoClientes repoClientes = new RepoClientes
-	RepoProfesionales repoProfesionales = new RepoProfesionales
-	RepoPresupuestos repoPresupuesto = new RepoPresupuestos()
-	RepoOferta repoOferta = new RepoOferta()
+	RepoClientes repoClientes //= new RepoClientes
+	RepoProfesionales repoProfesionales //= new RepoProfesionales
+	RepoPresupuestos repoPresupuesto// = new RepoPresupuestos()
+	RepoOferta repoOferta// = new RepoOferta()
 	
 	//busca los trabajos terminados
 	@Get("/presupuestos")

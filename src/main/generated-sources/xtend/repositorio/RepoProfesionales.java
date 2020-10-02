@@ -72,7 +72,7 @@ public class RepoProfesionales extends AbstractRepository<Profesional> {
   public List<Profesional> busquedaPorNombreYApellido(final String nombre) {
     final Function1<Profesional, Boolean> _function = new Function1<Profesional, Boolean>() {
       public Boolean apply(final Profesional profesional) {
-        return Boolean.valueOf(profesional.getNombreyApellido().equals(nombre));
+        return Boolean.valueOf(profesional.getUsuario().equals(nombre));
       }
     };
     return IterableExtensions.<Profesional>toList(IterableExtensions.<Profesional>filter(this.allInstances(), _function));

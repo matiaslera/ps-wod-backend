@@ -2,16 +2,15 @@ package domain;
 
 import domain.Chat;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Transient;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.eclipse.xtend.lib.annotations.Accessors;
 import org.eclipse.xtext.xbase.lib.Pure;
 import org.uqbar.commons.model.annotations.Observable;
@@ -19,42 +18,50 @@ import repositorio.RepoChats;
 
 @Observable
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@DiscriminatorColumn(name = "TIPO_USER", discriminatorType = DiscriminatorType.STRING)
+@Table(name = "Usuario")
 @Accessors
 @SuppressWarnings("all")
-public abstract class Usuario implements Serializable {
+public class Usuario implements Serializable {
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   
-  @Column(length = 50)
-  private String usuario;
+  @Column(length = 50, name = "id_user")
+  private String uid;
   
   @Column(length = 50)
-  private String contrasenia;
+  private String nombre;
   
   @Column(length = 50)
-  private String nombreyApellido;
+  private String apellido;
+  
+  @Column(name = "correo")
+  private String email;
   
   @Column(length = 50)
   private int dni;
   
-  @Column
-  private LocalDate fechaDeNacimiento;
+  @Temporal(TemporalType.DATE)
+  private Date fechaDeNacimiento;
   
-  @Column(length = 50)
+  @Column(length = 20)
   private int telefono;
   
-  @Transient
-  private String foto;
+  @Column(length = 50)
+  private String fotoUrl;
+  
+  @Column(length = 50)
+  private String proveedor = null;
+  
+  public Usuario() {
+  }
   
   public void enviarChat(final Chat chat) {
     RepoChats.getInstance().persistirChat(chat);
   }
   
   public String toString() {
-    return ((((("id: " + this.id) + " usuario: ") + this.usuario) + " nombre: ") + this.nombreyApellido);
+    return ((((("id: " + this.uid) + " nombre: ") + this.nombre) + " apellido: ") + this.apellido);
   }
   
   @Pure
@@ -67,30 +74,39 @@ public abstract class Usuario implements Serializable {
   }
   
   @Pure
-  public String getUsuario() {
-    return this.usuario;
+  public String getUid() {
+    return this.uid;
   }
   
-  public void setUsuario(final String usuario) {
-    this.usuario = usuario;
-  }
-  
-  @Pure
-  public String getContrasenia() {
-    return this.contrasenia;
-  }
-  
-  public void setContrasenia(final String contrasenia) {
-    this.contrasenia = contrasenia;
+  public void setUid(final String uid) {
+    this.uid = uid;
   }
   
   @Pure
-  public String getNombreyApellido() {
-    return this.nombreyApellido;
+  public String getNombre() {
+    return this.nombre;
   }
   
-  public void setNombreyApellido(final String nombreyApellido) {
-    this.nombreyApellido = nombreyApellido;
+  public void setNombre(final String nombre) {
+    this.nombre = nombre;
+  }
+  
+  @Pure
+  public String getApellido() {
+    return this.apellido;
+  }
+  
+  public void setApellido(final String apellido) {
+    this.apellido = apellido;
+  }
+  
+  @Pure
+  public String getEmail() {
+    return this.email;
+  }
+  
+  public void setEmail(final String email) {
+    this.email = email;
   }
   
   @Pure
@@ -103,11 +119,11 @@ public abstract class Usuario implements Serializable {
   }
   
   @Pure
-  public LocalDate getFechaDeNacimiento() {
+  public Date getFechaDeNacimiento() {
     return this.fechaDeNacimiento;
   }
   
-  public void setFechaDeNacimiento(final LocalDate fechaDeNacimiento) {
+  public void setFechaDeNacimiento(final Date fechaDeNacimiento) {
     this.fechaDeNacimiento = fechaDeNacimiento;
   }
   
@@ -121,11 +137,20 @@ public abstract class Usuario implements Serializable {
   }
   
   @Pure
-  public String getFoto() {
-    return this.foto;
+  public String getFotoUrl() {
+    return this.fotoUrl;
   }
   
-  public void setFoto(final String foto) {
-    this.foto = foto;
+  public void setFotoUrl(final String fotoUrl) {
+    this.fotoUrl = fotoUrl;
+  }
+  
+  @Pure
+  public String getProveedor() {
+    return this.proveedor;
+  }
+  
+  public void setProveedor(final String proveedor) {
+    this.proveedor = proveedor;
   }
 }

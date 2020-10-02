@@ -8,9 +8,12 @@ import restApi.RestControllerPresupuesto
 @Controller
 class WorkOfDayApplication {
 
+	new (WorkOfDayBootstrap mock){
+	}
+	
 	def static void main(String[] args) {
-		val datos = new WorkOfDayBootstrap 
-		XTRest.startInstance(8080, new RestControllerUser(datos),
+		new WorkOfDayApplication(new WorkOfDayBootstrap) 
+		XTRest.startInstance(8080, new RestControllerUser(),
 			new RestControllerPresupuesto
 		)
 		///agreagar mas controller

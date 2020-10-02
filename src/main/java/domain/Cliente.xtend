@@ -11,15 +11,27 @@ import javax.persistence.FetchType
 import javax.persistence.OneToMany
 import javax.persistence.CascadeType
 import repositorio.RepoProfesionales
+import javax.persistence.Transient
+import javax.persistence.Id
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import java.io.Serializable
 
 @Accessors
 @Entity
 @Table(name="Cliente")
 @DiscriminatorValue("CLI")
-class Cliente extends Usuario {
+class Cliente implements Serializable {
 	
-	@Column(length=50)
-	String direccion
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Long id
+	
+	@Transient
+	Usuario usuario
+	
+	@Transient
+	Direccion direccion
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	Set<Presupuesto> demandaJob =new HashSet<Presupuesto>()

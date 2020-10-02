@@ -26,10 +26,10 @@ public class UsuarioSerializable extends StdSerializer<Usuario> {
   
   public void serialize(final Usuario value, final JsonGenerator gen, final SerializerProvider provider) throws IOException {
     gen.writeStartObject();
-    gen.writeStringField("id", value.getId().toString());
-    gen.writeStringField("usuario", value.getUsuario().toString());
-    gen.writeStringField("contrasenia", value.getContrasenia());
-    gen.writeStringField("nombreyApellido", value.getNombreyApellido());
+    gen.writeStringField("id", value.getUid().toString());
+    gen.writeStringField("usuario", value.getNombre().toString());
+    gen.writeStringField("contrasenia", value.getApellido());
+    gen.writeStringField("nombreyApellido", value.getNombre());
     gen.writeNumberField("dni", value.getDni());
     gen.writeNumberField("telefono", value.getTelefono());
     gen.writeEndObject();

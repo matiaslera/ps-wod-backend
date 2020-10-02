@@ -12,7 +12,7 @@ class JuegoDeDatos {
 	Profesional daniel
 
 	def void inicializarDatos() {
-		jose = new Cliente => [
+		/*jose = new Cliente => [
 			usuario = "josep"
 			contrasenia = "12345"
 			nombreyApellido = "Jose Gimenez"
@@ -34,6 +34,6 @@ class JuegoDeDatos {
 			titulosObtenidos = "Técnico superior"
 			experienciaLaboral = "mantenimiento en UNSAM"
 			zonaDeTrabajo = "San Martin"
-		]
+		]*/
 	}
 }

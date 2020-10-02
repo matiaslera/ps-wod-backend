@@ -37,13 +37,13 @@ public class RestControllerPresupuesto extends ResultFactory {
   @Extension
   private JSONUtils _jSONUtils = new JSONUtils();
   
-  private RepoClientes repoClientes = new RepoClientes();
+  private RepoClientes repoClientes;
   
-  private RepoProfesionales repoProfesionales = new RepoProfesionales();
+  private RepoProfesionales repoProfesionales;
   
-  private RepoPresupuestos repoPresupuesto = new RepoPresupuestos();
+  private RepoPresupuestos repoPresupuesto;
   
-  private RepoOferta repoOferta = new RepoOferta();
+  private RepoOferta repoOferta;
   
   @Get("/presupuestos")
   public Result presupuestos(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {

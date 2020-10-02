@@ -22,19 +22,19 @@ class RestControllerUser {
 	
 	extension JSONUtils = new JSONUtils
 	
-	RepoClientes repoClientes = new RepoClientes
-	RepoProfesionales repoProfesionales = new RepoProfesionales
-	RepoUsuario repoUser = new RepoUsuario()
+	RepoClientes repoClientes //= new RepoClientes
+	RepoProfesionales repoProfesionales// = new RepoProfesionales
+	RepoUsuario repoUser// = new RepoUsuario()
 	//RepoPresupuestos repoPresupuesto = new RepoPresupuestos()
 	
-	new(WorkOfDayBootstrap object) {
+	new() {
 	}
 	
 	@Get('/usuarios')
 	def Result usuarios() {
 		try {
-			val Set<Usuario> lista = repoUser.allInstances.toSet
-			ok(lista.toJson)
+	//	val Set<Usuario> lista = repoUser.allInstances.toSet
+		//	ok(lista.toJson)
 		} catch (UserException e) {
 			notFound("No existe ningun usuario")
 		}
@@ -85,11 +85,11 @@ class RestControllerUser {
 	@Post("/login")
 	def Result login(@Body String body) {
 		try {
-			println(body)
-			val loginData = body.fromJson(Cliente)
-			println(loginData.usuario)
-			val usarioLogueado = repoUser.searchUserByLogin(loginData)
-			ok(UsuarioSerializable.toJson(usarioLogueado)) 
+			//println(body)
+			//val loginData = body.fromJson(Cliente)
+			//println(loginData.apellido)
+			//val usarioLogueado = repoUser.searchUserByLogin(loginData)
+			//ok(UsuarioSerializable.toJson(usarioLogueado)) 
 		} catch (Exception e) {
 			internalServerError(e.message)
 		}

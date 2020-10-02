@@ -1,58 +1,72 @@
 package domain
 
-import java.awt.Image
-import java.time.LocalDate
+import java.util.Calendar
 import org.eclipse.xtend.lib.annotations.Accessors
 import repositorio.RepoChats
 import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.Column
 import javax.persistence.GeneratedValue
-import javax.persistence.Transient
 import org.uqbar.commons.model.annotations.Observable
 import javax.persistence.InheritanceType
 import javax.persistence.Inheritance
 import javax.persistence.DiscriminatorType
 import javax.persistence.DiscriminatorColumn
 import java.io.Serializable
+import javax.persistence.Table
+import javax.persistence.GenerationType
+import javax.persistence.Temporal
+import javax.persistence.TemporalType
+import java.util.Date
+import javax.persistence.Transient
 
 @Observable
 @Entity
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-@DiscriminatorColumn(name="TIPO_USER", discriminatorType=DiscriminatorType.STRING)
+@Table(name="Usuario")
+//@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+//@DiscriminatorColumn(name="TIPO_USER", discriminatorType=DiscriminatorType.STRING)
 @Accessors
-abstract class Usuario  implements Serializable {
-	
+class Usuario implements Serializable {
+
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id
+	
+	@Column(length=50, name="id_user")
+	String uid
 
 	@Column(length=50)
-	String usuario
-
+	String nombre
+	
 	@Column(length=50)
-	String contrasenia
-
-	@Column(length=50)
-	String nombreyApellido
-
+	String apellido
+	
+	@Column(name="correo")
+	String email
+	
 	@Column(length=50)
 	int dni
 
-	@Column
-	LocalDate fechaDeNacimiento
+	@Temporal(DATE)
+	Date fechaDeNacimiento
 
-	@Column(length=50)
+	@Column(length=20)
 	int telefono
-
-	@Transient
-	String foto
-
+	
+	@Column(length=50)
+	String fotoUrl
+	
+	@Column(length=50)
+	String proveedor =null
+	
+	new (){	
+	}
+	
 	def void enviarChat(Chat chat) {
 		RepoChats.instance.persistirChat(chat)
 	}
-	
-	override toString(){
-		"id: "+ id + " usuario: " + usuario +" nombre: " + nombreyApellido
+
+	override toString() {
+		"id: " + uid + " nombre: " + nombre  + " apellido: " + apellido
 	}
 }

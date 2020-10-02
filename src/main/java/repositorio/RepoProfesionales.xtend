@@ -42,7 +42,7 @@ class RepoProfesionales extends AbstractRepository <Profesional>{
 	}
 
 	def List<Profesional> busquedaPorNombreYApellido(String nombre) {
-		allInstances.filter(profesional|profesional.nombreyApellido.equals(nombre)).toList
+		allInstances.filter(profesional|profesional.usuario.equals(nombre)).toList
 	}
 	
 	override getEntityType() {

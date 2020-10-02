@@ -37,10 +37,10 @@ public class RepoClientes extends AbstractRepository<Cliente> {
   }
   
   public void generateWhere(final CriteriaBuilder criteria, final CriteriaQuery<Cliente> query, final Root<Cliente> camposCandidato, final Cliente user) {
-    String _usuario = user.getUsuario();
-    boolean _tripleNotEquals = (_usuario != null);
+    String _nombre = user.getUsuario().getNombre();
+    boolean _tripleNotEquals = (_nombre != null);
     if (_tripleNotEquals) {
-      query.where(criteria.equal(camposCandidato.<Object>get("id"), user.getId()));
+      query.where(criteria.equal(camposCandidato.<Object>get("id"), user.getUsuario().getUid()));
     }
   }
   

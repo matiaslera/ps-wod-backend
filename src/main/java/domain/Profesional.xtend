@@ -13,13 +13,23 @@ import javax.persistence.FetchType
 import javax.persistence.CascadeType
 import java.util.HashSet
 import java.util.Set
-
+import javax.persistence.Id
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import java.io.Serializable
 
 @Entity
 @Table(name="Profesional")
 @DiscriminatorValue("PROF")
 @Accessors
-class Profesional extends Usuario {
+class Profesional implements Serializable{
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Long id
+	
+	@Transient
+	Usuario usuario
 
 	@Column(length=50)
 	String profesion
@@ -38,7 +48,11 @@ class Profesional extends Usuario {
 		
 	@OneToMany(fetch=FetchType.EAGER,cascade =CascadeType.ALL)
 	Set<Presupuesto> trabajos =new HashSet<Presupuesto>()
-
+	
+	new (Usuario user){
+		usuario=user
+	}
+	
 	def void agregarTrabajo(Presupuesto problema) {
 		if(!trabajos.contains(problema)){
 		trabajos.add(problema)

@@ -9,11 +9,12 @@ import domain.Presupuesto
 import java.time.LocalDate
 import repositorio.RepoPresupuestos
 import repositorio.RepoClientes
+import repositorio.SingletonClientes
 
 class WorkOfDayBootstrap implements Bootstrap {
 
-	RepoClientes repoCliente = new RepoClientes()
-	RepoPresupuestos repoPresupuesto = new RepoPresupuestos()
+	/*RepoClientes repoCliente = new RepoClientes()*/
+	//RepoPresupuestos repoPresupuesto = new RepoPresupuestos()
 	
 	Usuario usuario
 	Usuario usuario1
@@ -49,87 +50,70 @@ class WorkOfDayBootstrap implements Bootstrap {
 	}
 	
 	def void startUsuario() {
-		usuario = new Cliente() => [
-			usuario = "user"
-			contrasenia = "user"
-			nombreyApellido = "Jose de San Martin"
+		usuario = new Usuario() => [
+			apellido = "user"
+			nombre = "Jose de San Martin"
 			dni = 23001144
 			telefono = 1500601478
 		]
-		usuario1 = new Cliente() => [
-			usuario = "user1"
-			contrasenia = "user1"
-			nombreyApellido = "Manuel Belgrano"
+		usuario1 = new Usuario() => [
+			apellido = "user1"
+			nombre = "Manuel Belgrano"
 			dni = 37200100
 			telefono = 1500601473
 		]
-		usuario2 = new Cliente() => [
-			usuario = "user2"
-			contrasenia = "user2"
-			nombreyApellido = "Julio A Roca"
+		usuario2 = new Usuario() => [
+			apellido = "user2"
+			nombre = "Julio A Roca"
 			dni = 25445566
 			telefono = 1500601474
 		]
-		usuario3 = new Profesional() => [
-			usuario = "user3"
-			contrasenia = "user3"
-			nombreyApellido = "Bartolome Mitre"
+		usuario3 = new Usuario() => [
+			apellido = "user3"
+			nombre = "Bartolome Mitre"
 			dni = 25778899
 			telefono = 1500601473
-			profesion="Electricidad"
 		]
-		usuario4 = new Profesional() => [
-			usuario = "user4"
-			contrasenia = "user4"
-			nombreyApellido = "Carlos Villate"
+		usuario4 = new Usuario() => [
+			apellido = "user4"
+			nombre = "Carlos Villate"
 			dni = 45447788
 			telefono = 1500601472
-			profesion="Electricidad"
 		]
-		usuario5 = new Profesional() => [
-			usuario = "user5"
-			contrasenia = "user5"
-			nombreyApellido = "Juan Rosas"
+		usuario5 = new Usuario() => [
+			apellido = "user5"
+			nombre = "Juan Rosas"
 			dni = 32996633
 			telefono = 1500601471
-			profesion="Gasista"
 		]
-		usuario6 = new Cliente() => [
-			usuario = "user6"
-			contrasenia = "user6"
-			nombreyApellido = "Ariana Grande"
+		usuario6 = new Usuario() => [
+			apellido = "user6"
+			nombre = "Ariana Grande"
 			dni = 3720011
 			telefono = 1500601445
-			
 		]
-		usuario7 = new Profesional() => [
-			usuario = "user7"
-			contrasenia = "user7"
-			nombreyApellido = "Hanna Baker"
+		usuario7 = new Usuario() => [
+			apellido = "user7"
+			nombre = "Hanna Baker"
 			dni = 37200188
 			telefono = 1500601445
-			profesion="Plomeria"
 		]
-		usuario8 = new Cliente() => [
-			usuario = "user8"
-			contrasenia = "user8"
-			nombreyApellido = "Noel steven"
+		usuario8 = new Usuario() => [
+			apellido = "user8"
+			nombre = "Noel steven"
 			dni = 37200195
 			telefono = 1500601474
 			
 		]
-		usuario9 = new Profesional() => [
-			usuario = "user9"
-			contrasenia = "user9"
-			nombreyApellido = "Bartolito Finn"
+		usuario9 = new Usuario() => [
+			apellido = "user9"
+			nombre = "Bartolito Finn"
 			dni = 37200123
 			telefono = 1500601474
-			profesion="Plomeria"
 		]
-		usuario10 = new Cliente() => [
-			usuario = "user10"
-			contrasenia = "user10"
-			nombreyApellido = "Drew jensen"
+		usuario10 = new Usuario() => [
+			apellido = "user10"
+			nombre = "Drew jensen"
 			dni = 37200185
 			telefono = 15006014
 		]
@@ -150,6 +134,11 @@ class WorkOfDayBootstrap implements Bootstrap {
 	}
 
 	def createUser(Usuario user) {
+		 
+		 SingletonClientes.instance.entityManager.transaction.begin
+		 user.toString()
+		 SingletonClientes.instance.entityManager.persist(user)
+		 SingletonClientes.instance.entityManager.transaction.commit
 //		val listaUsuarios = repoUser.searchByExample(user)
 //		if (listaUsuarios.isEmpty) {
 //			repoUser.create(user)
@@ -160,17 +149,17 @@ class WorkOfDayBootstrap implements Bootstrap {
 //			repoUser.update(user)
 //			println("Candidato usuario:" + user.id + " creado")
 //		}
-		val repoUsuarios = RepoUsuario.instance
+	/* 	val repoUsuarios = RepoUsuario.instance
 		val listaUsuarios = repoUsuarios.searchByExample(user)//2 lista cliente, profesionales
 		if (listaUsuarios.isEmpty) {
 			repoUsuarios.create(user)
-			println("Candidato user:" + user.usuario + " creado")
+			println("Candidato user:" + user.apellido + " creado")
 		} else {
 			val vueloBD = listaUsuarios.head
-			user.id = vueloBD.id
+			user.uid = vueloBD.uid
 			repoUsuarios.update(user)
-			println("Candidato usuario:" + user.id + " creado")
-		}
+			println("Candidato usuario:" + user.uid + " creado")
+		}*/
 	}
 
 	def void starPresupuesto(){
@@ -335,7 +324,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			fecha = LocalDate.of(2017, 05, 11)
 		]
 		
-		this.createPresupesto(presupuesto1)
+		/*this.createPresupesto(presupuesto1)
 		this.createPresupesto(presupuesto2)
 		this.createPresupesto(presupuesto3)
 		this.createPresupesto(presupuesto4)
@@ -348,10 +337,10 @@ class WorkOfDayBootstrap implements Bootstrap {
 		this.createPresupesto(presupuesto11)
 		this.createPresupesto(presupuesto12)
 		this.createPresupesto(finalizado01)
-		this.createPresupesto(finalizado02)
+		this.createPresupesto(finalizado02)¨*/
 	}
 
-	def createPresupesto(Presupuesto pres){
+	/*def createPresupesto(Presupuesto pres){
 		val listaUsuarios = repoPresupuesto.searchByExample(pres)
 		if (listaUsuarios.isEmpty) {
 			repoPresupuesto.create(pres)
@@ -373,11 +362,11 @@ class WorkOfDayBootstrap implements Bootstrap {
 		} else {
 			cli.addPresupuesto(pres)
 			val vueloBD = listaUsuarios.head
-			pres.id = vueloBD.id
+			//pres.id = vueloBD.uid
 			repoCliente.update(cli)
 			println("Cliente actualizado id:" + pres.id + " creado")
 		}
-	}
+	}*/
 	
 	
 	
@@ -386,7 +375,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 	}
 	
 	override run() {
-		starPresupuesto
+		//starPresupuesto
 		startUsuario
 	}
 	

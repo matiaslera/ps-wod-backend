@@ -11,7 +11,6 @@ import domain.Profesional
 
 class RepoUsuario extends AbstractRepository<Usuario> {
 	
-	
 	static RepoUsuario instance = null
 
 	 new() {
@@ -29,17 +28,17 @@ class RepoUsuario extends AbstractRepository<Usuario> {
 	}
 	
 	override generateWhere(CriteriaBuilder criteria, CriteriaQuery<Usuario> query, Root<Usuario> camposCandidato, Usuario user) {
-		if (user.usuario !== null) {
-			query.where(criteria.equal(camposCandidato.get("id"), user.id))
+		if (user.nombre !== null) {
+			query.where(criteria.equal(camposCandidato.get("id"), user.uid))
 	}
 	}
 	
 	def searchUserByLogin(Usuario login) {
-	val userALogear = allInstances.findFirst(user|user.usuario == login.usuario)
+	val userALogear = allInstances.findFirst(user|user.nombre == login.nombre)
 		if (userALogear === null) {
 			throw new Exception("No existe ningun User con ese Id, por favor intente de nuevo")
 		}
-		if (userALogear.contrasenia != login.contrasenia) {
+		if (userALogear.apellido != login.apellido) {
 			throw new Exception("Password incorrecto")
 		}
 		userALogear

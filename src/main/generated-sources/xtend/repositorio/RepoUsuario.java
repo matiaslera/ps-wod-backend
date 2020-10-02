@@ -39,10 +39,10 @@ public class RepoUsuario extends AbstractRepository<Usuario> {
   }
   
   public void generateWhere(final CriteriaBuilder criteria, final CriteriaQuery<Usuario> query, final Root<Usuario> camposCandidato, final Usuario user) {
-    String _usuario = user.getUsuario();
-    boolean _tripleNotEquals = (_usuario != null);
+    String _nombre = user.getNombre();
+    boolean _tripleNotEquals = (_nombre != null);
     if (_tripleNotEquals) {
-      query.where(criteria.equal(camposCandidato.<Object>get("id"), user.getId()));
+      query.where(criteria.equal(camposCandidato.<Object>get("id"), user.getUid()));
     }
   }
   
@@ -52,18 +52,18 @@ public class RepoUsuario extends AbstractRepository<Usuario> {
       {
         final Function1<Usuario, Boolean> _function = new Function1<Usuario, Boolean>() {
           public Boolean apply(final Usuario user) {
-            String _usuario = user.getUsuario();
-            String _usuario_1 = login.getUsuario();
-            return Boolean.valueOf(Objects.equal(_usuario, _usuario_1));
+            String _nombre = user.getNombre();
+            String _nombre_1 = login.getNombre();
+            return Boolean.valueOf(Objects.equal(_nombre, _nombre_1));
           }
         };
         final Usuario userALogear = IterableExtensions.<Usuario>findFirst(this.allInstances(), _function);
         if ((userALogear == null)) {
           throw new Exception("No existe ningun User con ese Id, por favor intente de nuevo");
         }
-        String _contrasenia = userALogear.getContrasenia();
-        String _contrasenia_1 = login.getContrasenia();
-        boolean _notEquals = (!Objects.equal(_contrasenia, _contrasenia_1));
+        String _apellido = userALogear.getApellido();
+        String _apellido_1 = login.getApellido();
+        boolean _notEquals = (!Objects.equal(_apellido, _apellido_1));
         if (_notEquals) {
           throw new Exception("Password incorrecto");
         }

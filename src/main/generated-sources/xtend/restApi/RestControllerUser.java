@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
-import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.uqbar.commons.model.exceptions.UserException;
 import org.uqbar.xtrest.api.Result;
@@ -26,8 +25,6 @@ import org.uqbar.xtrest.result.ResultFactory;
 import repositorio.RepoClientes;
 import repositorio.RepoProfesionales;
 import repositorio.RepoUsuario;
-import runnable.WorkOfDayBootstrap;
-import serializacion.UsuarioSerializable;
 
 @Controller
 @SuppressWarnings("all")
@@ -35,25 +32,20 @@ public class RestControllerUser extends ResultFactory {
   @Extension
   private JSONUtils _jSONUtils = new JSONUtils();
   
-  private RepoClientes repoClientes = new RepoClientes();
+  private RepoClientes repoClientes;
   
-  private RepoProfesionales repoProfesionales = new RepoProfesionales();
+  private RepoProfesionales repoProfesionales;
   
-  private RepoUsuario repoUser = new RepoUsuario();
+  private RepoUsuario repoUser;
   
-  public RestControllerUser(final WorkOfDayBootstrap object) {
+  public RestControllerUser() {
   }
   
   @Get("/usuarios")
   public Result usuarios(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     Result _xtrycatchfinallyexpression = null;
     try {
-      Result _xblockexpression = null;
-      {
-        final Set<Usuario> lista = IterableExtensions.<Usuario>toSet(this.repoUser.allInstances());
-        _xblockexpression = ResultFactory.ok(this._jSONUtils.toJson(lista));
-      }
-      _xtrycatchfinallyexpression = _xblockexpression;
+      _xtrycatchfinallyexpression = null;
     } catch (final Throwable _t) {
       if (_t instanceof UserException) {
         _xtrycatchfinallyexpression = ResultFactory.notFound("No existe ningun usuario");
@@ -148,15 +140,7 @@ public class RestControllerUser extends ResultFactory {
   public Result login(@Body final String body, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     Result _xtrycatchfinallyexpression = null;
     try {
-      Result _xblockexpression = null;
-      {
-        InputOutput.<String>println(body);
-        final Cliente loginData = this._jSONUtils.<Cliente>fromJson(body, Cliente.class);
-        InputOutput.<String>println(loginData.getUsuario());
-        final Usuario usarioLogueado = this.repoUser.searchUserByLogin(loginData);
-        _xblockexpression = ResultFactory.ok(UsuarioSerializable.toJson(usarioLogueado));
-      }
-      _xtrycatchfinallyexpression = _xblockexpression;
+      _xtrycatchfinallyexpression = null;
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
         final Exception e = (Exception)_t;

@@ -22,7 +22,7 @@ class RepoClientes extends AbstractRepository<Cliente> {
 		repoClientes
 	}
 
-	override getEntityType() {
+	override getTipoEntidad() {
 		Cliente
 	}
 	
@@ -33,11 +33,11 @@ class RepoClientes extends AbstractRepository<Cliente> {
 	}
 	
 	def Cliente searchById(Long id) {
-		val entityManager = entityManager
+		val entityManager = administradorEntidad
 		try {
 			val criteria = entityManager.criteriaBuilder
-			val query = criteria.createQuery(entityType)
-			val _User = query.from(entityType)
+			val query = criteria.createQuery(tipoEntidad)
+			val _User = query.from(tipoEntidad)
 			query.select(_User)
 			query.where(criteria.equal(_User.get("id"), id))
 			entityManager.createQuery(query).singleResult
@@ -51,11 +51,11 @@ class RepoClientes extends AbstractRepository<Cliente> {
 	}
 
 	def Cliente searchByIdUser(String id) {
-		val entityManager = entityManager
+		val entityManager = administradorEntidad
 		try {
 			val criteria = entityManager.criteriaBuilder
-			val query = criteria.createQuery(entityType)
-			val _User = query.from(entityType)
+			val query = criteria.createQuery(tipoEntidad)
+			val _User = query.from(tipoEntidad)
 			query.select(_User)
 			query.where(criteria.equal(_User.get("idUsuario"), id))
 			entityManager.createQuery(query).singleResult

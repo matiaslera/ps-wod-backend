@@ -135,10 +135,10 @@ class WorkOfDayBootstrap implements Bootstrap {
 
 	def createUser(Usuario user) {
 		 
-		 SingletonClientes.instance.entityManager.transaction.begin
+		/*  SingletonClientes.instance.entityManager.transaction.begin
 		 user.toString()
 		 SingletonClientes.instance.entityManager.persist(user)
-		 SingletonClientes.instance.entityManager.transaction.commit
+		 SingletonClientes.instance.entityManager.transaction.commit*/
 //		val listaUsuarios = repoUser.searchByExample(user)
 //		if (listaUsuarios.isEmpty) {
 //			repoUser.create(user)

@@ -32,7 +32,7 @@ public class RepoClientes extends AbstractRepository<Cliente> {
     return _xblockexpression;
   }
   
-  public Class<Cliente> getEntityType() {
+  public Class<Cliente> getTipoEntidad() {
     return Cliente.class;
   }
   
@@ -47,14 +47,14 @@ public class RepoClientes extends AbstractRepository<Cliente> {
   public Cliente searchById(final Long id) {
     Cliente _xblockexpression = null;
     {
-      final EntityManager entityManager = this.getEntityManager();
+      final EntityManager entityManager = this.getAdministradorEntidad();
       Cliente _xtrycatchfinallyexpression = null;
       try {
         Cliente _xblockexpression_1 = null;
         {
           final CriteriaBuilder criteria = entityManager.getCriteriaBuilder();
-          final CriteriaQuery<Cliente> query = criteria.<Cliente>createQuery(this.getEntityType());
-          final Root<Cliente> _User = query.<Cliente>from(this.getEntityType());
+          final CriteriaQuery<Cliente> query = criteria.<Cliente>createQuery(this.getTipoEntidad());
+          final Root<Cliente> _User = query.<Cliente>from(this.getTipoEntidad());
           query.select(_User);
           query.where(criteria.equal(_User.<Object>get("id"), id));
           _xblockexpression_1 = entityManager.<Cliente>createQuery(query).getSingleResult();
@@ -82,14 +82,14 @@ public class RepoClientes extends AbstractRepository<Cliente> {
   public Cliente searchByIdUser(final String id) {
     Cliente _xblockexpression = null;
     {
-      final EntityManager entityManager = this.getEntityManager();
+      final EntityManager entityManager = this.getAdministradorEntidad();
       Cliente _xtrycatchfinallyexpression = null;
       try {
         Cliente _xblockexpression_1 = null;
         {
           final CriteriaBuilder criteria = entityManager.getCriteriaBuilder();
-          final CriteriaQuery<Cliente> query = criteria.<Cliente>createQuery(this.getEntityType());
-          final Root<Cliente> _User = query.<Cliente>from(this.getEntityType());
+          final CriteriaQuery<Cliente> query = criteria.<Cliente>createQuery(this.getTipoEntidad());
+          final Root<Cliente> _User = query.<Cliente>from(this.getTipoEntidad());
           query.select(_User);
           query.where(criteria.equal(_User.<Object>get("idUsuario"), id));
           _xblockexpression_1 = entityManager.<Cliente>createQuery(query).getSingleResult();

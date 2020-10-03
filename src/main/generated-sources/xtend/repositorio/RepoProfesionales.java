@@ -4,15 +4,12 @@ import domain.Presupuesto;
 import domain.Profesional;
 import java.util.List;
 import java.util.function.Consumer;
-import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
-import org.hibernate.HibernateException;
 import repositorio.AbstractRepository;
 
 @SuppressWarnings("all")
@@ -91,72 +88,36 @@ public class RepoProfesionales extends AbstractRepository<Profesional> {
   }
   
   public Profesional searchById(final Long id) {
-    Profesional _xblockexpression = null;
-    {
-      final EntityManager entityManager = this.getEntityManager();
-      Profesional _xtrycatchfinallyexpression = null;
-      try {
-        Profesional _xblockexpression_1 = null;
-        {
-          final CriteriaBuilder criteria = entityManager.getCriteriaBuilder();
-          final CriteriaQuery<Profesional> query = criteria.<Profesional>createQuery(this.getEntityType());
-          final Root<Profesional> _User = query.<Profesional>from(this.getEntityType());
-          query.select(_User);
-          query.where(criteria.equal(_User.<Object>get("id"), id));
-          _xblockexpression_1 = entityManager.<Profesional>createQuery(query).getSingleResult();
-        }
-        _xtrycatchfinallyexpression = _xblockexpression_1;
-      } catch (final Throwable _t) {
-        if (_t instanceof HibernateException) {
-          final HibernateException e = (HibernateException)_t;
-          e.printStackTrace();
-          entityManager.getTransaction().rollback();
-          throw new RuntimeException("ERROR: La BD no tiene informacion del cliente.", e);
-        } else {
-          throw Exceptions.sneakyThrow(_t);
-        }
-      } finally {
-        if (entityManager!=null) {
-          entityManager.close();
-        }
-      }
-      _xblockexpression = _xtrycatchfinallyexpression;
-    }
-    return _xblockexpression;
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method or field entityManager is undefined"
+      + "\ncriteriaBuilder cannot be resolved"
+      + "\ncreateQuery cannot be resolved"
+      + "\nfrom cannot be resolved"
+      + "\nselect cannot be resolved"
+      + "\nwhere cannot be resolved"
+      + "\nequal cannot be resolved"
+      + "\nget cannot be resolved"
+      + "\ncreateQuery cannot be resolved"
+      + "\nsingleResult cannot be resolved"
+      + "\ntransaction cannot be resolved"
+      + "\nrollback cannot be resolved"
+      + "\nclose cannot be resolved");
   }
   
   public Profesional searchByIdUser(final String id) {
-    Profesional _xblockexpression = null;
-    {
-      final EntityManager entityManager = this.getEntityManager();
-      Profesional _xtrycatchfinallyexpression = null;
-      try {
-        Profesional _xblockexpression_1 = null;
-        {
-          final CriteriaBuilder criteria = entityManager.getCriteriaBuilder();
-          final CriteriaQuery<Profesional> query = criteria.<Profesional>createQuery(this.getEntityType());
-          final Root<Profesional> _User = query.<Profesional>from(this.getEntityType());
-          query.select(_User);
-          query.where(criteria.equal(_User.<Object>get("idUsuario"), id));
-          _xblockexpression_1 = entityManager.<Profesional>createQuery(query).getSingleResult();
-        }
-        _xtrycatchfinallyexpression = _xblockexpression_1;
-      } catch (final Throwable _t) {
-        if (_t instanceof HibernateException) {
-          final HibernateException e = (HibernateException)_t;
-          e.printStackTrace();
-          entityManager.getTransaction().rollback();
-          throw new RuntimeException("ERROR: La BD no tiene informacion del cliente.", e);
-        } else {
-          throw Exceptions.sneakyThrow(_t);
-        }
-      } finally {
-        if (entityManager!=null) {
-          entityManager.close();
-        }
-      }
-      _xblockexpression = _xtrycatchfinallyexpression;
-    }
-    return _xblockexpression;
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method or field entityManager is undefined"
+      + "\ncriteriaBuilder cannot be resolved"
+      + "\ncreateQuery cannot be resolved"
+      + "\nfrom cannot be resolved"
+      + "\nselect cannot be resolved"
+      + "\nwhere cannot be resolved"
+      + "\nequal cannot be resolved"
+      + "\nget cannot be resolved"
+      + "\ncreateQuery cannot be resolved"
+      + "\nsingleResult cannot be resolved"
+      + "\ntransaction cannot be resolved"
+      + "\nrollback cannot be resolved"
+      + "\nclose cannot be resolved");
   }
 }

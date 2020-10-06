@@ -1,16 +1,16 @@
 package serializacion
 
-import com.fasterxml.jackson.databind.ser.std.StdSerializer
+//import com.fasterxml.jackson.databind.ser.std.StdSerializer
 import domain.Usuario
 import java.time.format.DateTimeFormatter
 import java.time.LocalDate
 import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.databind.SerializerProvider
+//import com.fasterxml.jackson.databind.SerializerProvider
 import java.io.IOException
 import java.util.Set
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.module.SimpleModule
-
+//import com.fasterxml.jackson.databind.ObjectMapper
+//import com.fasterxml.jackson.databind.module.SimpleModule
+/*
 class UsuarioSerializable extends StdSerializer<Usuario> {
 
 	new(Class<Usuario> t) {
@@ -47,4 +47,4 @@ class UsuarioSerializable extends StdSerializer<Usuario> {
 		mapper.registerModule(module)
 		mapper
 	}
-}
+} */

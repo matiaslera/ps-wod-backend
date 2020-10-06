@@ -1,36 +1,30 @@
 package domain
 
-import java.util.Calendar
-import org.eclipse.xtend.lib.annotations.Accessors
-import repositorio.RepoChats
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Column
-import javax.persistence.GeneratedValue
-import org.uqbar.commons.model.annotations.Observable
-import javax.persistence.InheritanceType
-import javax.persistence.Inheritance
-import javax.persistence.DiscriminatorType
-import javax.persistence.DiscriminatorColumn
 import java.io.Serializable
-import javax.persistence.Table
+import java.time.LocalDate
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
-import javax.persistence.Temporal
-import javax.persistence.TemporalType
-import java.util.Date
-import javax.persistence.Transient
+import javax.persistence.Id
+import javax.persistence.Table
+import org.eclipse.xtend.lib.annotations.Accessors
+import org.uqbar.commons.model.annotations.Observable
+import repositorio.RepoChats
+import javax.persistence.Embeddable
 
 @Observable
-@Entity
-@Table(name="Usuario")
+//@Entity
+//@Table(name="Usuario")
 //@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 //@DiscriminatorColumn(name="TIPO_USER", discriminatorType=DiscriminatorType.STRING)
+@Embeddable
 @Accessors
 class Usuario implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	Long id
 	
 	@Column(length=50, name="id_user")
 	String uid
@@ -47,8 +41,8 @@ class Usuario implements Serializable {
 	@Column(length=50)
 	int dni
 
-	@Temporal(DATE)
-	Date fechaDeNacimiento
+	@Column
+	LocalDate fechaDeNacimiento
 
 	@Column(length=20)
 	int telefono

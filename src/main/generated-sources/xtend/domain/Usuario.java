@@ -2,30 +2,19 @@ package domain;
 
 import domain.Chat;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.Embeddable;
 import org.eclipse.xtend.lib.annotations.Accessors;
 import org.eclipse.xtext.xbase.lib.Pure;
 import org.uqbar.commons.model.annotations.Observable;
 import repositorio.RepoChats;
 
 @Observable
-@Entity
-@Table(name = "Usuario")
+@Embeddable
 @Accessors
 @SuppressWarnings("all")
 public class Usuario implements Serializable {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  
   @Column(length = 50, name = "id_user")
   private String uid;
   
@@ -41,8 +30,8 @@ public class Usuario implements Serializable {
   @Column(length = 50)
   private int dni;
   
-  @Temporal(TemporalType.DATE)
-  private Date fechaDeNacimiento;
+  @Column
+  private LocalDate fechaDeNacimiento;
   
   @Column(length = 20)
   private int telefono;
@@ -62,15 +51,6 @@ public class Usuario implements Serializable {
   
   public String toString() {
     return ((((("id: " + this.uid) + " nombre: ") + this.nombre) + " apellido: ") + this.apellido);
-  }
-  
-  @Pure
-  public Long getId() {
-    return this.id;
-  }
-  
-  public void setId(final Long id) {
-    this.id = id;
   }
   
   @Pure
@@ -119,11 +99,11 @@ public class Usuario implements Serializable {
   }
   
   @Pure
-  public Date getFechaDeNacimiento() {
+  public LocalDate getFechaDeNacimiento() {
     return this.fechaDeNacimiento;
   }
   
-  public void setFechaDeNacimiento(final Date fechaDeNacimiento) {
+  public void setFechaDeNacimiento(final LocalDate fechaDeNacimiento) {
     this.fechaDeNacimiento = fechaDeNacimiento;
   }
   

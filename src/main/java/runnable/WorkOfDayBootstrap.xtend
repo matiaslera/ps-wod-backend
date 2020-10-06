@@ -1,22 +1,20 @@
 package runnable
 
-import org.uqbar.arena.bootstrap.Bootstrap
-import domain.Cliente
-import domain.Profesional
-import domain.Usuario
-import repositorio.RepoUsuario
 import domain.Presupuesto
+import domain.Usuario
 import java.time.LocalDate
-import repositorio.RepoPresupuestos
+import org.uqbar.arena.bootstrap.Bootstrap
+import repositorio.RepoUsuario
 import repositorio.RepoClientes
-import repositorio.SingletonClientes
+import domain.Cliente
 
 class WorkOfDayBootstrap implements Bootstrap {
 
-	/*RepoClientes repoCliente = new RepoClientes()*/
+	RepoUsuario repoUser = new RepoUsuario()
+	RepoClientes repoCliente = new RepoClientes()
 	//RepoPresupuestos repoPresupuesto = new RepoPresupuestos()
 	
-	Usuario usuario
+	Usuario usuario0
 	Usuario usuario1
 	Usuario usuario2
 	Usuario usuario3
@@ -27,6 +25,9 @@ class WorkOfDayBootstrap implements Bootstrap {
 	Usuario usuario8
 	Usuario usuario9
 	Usuario usuario10
+	Cliente cliente1
+	Cliente cliente2
+	Cliente cliente3
 	
 	Presupuesto presupuesto1
 	Presupuesto presupuesto2
@@ -50,57 +51,70 @@ class WorkOfDayBootstrap implements Bootstrap {
 	}
 	
 	def void startUsuario() {
-		usuario = new Usuario() => [
-			apellido = "user"
-			nombre = "Jose de San Martin"
+		usuario0 = new Usuario() => [
+			apellido = "San Martin"
+			nombre = "Jose"
+			email= "josedesanmartin@hotmail.com"
+			fechaDeNacimiento = LocalDate.of(1994, 02, 15)
+			fotoUrl = "sin foto"
+			proveedor ="facebook"
+			uid = "sdsn22ne43q21ea"
 			dni = 23001144
 			telefono = 1500601478
 		]
 		usuario1 = new Usuario() => [
 			apellido = "user1"
 			nombre = "Manuel Belgrano"
+			email= "manuelBelgrano@hotmail.com"
 			dni = 37200100
 			telefono = 1500601473
 		]
 		usuario2 = new Usuario() => [
 			apellido = "user2"
 			nombre = "Julio A Roca"
+			email= "julioRoca@hotmail.com"
 			dni = 25445566
 			telefono = 1500601474
 		]
 		usuario3 = new Usuario() => [
 			apellido = "user3"
 			nombre = "Bartolome Mitre"
+			email= "bartoloMitre@hotmail.com"
 			dni = 25778899
 			telefono = 1500601473
 		]
 		usuario4 = new Usuario() => [
 			apellido = "user4"
 			nombre = "Carlos Villate"
+			email= "carlosVillate@hotmail.com"
 			dni = 45447788
 			telefono = 1500601472
 		]
 		usuario5 = new Usuario() => [
 			apellido = "user5"
 			nombre = "Juan Rosas"
+			email= "juanRosas@hotmail.com"
 			dni = 32996633
 			telefono = 1500601471
 		]
 		usuario6 = new Usuario() => [
 			apellido = "user6"
 			nombre = "Ariana Grande"
+			email= "arianaGrande@hotmail.com"
 			dni = 3720011
 			telefono = 1500601445
 		]
 		usuario7 = new Usuario() => [
 			apellido = "user7"
 			nombre = "Hanna Baker"
+			email= "hannaBaker@hotmail.com"
 			dni = 37200188
 			telefono = 1500601445
 		]
 		usuario8 = new Usuario() => [
 			apellido = "user8"
 			nombre = "Noel steven"
+			email= "noelSteven@hotmail.com"
 			dni = 37200195
 			telefono = 1500601474
 			
@@ -108,60 +122,69 @@ class WorkOfDayBootstrap implements Bootstrap {
 		usuario9 = new Usuario() => [
 			apellido = "user9"
 			nombre = "Bartolito Finn"
+			email= "bartolitoFin@hotmail.com"
 			dni = 37200123
 			telefono = 1500601474
 		]
 		usuario10 = new Usuario() => [
 			apellido = "user10"
 			nombre = "Drew jensen"
+			email= "drewJensen@hotmail.com"
 			dni = 37200185
 			telefono = 15006014
 		]
-		
-		
-		this.createUser(usuario)
-		this.createUser(usuario1)
-		this.createUser(usuario2)
-		this.createUser(usuario3)
-		this.createUser(usuario4)
-		this.createUser(usuario5)
-		this.createUser(usuario6)
-		this.createUser(usuario7)
-		this.createUser(usuario8)
-		this.createUser(usuario9)
-		this.createUser(usuario10)
+		cliente1 =new Cliente()=>[
+			usuario=usuario1
+		]
+		cliente2 =new Cliente()=>[
+			usuario=usuario2
+		]
+		cliente3 =new Cliente()=>[
+			usuario=usuario3
+		]
+//		this.createUser(usuario)
+//		this.createUser(usuario1)
+//		this.createUser(usuario2)
+//		this.createUser(usuario3)
+//		this.createUser(usuario4)
+//		this.createUser(usuario5)
+//		this.createUser(usuario6)
+//		this.createUser(usuario7)
+//		this.createUser(usuario8)
+//		this.createUser(usuario9)
+//		this.createUser(usuario10)
+		this.createCliente(cliente1)
+		this.createCliente(cliente2)
+		this.createCliente(cliente3)
 		//this.updateUser(finalizado01,usuario1)
 	}
 
 	def createUser(Usuario user) {
-		 
-		/*  SingletonClientes.instance.entityManager.transaction.begin
-		 user.toString()
-		 SingletonClientes.instance.entityManager.persist(user)
-		 SingletonClientes.instance.entityManager.transaction.commit*/
-//		val listaUsuarios = repoUser.searchByExample(user)
-//		if (listaUsuarios.isEmpty) {
-//			repoUser.create(user)
-//			println("Candidato user:" + user.usuario + " creado")
-//		} else {
-//			val vueloBD = listaUsuarios.head
-//			user.id = vueloBD.id
-//			repoUser.update(user)
-//			println("Candidato usuario:" + user.id + " creado")
-//		}
-	/* 	val repoUsuarios = RepoUsuario.instance
-		val listaUsuarios = repoUsuarios.searchByExample(user)//2 lista cliente, profesionales
-		if (listaUsuarios.isEmpty) {
-			repoUsuarios.create(user)
-			println("Candidato user:" + user.apellido + " creado")
+		val list = repoUser.searchByExample(user)
+		if (list.isEmpty() ) {
+			repoUser.create(user)
+			println("Usuario:" + user.nombre + " creado")
 		} else {
-			val vueloBD = listaUsuarios.head
-			user.uid = vueloBD.uid
-			repoUsuarios.update(user)
-			println("Candidato usuario:" + user.uid + " creado")
-		}*/
+			val vueloBD = list.head
+//			user.id = vueloBD.id
+			repoUser.update(user)
+//			println("Usuario:" + user.id + " actualizado")
+		}
 	}
-
+	
+	def createCliente(Cliente user) {
+		val list = repoCliente.searchByExample(user)
+		if (list.isEmpty() ) {
+			repoCliente.create(user)
+			println("Cliente:" + user.usuario.email + " creado")
+		} else {
+			val vueloBD = list.head
+			user.id = vueloBD.id
+			repoCliente.update(user)
+			println("Cliente:" + user.usuario.email + " actualizado")
+		}
+	}
+	
 	def void starPresupuesto(){
 		presupuesto1 = new Presupuesto => [
 			especialidad = "Electricidad"

@@ -14,10 +14,10 @@ import java.util.HashSet
 import java.util.Set
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+//import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
+//import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.format.DateTimeFormatter
@@ -63,8 +63,8 @@ class Presupuesto {
 	
 	//@JsonFormat(pattern = "YYYY-MM-dd")
 	@Column
-	@JsonSerialize(using=LocalDateSerializer)
-	@JsonDeserialize(using=LocalDateDeserializer)
+	//@JsonSerialize(using=LocalDateSerializer)
+	//@JsonDeserialize(using=LocalDateDeserializer)
 	@JsonFormat(pattern="yyyy-MM-dd")
 	LocalDate fecha
 	

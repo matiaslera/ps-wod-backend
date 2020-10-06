@@ -1,21 +1,20 @@
 package domain
 
-import org.eclipse.xtend.lib.annotations.Accessors
-import javax.persistence.Entity
-import javax.persistence.Column
-import javax.persistence.Table
-import javax.persistence.DiscriminatorValue
-import java.util.Set
+import java.io.Serializable
 import java.util.HashSet
+import java.util.Set
+import javax.persistence.DiscriminatorValue
+import javax.persistence.Embedded
+import javax.persistence.Entity
 import javax.persistence.FetchType
-import javax.persistence.OneToMany
-import javax.persistence.CascadeType
-import repositorio.RepoProfesionales
-import javax.persistence.Transient
-import javax.persistence.Id
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
-import java.io.Serializable
+import javax.persistence.Id
+import javax.persistence.OneToMany
+import javax.persistence.Table
+import javax.persistence.Transient
+import org.eclipse.xtend.lib.annotations.Accessors
+import repositorio.RepoProfesionales
 
 @Accessors
 @Entity
@@ -27,29 +26,28 @@ class Cliente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id
 	
-	@Transient
+	@Embedded
 	Usuario usuario
 	
 	@Transient
 	Direccion direccion
 	
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	Set<Presupuesto> demandaJob =new HashSet<Presupuesto>()
-	
+//	@OneToMany(fetch=FetchType.EAGER)
+	@Transient
+	Set<Presupuesto> ofertasJob =new HashSet<Presupuesto>()
 	
 	def void addPresupuesto(Presupuesto presupuesto){
-		demandaJob.add(presupuesto)
+		ofertasJob.add(presupuesto)
 	}
 	
 	def void removePresupuesto(Presupuesto presupuesto){
-		demandaJob.remove(presupuesto)
+		ofertasJob.remove(presupuesto)
 	}
 	
 	def Presupuesto encontrarPresupuesto(Presupuesto presupuesto){
-		return demandaJob.filter[pre|pre.equals(presupuesto)].head
+		return ofertasJob.filter[pre|pre.equals(presupuesto)].head
 	}
 	
-
 	def void enviarNotificacionPresupuesto(Presupuesto problema) {
 		RepoProfesionales.instance.enviarNotificacionDePresupuesto(problema)
 	}

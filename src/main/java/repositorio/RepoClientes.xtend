@@ -70,18 +70,18 @@ class RepoClientes extends AbstractRepository<Cliente> {
 	
 	def trabajosPendiente(Long id){
 		val user=searchById(id)
-		return user.demandaJob.filter[job|job.contratado==true && job.realizado==false].toSet
+		return user.ofertasJob.filter[job|job.contratado==true && job.realizado==false].toSet
 	}
 	
 	def trabajosFinalizado(Long id){
 		val user=searchById(id)
 		println(user.toString)
-		return user.demandaJob.filter[job|job.contratado==true && job.realizado==true].toSet
+		return user.ofertasJob.filter[job|job.contratado==true && job.realizado==true].toSet
 	}
 	
 	def consultasRealizadas(Long id){
 		val user=searchById(id)
-		return user.demandaJob.filter[job|job.contratado==false && job.realizado==false].toSet
+		return user.ofertasJob.filter[job|job.contratado==false && job.realizado==false].toSet
 	}
 }
 

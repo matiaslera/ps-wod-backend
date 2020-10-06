@@ -28,7 +28,7 @@ class RepoPresupuestos extends AbstractRepository<Presupuesto> {
 		(trabajosRealizados.filter[p|p.especialidad.equals(especialidad)]).toList
 	}
 	
-	override getEntityType() {
+	override getTipoEntidad() {
 		Presupuesto
 	}
 	
@@ -57,11 +57,11 @@ class RepoPresupuestos extends AbstractRepository<Presupuesto> {
 	}
 	
 	def Presupuesto searchById(Long id) {
-		val entityManager = entityManager
+		val entityManager = this.administradorEntidad
 		try {
 			val criteria = entityManager.criteriaBuilder
-			val query = criteria.createQuery(entityType)
-			val _User = query.from(entityType)
+			val query = criteria.createQuery(tipoEntidad)
+			val _User = query.from(tipoEntidad)
 			//val camposZona = query.from(entityType)
 			//camposZona.fetch("ofertas")
 			query.select(_User)
@@ -77,11 +77,11 @@ class RepoPresupuestos extends AbstractRepository<Presupuesto> {
 	}
 
 	def Presupuesto searchByIdUser(String id) {
-		val entityManager = entityManager
+		val entityManager = this.administradorEntidad
 		try {
 			val criteria = entityManager.criteriaBuilder
-			val query = criteria.createQuery(entityType)
-			val _User = query.from(entityType)
+			val query = criteria.createQuery(tipoEntidad)
+			val _User = query.from(tipoEntidad)
 			query.select(_User)
 			query.where(criteria.equal(_User.get("idUsuario"), id))
 			entityManager.createQuery(query).singleResult

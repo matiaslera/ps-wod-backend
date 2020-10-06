@@ -1,21 +1,17 @@
 package repositorio;
 
-import com.google.common.base.Objects;
-import domain.Cliente;
-import domain.Profesional;
 import domain.Usuario;
-import java.util.Set;
+import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.eclipse.xtext.xbase.lib.Exceptions;
-import org.eclipse.xtext.xbase.lib.Functions.Function1;
-import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.hibernate.HibernateException;
 import repositorio.AbstractRepository;
 
 @SuppressWarnings("all")
 public class RepoUsuario extends AbstractRepository<Usuario> {
-  private static RepoUsuario instance = null;
+  private static RepoUsuario instance;
   
   public RepoUsuario() {
   }
@@ -32,86 +28,85 @@ public class RepoUsuario extends AbstractRepository<Usuario> {
     return _xblockexpression;
   }
   
-  public Class<Usuario> getEntityType() {
+  public Class<Usuario> getTipoEntidad() {
     return Usuario.class;
   }
   
-  public void generateWhere(final CriteriaBuilder criteria, final CriteriaQuery<Usuario> query, final Root<Usuario> camposCandidato, final Usuario user) {
-    String _nombre = user.getNombre();
-    boolean _tripleNotEquals = (_nombre != null);
+  public void generateWhere(final CriteriaBuilder criterio, final CriteriaQuery<Usuario> consulta, final Root<Usuario> camposCandidato, final Usuario user) {
+    String _email = user.getEmail();
+    boolean _tripleNotEquals = (_email != null);
     if (_tripleNotEquals) {
-      query.where(criteria.equal(camposCandidato.<Object>get("id"), user.getUid()));
-    }
-  }
-  
-  public Usuario searchUserByLogin(final Usuario login) {
-    try {
-      Usuario _xblockexpression = null;
-      {
-        final Function1<Usuario, Boolean> _function = new Function1<Usuario, Boolean>() {
-          public Boolean apply(final Usuario user) {
-            String _nombre = user.getNombre();
-            String _nombre_1 = login.getNombre();
-            return Boolean.valueOf(Objects.equal(_nombre, _nombre_1));
-          }
-        };
-        final Usuario userALogear = IterableExtensions.<Usuario>findFirst(this.allInstances(), _function);
-        if ((userALogear == null)) {
-          throw new Exception("No existe ningun User con ese Id, por favor intente de nuevo");
-        }
-        String _apellido = userALogear.getApellido();
-        String _apellido_1 = login.getApellido();
-        boolean _notEquals = (!Objects.equal(_apellido, _apellido_1));
-        if (_notEquals) {
-          throw new Exception("Password incorrecto");
-        }
-        _xblockexpression = userALogear;
-      }
-      return _xblockexpression;
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
+      consulta.where(criterio.equal(camposCandidato.<Object>get("email"), user.getEmail()));
     }
   }
   
   public Usuario searchById(final Long id) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field entityManager is undefined"
-      + "\ncriteriaBuilder cannot be resolved"
-      + "\ncreateQuery cannot be resolved"
-      + "\nfrom cannot be resolved"
-      + "\nselect cannot be resolved"
-      + "\nwhere cannot be resolved"
-      + "\nequal cannot be resolved"
-      + "\nget cannot be resolved"
-      + "\ncreateQuery cannot be resolved"
-      + "\nsingleResult cannot be resolved"
-      + "\ntransaction cannot be resolved"
-      + "\nrollback cannot be resolved"
-      + "\nclose cannot be resolved");
+    Usuario _xblockexpression = null;
+    {
+      final EntityManager entityManager = this.getAdministradorEntidad();
+      Usuario _xtrycatchfinallyexpression = null;
+      try {
+        Usuario _xblockexpression_1 = null;
+        {
+          final CriteriaBuilder criteria = entityManager.getCriteriaBuilder();
+          final CriteriaQuery<Usuario> query = criteria.<Usuario>createQuery(this.getTipoEntidad());
+          final Root<Usuario> _User = query.<Usuario>from(this.getTipoEntidad());
+          query.select(_User);
+          query.where(criteria.equal(_User.<Object>get("id"), id));
+          _xblockexpression_1 = entityManager.<Usuario>createQuery(query).getSingleResult();
+        }
+        _xtrycatchfinallyexpression = _xblockexpression_1;
+      } catch (final Throwable _t) {
+        if (_t instanceof HibernateException) {
+          final HibernateException e = (HibernateException)_t;
+          e.printStackTrace();
+          entityManager.getTransaction().rollback();
+          throw new RuntimeException("ERROR: La BD no tiene informacion del user.", e);
+        } else {
+          throw Exceptions.sneakyThrow(_t);
+        }
+      } finally {
+        if (entityManager!=null) {
+          entityManager.close();
+        }
+      }
+      _xblockexpression = _xtrycatchfinallyexpression;
+    }
+    return _xblockexpression;
   }
   
   public Usuario searchByIdUser(final String id) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field entityManager is undefined"
-      + "\ncriteriaBuilder cannot be resolved"
-      + "\ncreateQuery cannot be resolved"
-      + "\nfrom cannot be resolved"
-      + "\nselect cannot be resolved"
-      + "\nwhere cannot be resolved"
-      + "\nequal cannot be resolved"
-      + "\nget cannot be resolved"
-      + "\ncreateQuery cannot be resolved"
-      + "\nsingleResult cannot be resolved"
-      + "\ntransaction cannot be resolved"
-      + "\nrollback cannot be resolved"
-      + "\nclose cannot be resolved");
-  }
-  
-  public Set<Cliente> getClientes() {
-    return null;
-  }
-  
-  public Set<Profesional> getProfesional() {
-    return null;
+    Usuario _xblockexpression = null;
+    {
+      final EntityManager entityManager = this.getAdministradorEntidad();
+      Usuario _xtrycatchfinallyexpression = null;
+      try {
+        Usuario _xblockexpression_1 = null;
+        {
+          final CriteriaBuilder criteria = entityManager.getCriteriaBuilder();
+          final CriteriaQuery<Usuario> query = criteria.<Usuario>createQuery(this.getTipoEntidad());
+          final Root<Usuario> _User = query.<Usuario>from(this.getTipoEntidad());
+          query.select(_User);
+          query.where(criteria.equal(_User.<Object>get("idUsuario"), id));
+          _xblockexpression_1 = entityManager.<Usuario>createQuery(query).getSingleResult();
+        }
+        _xtrycatchfinallyexpression = _xblockexpression_1;
+      } catch (final Throwable _t) {
+        if (_t instanceof HibernateException) {
+          final HibernateException e = (HibernateException)_t;
+          e.printStackTrace();
+          entityManager.getTransaction().rollback();
+          throw new RuntimeException("ERROR: La BD no tiene informacion del user.", e);
+        } else {
+          throw Exceptions.sneakyThrow(_t);
+        }
+      } finally {
+        if (entityManager!=null) {
+          entityManager.close();
+        }
+      }
+      _xblockexpression = _xtrycatchfinallyexpression;
+    }
+    return _xblockexpression;
   }
 }

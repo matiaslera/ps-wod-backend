@@ -6,7 +6,7 @@ import org.hibernate.HibernateException
 import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Root
 
-class RepoOferta  extends AbstractRepository<Oferta> {
+class RepoOferta extends AbstractRepository<Oferta> {
 
 	static RepoClientes instances
 
@@ -17,16 +17,16 @@ class RepoOferta  extends AbstractRepository<Oferta> {
 		instances
 	}
 
-	override getEntityType() {
+	override getTipoEntidad() {
 		Oferta
 	}
 	
 	def Oferta searchById(Long id) {
-		val entityManager = entityManager
+		val entityManager = this.administradorEntidad
 		try {
 			val criteria = entityManager.criteriaBuilder
-			val query = criteria.createQuery(entityType)
-			val _User = query.from(entityType)
+			val query = criteria.createQuery(tipoEntidad)
+			val _User = query.from(tipoEntidad)
 			query.select(_User)
 			query.where(criteria.equal(_User.get("id"), id))
 			entityManager.createQuery(query).singleResult
@@ -40,11 +40,11 @@ class RepoOferta  extends AbstractRepository<Oferta> {
 	}
 
 	def Oferta searchByIdUser(String id) {
-		val entityManager = entityManager
+		val entityManager =  this.administradorEntidad
 		try {
 			val criteria = entityManager.criteriaBuilder
-			val query = criteria.createQuery(entityType)
-			val _User = query.from(entityType)
+			val query = criteria.createQuery(tipoEntidad)
+			val _User = query.from(tipoEntidad)
 			query.select(_User)
 			query.where(criteria.equal(_User.get("idUsuario"), id))
 			entityManager.createQuery(query).singleResult

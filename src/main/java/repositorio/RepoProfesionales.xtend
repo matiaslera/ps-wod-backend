@@ -45,7 +45,7 @@ class RepoProfesionales extends AbstractRepository <Profesional>{
 		allInstances.filter(profesional|profesional.usuario.equals(nombre)).toList
 	}
 	
-	override getEntityType() {
+	override getTipoEntidad() {
 		Profesional
 	}
 	
@@ -56,11 +56,11 @@ class RepoProfesionales extends AbstractRepository <Profesional>{
 	}
 	
 	def Profesional searchById(Long id) {
-		val entityManager = entityManager
+		val entityManager = this.administradorEntidad
 		try {
 			val criteria = entityManager.criteriaBuilder
-			val query = criteria.createQuery(entityType)
-			val _User = query.from(entityType)
+			val query = criteria.createQuery(tipoEntidad)
+			val _User = query.from(tipoEntidad)
 			//val camposZona = query.from(entityType)
 			//camposZona.fetch("ofertasJob")
 			query.select(_User)
@@ -76,11 +76,11 @@ class RepoProfesionales extends AbstractRepository <Profesional>{
 	}
 
 	def Profesional searchByIdUser(String id) {
-		val entityManager = entityManager
+		val entityManager = this.administradorEntidad
 		try {
 			val criteria = entityManager.criteriaBuilder
-			val query = criteria.createQuery(entityType)
-			val _User = query.from(entityType)
+			val query = criteria.createQuery(tipoEntidad)
+			val _User = query.from(tipoEntidad)
 			query.select(_User)
 			query.where(criteria.equal(_User.get("idUsuario"), id))
 			entityManager.createQuery(query).singleResult

@@ -15,31 +15,78 @@ import repositorio.RepoProfesionales
 import org.uqbar.xtrest.api.annotation.Body
 import org.uqbar.xtrest.api.annotation.Post
 import repositorio.RepoUsuario
-import serializacion.UsuarioSerializable
+//import serializacion.UsuarioSerializable
+import org.uqbar.xtrest.api.annotation.Delete
+import org.uqbar.xtrest.api.annotation.Put
 
 @Controller
 class RestControllerUser {
 	
 	extension JSONUtils = new JSONUtils
 	
-	RepoClientes repoClientes //= new RepoClientes
-	RepoProfesionales repoProfesionales// = new RepoProfesionales
-	RepoUsuario repoUser// = new RepoUsuario()
-	//RepoPresupuestos repoPresupuesto = new RepoPresupuestos()
+	RepoClientes repoClientes = new RepoClientes()
+	RepoProfesionales repoProfesionales = new RepoProfesionales()
+	RepoUsuario repoUser = new RepoUsuario()
 	
-	new() {
-	}
+	new() {}
 	
-	@Get('/usuarios')
+	@Get('/get_usuarios')
 	def Result usuarios() {
 		try {
-	//	val Set<Usuario> lista = repoUser.allInstances.toSet
-		//	ok(lista.toJson)
+		val Set<Usuario> lista = repoUser.allInstances.toSet
+	  		ok(lista.toJson)
 		} catch (UserException e) {
 			notFound("No existe ningun usuario")
 		}
 	}
+	@Get('/getId_usuario/:id')
+	def Result usuariosId() {
+		try {
+		val Usuario usuario = repoUser.searchById(Long.valueOf(id))
+	  		ok(usuario.toJson)
+		} catch (UserException e) {
+			notFound("No existe ningun usuario")
+		}
+	}
+	@Get('/getId/:id')
+	def Result userId() {
+		try {
+		val Usuario usuario = repoUser.getId(Long.valueOf(id))
+	  		ok(usuario.toJson)
+		} catch (UserException e) {
+			notFound("No existe ningun usuario")
+		}
+	}
+	@Put('/update_usuario')
+	def Result updateUsuarios(@Body String body) {
+		createUpdateUser(actualizarUser, body,"no se puede actualizar el usuario")
+	}
+	@Post('/create_usuario')
+	def Result createUsuarios(@Body String body) {
+		createUpdateUser(crearUser, body,"no se puede crear el usuario")
+	}
+	@Delete('/delete_usuario/:id')
+	def Result eliminarUsuario(@Body String body) {
+		try {
+		val user = repoUser.searchById(Long.valueOf(id))
+		repoUser.delete(user)
+		println("usuario eliminado"+user.toString())
+	  	ok('{ "status" : "OK" }')
+		} catch (UserException e) {
+			notFound("No se puede eliminar ningun usuario")
+		}
+	}
+	@Get('/getId/:id')
+	def Result clienteId() {
+		try {
+		val Cliente usuario = repoClientes.getId(Long.valueOf(id))
+	  		ok(usuario.toJson)
+		} catch (UserException e) {
+			notFound("No existe ningun cliente")
+		}
+	}
 	
+	/* 
 	@Get('/clientes')
 	def Result clientes() {
 		try {
@@ -104,7 +151,31 @@ class RestControllerUser {
 			internalServerError(e.message)
 		}
 	}
-	
-	
+		def abandonarEquipo() {
+		[Usuario equipo, SuperIndividuo individuo|equipo.eliminarUnIntegrante(individuo)]
+	}
+	*/ 
+
+	def actualizarUser() {
+		[Usuario user|repoUser.update(user)]
+	}
+
+	def crearUser() {
+		[Usuario user|repoUser.create(user)]
+	}
+
+	def createUpdateUser((Usuario)=>void aBlock, String body,String error) {
+		try {
+			val user = body.fromJson(Usuario)
+			aBlock.apply(user)
+			ok('{ "status" : "OK" }'
+			);
+		} catch (Exception e) {
+			internalServerError(e.message)
+			notFound(error)
+		}
+	}
 	
 }
+
+	

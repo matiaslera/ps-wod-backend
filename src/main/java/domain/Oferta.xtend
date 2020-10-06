@@ -6,8 +6,8 @@ import javax.persistence.Id
 import javax.persistence.GeneratedValue
 import javax.persistence.Column
 import java.time.LocalDate
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+//import com.fasterxml.jackson.databind.annotation.JsonSerialize
+//import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
 import com.fasterxml.jackson.annotation.JsonFormat
@@ -33,8 +33,8 @@ class Oferta {
 	String especialidad
 	
 	@Column(length=250)
-	@JsonSerialize(using=LocalDateSerializer)
-	@JsonDeserialize(using=LocalDateDeserializer)
+	//@JsonSerialize(using=LocalDateSerializer)
+	//@JsonDeserialize(using=LocalDateDeserializer)
 	@JsonFormat(pattern="yyyy-MM-dd")
 	LocalDate fechaCreacion
 	

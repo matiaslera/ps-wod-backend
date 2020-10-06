@@ -2,10 +2,6 @@ package domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import domain.Oferta;
 import java.time.LocalDate;
 import java.util.Set;
@@ -57,8 +53,6 @@ public class Presupuesto {
   private boolean contratado = false;
   
   @Column
-  @JsonSerialize(using = LocalDateSerializer.class)
-  @JsonDeserialize(using = LocalDateDeserializer.class)
   @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate fecha;
   

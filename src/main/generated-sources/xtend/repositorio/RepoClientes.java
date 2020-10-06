@@ -121,7 +121,7 @@ public class RepoClientes extends AbstractRepository<Cliente> {
         return Boolean.valueOf(((job.isContratado() == true) && (job.isRealizado() == false)));
       }
     };
-    return IterableExtensions.<Presupuesto>toSet(IterableExtensions.<Presupuesto>filter(user.getDemandaJob(), _function));
+    return IterableExtensions.<Presupuesto>toSet(IterableExtensions.<Presupuesto>filter(user.getOfertasJob(), _function));
   }
   
   public Set<Presupuesto> trabajosFinalizado(final Long id) {
@@ -132,7 +132,7 @@ public class RepoClientes extends AbstractRepository<Cliente> {
         return Boolean.valueOf(((job.isContratado() == true) && (job.isRealizado() == true)));
       }
     };
-    return IterableExtensions.<Presupuesto>toSet(IterableExtensions.<Presupuesto>filter(user.getDemandaJob(), _function));
+    return IterableExtensions.<Presupuesto>toSet(IterableExtensions.<Presupuesto>filter(user.getOfertasJob(), _function));
   }
   
   public Set<Presupuesto> consultasRealizadas(final Long id) {
@@ -142,6 +142,6 @@ public class RepoClientes extends AbstractRepository<Cliente> {
         return Boolean.valueOf(((job.isContratado() == false) && (job.isRealizado() == false)));
       }
     };
-    return IterableExtensions.<Presupuesto>toSet(IterableExtensions.<Presupuesto>filter(user.getDemandaJob(), _function));
+    return IterableExtensions.<Presupuesto>toSet(IterableExtensions.<Presupuesto>filter(user.getOfertasJob(), _function));
   }
 }

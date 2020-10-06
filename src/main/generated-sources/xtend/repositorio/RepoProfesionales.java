@@ -83,10 +83,10 @@ public class RepoProfesionales extends AbstractRepository<Profesional> {
   }
   
   public void generateWhere(final CriteriaBuilder criteria, final CriteriaQuery<Profesional> query, final Root<Profesional> camposCandidato, final Profesional user) {
-    Long _id = user.getId();
-    boolean _tripleNotEquals = (_id != null);
+    String _nombre = user.getUsuario().getNombre();
+    boolean _tripleNotEquals = (_nombre != null);
     if (_tripleNotEquals) {
-      query.where(criteria.equal(camposCandidato.<Object>get("id"), user.getId()));
+      query.where(criteria.equal(camposCandidato.<Object>get("id"), user.getUsuario().getUid()));
     }
   }
   

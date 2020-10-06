@@ -7,11 +7,14 @@ import org.uqbar.arena.bootstrap.Bootstrap
 import repositorio.RepoUsuario
 import repositorio.RepoClientes
 import domain.Cliente
+import repositorio.RepoProfesionales
+import domain.Profesional
 
 class WorkOfDayBootstrap implements Bootstrap {
 
 	RepoUsuario repoUser = new RepoUsuario()
 	RepoClientes repoCliente = new RepoClientes()
+	RepoProfesionales repoProfesional = new RepoProfesionales()
 	//RepoPresupuestos repoPresupuesto = new RepoPresupuestos()
 	
 	Usuario usuario0
@@ -28,6 +31,9 @@ class WorkOfDayBootstrap implements Bootstrap {
 	Cliente cliente1
 	Cliente cliente2
 	Cliente cliente3
+	Profesional profesional1
+	Profesional profesional2
+	Profesional profesional3
 	
 	Presupuesto presupuesto1
 	Presupuesto presupuesto2
@@ -66,6 +72,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			apellido = "user1"
 			nombre = "Manuel Belgrano"
 			email= "manuelBelgrano@hotmail.com"
+			fechaDeNacimiento = LocalDate.of(1995, 02, 15)
 			dni = 37200100
 			telefono = 1500601473
 		]
@@ -73,6 +80,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			apellido = "user2"
 			nombre = "Julio A Roca"
 			email= "julioRoca@hotmail.com"
+			fechaDeNacimiento = LocalDate.of(1994, 02, 15)
 			dni = 25445566
 			telefono = 1500601474
 		]
@@ -80,6 +88,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			apellido = "user3"
 			nombre = "Bartolome Mitre"
 			email= "bartoloMitre@hotmail.com"
+			fechaDeNacimiento = LocalDate.of(1993, 02, 15)
 			dni = 25778899
 			telefono = 1500601473
 		]
@@ -87,6 +96,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			apellido = "user4"
 			nombre = "Carlos Villate"
 			email= "carlosVillate@hotmail.com"
+			fechaDeNacimiento = LocalDate.of(1992, 02, 15)
 			dni = 45447788
 			telefono = 1500601472
 		]
@@ -94,6 +104,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			apellido = "user5"
 			nombre = "Juan Rosas"
 			email= "juanRosas@hotmail.com"
+			fechaDeNacimiento = LocalDate.of(1991, 02, 15)
 			dni = 32996633
 			telefono = 1500601471
 		]
@@ -101,6 +112,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			apellido = "user6"
 			nombre = "Ariana Grande"
 			email= "arianaGrande@hotmail.com"
+			fechaDeNacimiento = LocalDate.of(1990, 02, 15)
 			dni = 3720011
 			telefono = 1500601445
 		]
@@ -142,6 +154,15 @@ class WorkOfDayBootstrap implements Bootstrap {
 		cliente3 =new Cliente()=>[
 			usuario=usuario3
 		]
+		profesional1 = new Profesional()=>[
+			usuario=usuario4
+		]
+		profesional2 = new Profesional()=>[
+			usuario=usuario5
+		]
+		profesional3 = new Profesional()=>[
+			usuario=usuario6
+		]
 //		this.createUser(usuario)
 //		this.createUser(usuario1)
 //		this.createUser(usuario2)
@@ -156,6 +177,9 @@ class WorkOfDayBootstrap implements Bootstrap {
 		this.createCliente(cliente1)
 		this.createCliente(cliente2)
 		this.createCliente(cliente3)
+		this.createProfesional(profesional1)
+		this.createProfesional(profesional2)
+		this.createProfesional(profesional3)
 		//this.updateUser(finalizado01,usuario1)
 	}
 
@@ -182,6 +206,20 @@ class WorkOfDayBootstrap implements Bootstrap {
 			user.id = vueloBD.id
 			repoCliente.update(user)
 			println("Cliente:" + user.usuario.email + " actualizado")
+		}
+	}
+	
+	def createProfesional(Profesional user) {
+		val list = repoProfesional.searchByExample(user)
+		//val prof = repoProfesional.getId(user.id)
+		if (list.isEmpty() ) {
+			repoProfesional.create(user)
+			println("Profesional:" + user.usuario.email + " creado")
+		} else {
+			val vueloBD = list.head
+			user.id = vueloBD.id
+			repoProfesional.update(user)
+			println("Profesional:" + user.usuario.email + " actualizado")
 		}
 	}
 	

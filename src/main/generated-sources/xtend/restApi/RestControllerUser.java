@@ -1,6 +1,7 @@
 package restApi;
 
 import domain.Cliente;
+import domain.Profesional;
 import domain.Usuario;
 import java.io.IOException;
 import java.util.Set;
@@ -138,13 +139,73 @@ public class RestControllerUser extends ResultFactory {
     return _xtrycatchfinallyexpression;
   }
   
-  @Get("/getId/:id")
+  @Get("/get_cli")
+  public Result clientes(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    Result _xtrycatchfinallyexpression = null;
+    try {
+      Result _xblockexpression = null;
+      {
+        final Set<Cliente> lista = IterableExtensions.<Cliente>toSet(this.repoClientes.allInstances());
+        _xblockexpression = ResultFactory.ok(this._jSONUtils.toJson(lista));
+      }
+      _xtrycatchfinallyexpression = _xblockexpression;
+    } catch (final Throwable _t) {
+      if (_t instanceof UserException) {
+        _xtrycatchfinallyexpression = ResultFactory.notFound("No existe ningun usuario");
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    return _xtrycatchfinallyexpression;
+  }
+  
+  @Get("/getId_cli/:id")
   public Result clienteId(final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     Result _xtrycatchfinallyexpression = null;
     try {
       Result _xblockexpression = null;
       {
         final Cliente usuario = this.repoClientes.getId(Long.valueOf(id));
+        _xblockexpression = ResultFactory.ok(this._jSONUtils.toJson(usuario));
+      }
+      _xtrycatchfinallyexpression = _xblockexpression;
+    } catch (final Throwable _t) {
+      if (_t instanceof UserException) {
+        _xtrycatchfinallyexpression = ResultFactory.notFound("No existe ningun cliente");
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    return _xtrycatchfinallyexpression;
+  }
+  
+  @Get("/get_pros")
+  public Result profesionales(final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    Result _xtrycatchfinallyexpression = null;
+    try {
+      Result _xblockexpression = null;
+      {
+        final Set<Profesional> lista = IterableExtensions.<Profesional>toSet(this.repoProfesionales.allInstances());
+        _xblockexpression = ResultFactory.ok(this._jSONUtils.toJson(lista));
+      }
+      _xtrycatchfinallyexpression = _xblockexpression;
+    } catch (final Throwable _t) {
+      if (_t instanceof UserException) {
+        _xtrycatchfinallyexpression = ResultFactory.notFound("No existe ningun usuario");
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    return _xtrycatchfinallyexpression;
+  }
+  
+  @Get("/getId_prof/:id")
+  public Result profesionalId(final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
+    Result _xtrycatchfinallyexpression = null;
+    try {
+      Result _xblockexpression = null;
+      {
+        final Profesional usuario = this.repoProfesionales.getId(Long.valueOf(id));
         _xblockexpression = ResultFactory.ok(this._jSONUtils.toJson(usuario));
       }
       _xtrycatchfinallyexpression = _xblockexpression;
@@ -293,6 +354,44 @@ public class RestControllerUser extends ResultFactory {
     }
     {
     	Matcher matcher = 
+    		Pattern.compile("/get_cli").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
+    		// take parameters from request
+    		
+    		// take variables from url
+    		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
+    		
+    	    Result result = clientes(target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
+    		Pattern.compile("/get_pros").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
+    		// take parameters from request
+    		
+    		// take variables from url
+    		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
+    		
+    	    Result result = profesionales(target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
     		Pattern.compile("/create_usuario").matcher(target);
     	if (request.getMethod().equalsIgnoreCase("Post") && matcher.matches()) {
     		// take parameters from request
@@ -373,7 +472,7 @@ public class RestControllerUser extends ResultFactory {
     }
     {
     	Matcher matcher = 
-    		Pattern.compile("/getId/(\\w+)").matcher(target);
+    		Pattern.compile("/getId_cli/(\\w+)").matcher(target);
     	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
     		// take parameters from request
     		
@@ -384,6 +483,26 @@ public class RestControllerUser extends ResultFactory {
             response.setContentType("application/json");
     		
     	    Result result = clienteId(id, target, baseRequest, request, response);
+    	    result.process(response);
+    	    
+    		response.addHeader("Access-Control-Allow-Origin", "*");
+    	    baseRequest.setHandled(true);
+    	    return;
+    	}
+    }
+    {
+    	Matcher matcher = 
+    		Pattern.compile("/getId_prof/(\\w+)").matcher(target);
+    	if (request.getMethod().equalsIgnoreCase("Get") && matcher.matches()) {
+    		// take parameters from request
+    		
+    		// take variables from url
+    		String id = matcher.group(1);
+    		
+            // set default content type (it can be overridden during next call)
+            response.setContentType("application/json");
+    		
+    	    Result result = profesionalId(id, target, baseRequest, request, response);
     	    result.process(response);
     	    
     		response.addHeader("Access-Control-Allow-Origin", "*");

@@ -76,10 +76,37 @@ class RestControllerUser {
 			notFound("No se puede eliminar ningun usuario")
 		}
 	}
-	@Get('/getId/:id')
+	@Get('/get_cli')
+	def Result clientes() {
+		try {
+		val Set<Cliente> lista = repoClientes.allInstances.toSet
+	  		ok(lista.toJson)
+		} catch (UserException e) {
+			notFound("No existe ningun usuario")
+		}
+	}
+	@Get('/getId_cli/:id')
 	def Result clienteId() {
 		try {
 		val Cliente usuario = repoClientes.getId(Long.valueOf(id))
+	  		ok(usuario.toJson)
+		} catch (UserException e) {
+			notFound("No existe ningun cliente")
+		}
+	}
+	@Get('/get_pros')
+	def Result profesionales() {
+		try {
+		val Set<Profesional> lista = repoProfesionales.allInstances.toSet
+	  		ok(lista.toJson)
+		} catch (UserException e) {
+			notFound("No existe ningun usuario")
+		}
+	}
+	@Get('/getId_prof/:id')
+	def Result profesionalId() {
+		try {
+		val Profesional usuario = repoProfesionales.getId(Long.valueOf(id))
 	  		ok(usuario.toJson)
 		} catch (UserException e) {
 			notFound("No existe ningun cliente")

@@ -50,8 +50,10 @@ class RepoProfesionales extends AbstractRepository <Profesional>{
 	}
 	
 	override generateWhere(CriteriaBuilder criteria, CriteriaQuery<Profesional> query, Root<Profesional> camposCandidato, Profesional user) {
-			if (user.id !== null) {
-			query.where(criteria.equal(camposCandidato.get("id"), user.id))
+//			if (user.usuario.email !== null) {
+//			query.where(criteria.equal(camposCandidato.get("id"), user.id))
+			if (user.usuario.nombre !== null) {
+			query.where(criteria.equal(camposCandidato.get("id"), user.usuario.uid))
 		}
 	}
 	

@@ -1,22 +1,21 @@
 package domain
 
-import java.util.ArrayList
-import java.util.List
-import org.eclipse.xtend.lib.annotations.Accessors
-import javax.persistence.Entity
-import javax.persistence.Column
-import javax.persistence.Table
-import javax.persistence.Transient
-import javax.persistence.DiscriminatorValue
-import javax.persistence.OneToMany
-import javax.persistence.FetchType
-import javax.persistence.CascadeType
+import java.io.Serializable
 import java.util.HashSet
 import java.util.Set
-import javax.persistence.Id
+import javax.persistence.CascadeType
+import javax.persistence.Column
+import javax.persistence.DiscriminatorValue
+import javax.persistence.Embedded
+import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
-import java.io.Serializable
+import javax.persistence.Id
+import javax.persistence.OneToMany
+import javax.persistence.Table
+import org.eclipse.xtend.lib.annotations.Accessors
+import javax.persistence.Transient
 
 @Entity
 @Table(name="Profesional")
@@ -28,7 +27,7 @@ class Profesional implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id
 	
-	@Transient
+	@Embedded
 	Usuario usuario
 
 	@Column(length=50)
@@ -43,15 +42,15 @@ class Profesional implements Serializable{
 	@Column(length=50)
 	String zonaDeTrabajo
 
-	@Column(length=50)
+	@Column
 	boolean guardia = false
 		
-	@OneToMany(fetch=FetchType.EAGER,cascade =CascadeType.ALL)
+//	@OneToMany(fetch=FetchType.EAGER,cascade =CascadeType.ALL)
+	@Transient
 	Set<Presupuesto> trabajos =new HashSet<Presupuesto>()
 	
-	new (Usuario user){
-		usuario=user
-	}
+	//new (Usuario user){usuario=user}
+	new (){}
 	
 	def void agregarTrabajo(Presupuesto problema) {
 		if(!trabajos.contains(problema)){

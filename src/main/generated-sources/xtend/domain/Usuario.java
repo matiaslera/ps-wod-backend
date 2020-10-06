@@ -30,7 +30,6 @@ public class Usuario implements Serializable {
   @Column(length = 50)
   private int dni;
   
-  @Column
   private LocalDate fechaDeNacimiento;
   
   @Column(length = 20)

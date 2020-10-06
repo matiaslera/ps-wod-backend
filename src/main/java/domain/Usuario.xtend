@@ -3,15 +3,13 @@ package domain
 import java.io.Serializable
 import java.time.LocalDate
 import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.Embeddable
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.commons.model.annotations.Observable
 import repositorio.RepoChats
-import javax.persistence.Embeddable
+
+//import serializacion.LocalDateTimePersistenceConverter
+//import serializacion.LocalDatePersistenceConverter
 
 @Observable
 //@Entity
@@ -21,10 +19,6 @@ import javax.persistence.Embeddable
 @Embeddable
 @Accessors
 class Usuario implements Serializable {
-
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	Long id
 	
 	@Column(length=50, name="id_user")
 	String uid
@@ -41,7 +35,6 @@ class Usuario implements Serializable {
 	@Column(length=50)
 	int dni
 
-	@Column
 	LocalDate fechaDeNacimiento
 
 	@Column(length=20)

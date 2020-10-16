@@ -111,7 +111,6 @@ public class RestControllerPresupuesto extends ResultFactory {
         this.repoPresupuesto.create(consulta);
         final Presupuesto consultaCreada = this.repoPresupuesto.searchById(Long.valueOf((consulta.getId()).longValue()));
         final Cliente cliente = this.repoClientes.searchById(Long.valueOf(id));
-        cliente.addPresupuesto(consultaCreada);
         this.repoClientes.update(cliente);
         InputOutput.<String>println(consultaCreada.toString());
         _xblockexpression = ResultFactory.ok("{ \"status\" : \"OK\" }");
@@ -132,12 +131,7 @@ public class RestControllerPresupuesto extends ResultFactory {
   public Result consultas(final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     Result _xtrycatchfinallyexpression = null;
     try {
-      Result _xblockexpression = null;
-      {
-        final Set<Presupuesto> consultas = this.repoClientes.consultasRealizadas(Long.valueOf(id));
-        _xblockexpression = ResultFactory.ok(this._jSONUtils.toJson(consultas));
-      }
-      _xtrycatchfinallyexpression = _xblockexpression;
+      _xtrycatchfinallyexpression = null;
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
         final Exception e = (Exception)_t;
@@ -281,12 +275,7 @@ public class RestControllerPresupuesto extends ResultFactory {
   public Result trabajosPendientes(final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     Result _xtrycatchfinallyexpression = null;
     try {
-      Result _xblockexpression = null;
-      {
-        final Set<Presupuesto> trabajos = this.repoClientes.trabajosPendiente(Long.valueOf(id));
-        _xblockexpression = ResultFactory.ok(this._jSONUtils.toJson(trabajos));
-      }
-      _xtrycatchfinallyexpression = _xblockexpression;
+      _xtrycatchfinallyexpression = null;
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
         final Exception e = (Exception)_t;
@@ -302,12 +291,7 @@ public class RestControllerPresupuesto extends ResultFactory {
   public Result trabajosFinalizados(final String id, final String target, final Request baseRequest, final HttpServletRequest request, final HttpServletResponse response) {
     Result _xtrycatchfinallyexpression = null;
     try {
-      Result _xblockexpression = null;
-      {
-        final Set<Presupuesto> trabajos = this.repoClientes.trabajosFinalizado(Long.valueOf(id));
-        _xblockexpression = ResultFactory.ok(this._jSONUtils.toJson(trabajos));
-      }
-      _xtrycatchfinallyexpression = _xblockexpression;
+      _xtrycatchfinallyexpression = null;
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
         final Exception e = (Exception)_t;

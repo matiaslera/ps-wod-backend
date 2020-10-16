@@ -12,15 +12,11 @@ import repositorio.RepoChats
 //import serializacion.LocalDatePersistenceConverter
 
 @Observable
-//@Entity
-//@Table(name="Usuario")
-//@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-//@DiscriminatorColumn(name="TIPO_USER", discriminatorType=DiscriminatorType.STRING)
 @Embeddable
 @Accessors
 class Usuario implements Serializable {
 	
-	@Column(length=50, name="id_user")
+	@Column
 	String uid
 
 	@Column(length=50)
@@ -29,7 +25,7 @@ class Usuario implements Serializable {
 	@Column(length=50)
 	String apellido
 	
-	@Column(name="correo")
+	@Column
 	String email
 	
 	@Column(length=50)
@@ -46,14 +42,21 @@ class Usuario implements Serializable {
 	@Column(length=50)
 	String proveedor =null
 	
-	new (){	
-	}
+	@Column
+	Tipo tipo
+	
+	new (){	}
 	
 	def void enviarChat(Chat chat) {
 		RepoChats.instance.persistirChat(chat)
 	}
 
 	override toString() {
-		"id: " + uid + " nombre: " + nombre  + " apellido: " + apellido
+		 " nombre: " + nombre  + " apellido: " + apellido +"email: " + email
 	}
+}
+
+enum Tipo {
+	CLIENTE,
+	PROFESIONAL
 }

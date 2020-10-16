@@ -66,7 +66,7 @@ class TestObtenerPresupuesto {
 
 	@Test
 	def void enviarNotificacion() {
-		datos.jose.enviarNotificacionPresupuesto(presupuesto4)
+//		datos.jose.enviarNotificacionPresupuesto(presupuesto4)
 		//System.out.println(datos.daniel.consutasPres.size)
 		//Assert.assertEquals(datos.daniel.consutasPres.size, 1 ,0.1)
 	}

@@ -64,7 +64,7 @@ class RestControllerPresupuesto {
 			repoPresupuesto.create(consulta)
 			val Presupuesto consultaCreada= repoPresupuesto.searchById(Long.valueOf(consulta.id))
 			val cliente= repoClientes.searchById(Long.valueOf(id))
-			cliente.addPresupuesto(consultaCreada)
+//			cliente.addPresupuesto(consultaCreada)
 			repoClientes.update(cliente)
 			println(consultaCreada.toString)
 			ok('{ "status" : "OK" }') 
@@ -77,8 +77,8 @@ class RestControllerPresupuesto {
 	@Get("/query_made/:id")
 	def Result consultas() {
 		try {
-			val consultas= repoClientes.consultasRealizadas(Long.valueOf(id))
-			ok(consultas.toJson)
+//			val consultas= repoClientes.consultasRealizadas(Long.valueOf(id))
+//			ok(consultas.toJson)
 		} catch (Exception e) {
 			internalServerError(e.message)
 		}
@@ -182,8 +182,8 @@ class RestControllerPresupuesto {
 	@Get("/jod_pendiente/:id")
 	def Result trabajosPendientes() {
 		try {
-			val trabajos = repoClientes.trabajosPendiente(Long.valueOf(id))
-			ok(trabajos.toJson)
+//			val trabajos = repoClientes.trabajosPendiente(Long.valueOf(id))
+//			ok(trabajos.toJson)
 		} catch (Exception e) {
 			internalServerError(e.message)
 		}
@@ -193,8 +193,8 @@ class RestControllerPresupuesto {
 	@Get("/jod_finalizados/:id")
 	def Result trabajosFinalizados() {
 		try {
-			val trabajos = repoClientes.trabajosFinalizado(Long.valueOf(id))
-			ok(trabajos.toJson)
+//			val trabajos = repoClientes.trabajosFinalizado(Long.valueOf(id))
+//			ok(trabajos.toJson)
 		} catch (Exception e) {
 			internalServerError(e.message)
 		}

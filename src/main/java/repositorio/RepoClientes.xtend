@@ -9,6 +9,8 @@ import org.hibernate.HibernateException
 import javax.persistence.EntityManagerFactory
 import javax.persistence.Persistence
 import javax.persistence.EntityManager
+import domain.Usuario
+import javax.persistence.NoResultException
 
 @Accessors
 class RepoClientes extends AbstractRepository<Cliente> {
@@ -28,7 +30,7 @@ class RepoClientes extends AbstractRepository<Cliente> {
 	
 	override generateWhere(CriteriaBuilder criteria, CriteriaQuery<Cliente> query, Root<Cliente> camposCandidato, Cliente user) {
 		if (user.usuario.nombre !== null) {
-			query.where(criteria.equal(camposCandidato.get("id"), user.usuario.uid))
+			query.where(criteria.equal(camposCandidato.get("id"), user.id))
 		}
 	}
 	
@@ -46,6 +48,29 @@ class RepoClientes extends AbstractRepository<Cliente> {
 			entityManager.transaction.rollback
 			throw new RuntimeException("ERROR: La BD no tiene informacion del cliente.", e)
 		} finally {
+			entityManager?.close
+		}
+	}
+	
+	def Cliente searchByEmail(String email) {
+		val entityManager = administradorEntidad
+		try {
+			val criteria = entityManager.criteriaBuilder
+			val query = criteria.createQuery(tipoEntidad)
+			val _User = query.from(tipoEntidad)
+			query.select(_User)
+			query.where(criteria.equal(_User.get("usuario").get("email"), email))
+			entityManager.createQuery(query).singleResult
+		}catch (NoResultException nre){
+			return new Cliente()=>[
+				id = Long.valueOf(0)
+			]
+		} catch (HibernateException e) {
+			e.printStackTrace
+			entityManager.transaction.rollback
+			throw new RuntimeException("ERROR: La BD no tiene informacion del cliente.", e)
+		} 
+		finally {
 			entityManager?.close
 		}
 	}
@@ -68,21 +93,43 @@ class RepoClientes extends AbstractRepository<Cliente> {
 		}
 	}
 	
-	def trabajosPendiente(Long id){
-		val user=searchById(id)
-		return user.ofertasJob.filter[job|job.contratado==true && job.realizado==false].toSet
+	def ultimoIdCliente(){
+		val entityManager = administradorEntidad
+		try {
+			val criteria = entityManager.criteriaBuilder
+			val query = criteria.createQuery(tipoEntidad)
+			val _User = query.from(tipoEntidad)
+			query.select(_User)
+			query.orderBy(criteria.desc(_User.get("id")))
+			val list = entityManager.createQuery(query).resultList
+			   if(list.empty ) {
+			   	return 0}
+			   	else{
+			   		 return list.get(0).id
+			   	}
+		} catch (HibernateException e) {
+			e.printStackTrace
+			entityManager.transaction.rollback
+			throw new RuntimeException("ERROR: La BD no tiene informacion del cliente.", e)
+		} finally {
+			entityManager?.close
+		}
 	}
-	
-	def trabajosFinalizado(Long id){
-		val user=searchById(id)
-		println(user.toString)
-		return user.ofertasJob.filter[job|job.contratado==true && job.realizado==true].toSet
-	}
-	
-	def consultasRealizadas(Long id){
-		val user=searchById(id)
-		return user.ofertasJob.filter[job|job.contratado==false && job.realizado==false].toSet
-	}
+//	def trabajosPendiente(Long id){
+//		val user=searchById(id)
+//		return user.ofertasJob.filter[job|job.contratado==true && job.realizado==false].toSet
+//	}
+//	
+//	def trabajosFinalizado(Long id){
+//		val user=searchById(id)
+//		println(user.toString)
+//		return user.ofertasJob.filter[job|job.contratado==true && job.realizado==true].toSet
+//	}
+//	
+//	def consultasRealizadas(Long id){
+//		val user=searchById(id)
+//		return user.ofertasJob.filter[job|job.contratado==false && job.realizado==false].toSet
+//	}
 }
 
 @Accessors

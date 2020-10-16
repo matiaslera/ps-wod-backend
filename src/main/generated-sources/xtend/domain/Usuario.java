@@ -1,6 +1,7 @@
 package domain;
 
 import domain.Chat;
+import domain.Tipo;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.Column;
@@ -15,7 +16,7 @@ import repositorio.RepoChats;
 @Accessors
 @SuppressWarnings("all")
 public class Usuario implements Serializable {
-  @Column(length = 50, name = "id_user")
+  @Column
   private String uid;
   
   @Column(length = 50)
@@ -24,7 +25,7 @@ public class Usuario implements Serializable {
   @Column(length = 50)
   private String apellido;
   
-  @Column(name = "correo")
+  @Column
   private String email;
   
   @Column(length = 50)
@@ -41,6 +42,9 @@ public class Usuario implements Serializable {
   @Column(length = 50)
   private String proveedor = null;
   
+  @Column
+  private Tipo tipo;
+  
   public Usuario() {
   }
   
@@ -49,7 +53,7 @@ public class Usuario implements Serializable {
   }
   
   public String toString() {
-    return ((((("id: " + this.uid) + " nombre: ") + this.nombre) + " apellido: ") + this.apellido);
+    return (((((" nombre: " + this.nombre) + " apellido: ") + this.apellido) + "email: ") + this.email);
   }
   
   @Pure
@@ -131,5 +135,14 @@ public class Usuario implements Serializable {
   
   public void setProveedor(final String proveedor) {
     this.proveedor = proveedor;
+  }
+  
+  @Pure
+  public Tipo getTipo() {
+    return this.tipo;
+  }
+  
+  public void setTipo(final Tipo tipo) {
+    this.tipo = tipo;
   }
 }

@@ -8,8 +8,7 @@ import restApi.RestControllerPresupuesto
 @Controller
 class WorkOfDayApplication {
 
-	new (WorkOfDayBootstrap mock){
-	}
+	new (WorkOfDayBootstrap mock){}
 	
 	def static void main(String[] args) {
 		new WorkOfDayApplication(new WorkOfDayBootstrap) 

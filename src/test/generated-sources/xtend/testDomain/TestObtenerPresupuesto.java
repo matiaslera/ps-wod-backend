@@ -82,6 +82,5 @@ public class TestObtenerPresupuesto {
   
   @Test
   public void enviarNotificacion() {
-    this.datos.getJose().enviarNotificacionPresupuesto(this.presupuesto4);
   }
 }

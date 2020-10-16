@@ -5,6 +5,7 @@ import domain.Profesional;
 import java.util.List;
 import java.util.function.Consumer;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -12,6 +13,8 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.lib.ObjectExtensions;
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.hibernate.HibernateException;
 import repositorio.AbstractRepository;
 
@@ -86,7 +89,7 @@ public class RepoProfesionales extends AbstractRepository<Profesional> {
     String _nombre = user.getUsuario().getNombre();
     boolean _tripleNotEquals = (_nombre != null);
     if (_tripleNotEquals) {
-      query.where(criteria.equal(camposCandidato.<Object>get("id"), user.getUsuario().getUid()));
+      query.where(criteria.equal(camposCandidato.<Object>get("id"), user.getId()));
     }
   }
   
@@ -102,7 +105,7 @@ public class RepoProfesionales extends AbstractRepository<Profesional> {
           final CriteriaQuery<Profesional> query = criteria.<Profesional>createQuery(this.getTipoEntidad());
           final Root<Profesional> _User = query.<Profesional>from(this.getTipoEntidad());
           query.select(_User);
-          query.where(criteria.equal(_User.<Object>get("id"), id));
+          query.where(criteria.equal(_User.<Object>get("usuario").<Object>get("id"), id));
           _xblockexpression_1 = entityManager.<Profesional>createQuery(query).getSingleResult();
         }
         _xtrycatchfinallyexpression = _xblockexpression_1;
@@ -111,7 +114,50 @@ public class RepoProfesionales extends AbstractRepository<Profesional> {
           final HibernateException e = (HibernateException)_t;
           e.printStackTrace();
           entityManager.getTransaction().rollback();
-          throw new RuntimeException("ERROR: La BD no tiene informacion del cliente.", e);
+          throw new RuntimeException("ERROR: La BD no tiene informacion del profesional.", e);
+        } else {
+          throw Exceptions.sneakyThrow(_t);
+        }
+      } finally {
+        if (entityManager!=null) {
+          entityManager.close();
+        }
+      }
+      _xblockexpression = _xtrycatchfinallyexpression;
+    }
+    return _xblockexpression;
+  }
+  
+  public Profesional searchByEmail(final String email) {
+    Profesional _xblockexpression = null;
+    {
+      final EntityManager entityManager = this.getAdministradorEntidad();
+      Profesional _xtrycatchfinallyexpression = null;
+      try {
+        Profesional _xblockexpression_1 = null;
+        {
+          final CriteriaBuilder criteria = entityManager.getCriteriaBuilder();
+          final CriteriaQuery<Profesional> query = criteria.<Profesional>createQuery(this.getTipoEntidad());
+          final Root<Profesional> _User = query.<Profesional>from(this.getTipoEntidad());
+          query.select(_User);
+          query.where(criteria.equal(_User.<Object>get("usuario").<Object>get("email"), email));
+          _xblockexpression_1 = entityManager.<Profesional>createQuery(query).getSingleResult();
+        }
+        _xtrycatchfinallyexpression = _xblockexpression_1;
+      } catch (final Throwable _t) {
+        if (_t instanceof NoResultException) {
+          Profesional _profesional = new Profesional();
+          final Procedure1<Profesional> _function = new Procedure1<Profesional>() {
+            public void apply(final Profesional it) {
+              it.setId(Long.valueOf(0));
+            }
+          };
+          return ObjectExtensions.<Profesional>operator_doubleArrow(_profesional, _function);
+        } else if (_t instanceof HibernateException) {
+          final HibernateException e = (HibernateException)_t;
+          e.printStackTrace();
+          entityManager.getTransaction().rollback();
+          throw new RuntimeException("ERROR: La BD no tiene informacion del profesional.", e);
         } else {
           throw Exceptions.sneakyThrow(_t);
         }
@@ -146,7 +192,7 @@ public class RepoProfesionales extends AbstractRepository<Profesional> {
           final HibernateException e = (HibernateException)_t;
           e.printStackTrace();
           entityManager.getTransaction().rollback();
-          throw new RuntimeException("ERROR: La BD no tiene informacion del cliente.", e);
+          throw new RuntimeException("ERROR: La BD no tiene informacion del profesional.", e);
         } else {
           throw Exceptions.sneakyThrow(_t);
         }
@@ -158,5 +204,36 @@ public class RepoProfesionales extends AbstractRepository<Profesional> {
       _xblockexpression = _xtrycatchfinallyexpression;
     }
     return _xblockexpression;
+  }
+  
+  public Profesional ultimoIdProfesional() {
+    final EntityManager entityManager = this.getAdministradorEntidad();
+    try {
+      final CriteriaBuilder criteria = entityManager.getCriteriaBuilder();
+      final CriteriaQuery<Profesional> query = criteria.<Profesional>createQuery(this.getTipoEntidad());
+      final Root<Profesional> _User = query.<Profesional>from(this.getTipoEntidad());
+      query.select(_User);
+      query.orderBy(criteria.desc(_User.<Object>get("id")));
+      final List<Profesional> result = entityManager.<Profesional>createQuery(query).getResultList();
+      int _size = result.size();
+      boolean _greaterThan = (_size > 0);
+      if (_greaterThan) {
+        return result.get(0);
+      }
+    } catch (final Throwable _t) {
+      if (_t instanceof HibernateException) {
+        final HibernateException e = (HibernateException)_t;
+        e.printStackTrace();
+        entityManager.getTransaction().rollback();
+        throw new RuntimeException("ERROR: La BD no tiene informacion del cliente.", e);
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    } finally {
+      if (entityManager!=null) {
+        entityManager.close();
+      }
+    }
+    return null;
   }
 }

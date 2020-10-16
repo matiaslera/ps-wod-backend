@@ -3,19 +3,16 @@ package domain
 import java.io.Serializable
 import java.util.HashSet
 import java.util.Set
-import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.DiscriminatorValue
 import javax.persistence.Embedded
 import javax.persistence.Entity
-import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
-import javax.persistence.OneToMany
 import javax.persistence.Table
-import org.eclipse.xtend.lib.annotations.Accessors
 import javax.persistence.Transient
+import org.eclipse.xtend.lib.annotations.Accessors
 
 @Entity
 @Table(name="Profesional")

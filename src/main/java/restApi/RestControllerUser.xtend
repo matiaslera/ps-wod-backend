@@ -133,7 +133,7 @@ class RestControllerUser {
 			 throw new BusinessException("Debe ingresar el parámetro id")
 		}
 		val actualizada = body.fromJson(Cliente)
-		if (id != actualizada.id) {
+		if (Long.valueOf(id) != actualizada.id) {
 			ok(error2.toJson())
 			 throw new BusinessException("Id en URL distinto del id que viene en el body")
 		}

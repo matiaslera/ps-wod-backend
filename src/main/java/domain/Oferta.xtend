@@ -20,26 +20,23 @@ class Oferta {
 	@GeneratedValue
 	Long id
 	
+	@Column(length=50)
+	Long idProfesional
+	
 	@Column(length=150)
 	String comentario
-	
-	@Column(length=20)
-	int idProfesional 
-	
-	@Column(length=50)
-	String nombreApellido
 	
 	@Column(length=100)
 	String especialidad
 	
-	@Column(length=250)
 	//@JsonSerialize(using=LocalDateSerializer)
 	//@JsonDeserialize(using=LocalDateDeserializer)
+	@Column(length=250)
 	@JsonFormat(pattern="yyyy-MM-dd")
 	LocalDate fechaCreacion
 	
 	@Column(length=50)
-	float monto
+	float montoAprox
 	
 	
 }

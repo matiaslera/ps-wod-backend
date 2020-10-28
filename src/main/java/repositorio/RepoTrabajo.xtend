@@ -1,62 +1,61 @@
 package repositorio
 
-import org.eclipse.xtend.lib.annotations.Accessors
-import java.util.List
-import domain.Presupuesto
+import domain.Trabajo
 import exceptions.BusinessException
+import java.util.List
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Root
 import org.hibernate.HibernateException
 
-@Accessors
-class RepoPresupuestos extends AbstractRepository<Presupuesto> {
+class RepoTrabajo extends AbstractRepository<Trabajo> {
 	
-	static RepoPresupuestos instance = null
+	static RepoTrabajo instance = null
 
 	 new() {
 	}
 
 	static def getInstance() {
 		if (instance === null) {
-			instance = new RepoPresupuestos
+			instance = new RepoTrabajo()
 		}
 		instance
 	}
 
-//	def List<Presupuesto> filtrarPresupuestoPorProfesion(String especialidad) {
-//		(trabajosRealizados.filter[p|p.especialidad.equals(especialidad)]).toList
-//	}
-//	
-	override getTipoEntidad() {
-		Presupuesto
+	def List<Trabajo> filtrarPresupuestoPorProfesion(String especialidad) {
+		(trabajosRealizados.filter[p|p.presupuesto.especialidad.equals(especialidad)]).toList
 	}
 	
-	override generateWhere(CriteriaBuilder criteria, CriteriaQuery<Presupuesto> query, Root<Presupuesto> camposCandidato, Presupuesto pre) {
-		if (pre.nombre === null) {
-			query.where(criteria.equal(camposCandidato.get("nombre"), pre.nombre))
+	override getTipoEntidad() {
+		Trabajo
+	}
+	
+	override generateWhere(CriteriaBuilder criterio, CriteriaQuery<Trabajo> query, Root<Trabajo> camposCandidato, Trabajo trabajo) {
+		if (trabajo.id === null) {
+			query.where(criterio.equal(camposCandidato.get("id"), trabajo.id))
 			}
 	}
-//	def List<Presupuesto> listPorProfesion(String especialidad) {
-//		(allInstances.filter[p|p.especialidad.equals(especialidad) && p.realizado===false]).toList
-//	}
+
+	def List<Trabajo> listPorProfesion(String especialidad) {
+		(allInstances.filter[p|p.presupuesto.especialidad.equals(especialidad) && p.realizado===false]).toList
+	}
 	
-//	def search(String especialidad, String nombre) {
-//		var filtroProfesional = (this.filtrarPresupuestoPorProfesion(especialidad))
-//		var listBusqueda = filtroProfesional.filter([p|p.descripcion.contains(nombre)])
-//		if (listBusqueda.isEmpty) {
-//			throw new BusinessException("No se encontro presupuesto para el problema")
-//		}
-//		else{
-//			return (listBusqueda).toSet
-//		}
-//	}
+	def search(String especialidad, String nombre) {
+		var filtroProfesional = (this.filtrarPresupuestoPorProfesion(especialidad))
+		var listBusqueda = filtroProfesional.filter([p|p.presupuesto.nombre.contains(nombre)])
+		if (listBusqueda.isEmpty) {
+			throw new BusinessException("No se encontro presupuesto para el problema")
+		}
+		else{
+			return (listBusqueda).toSet
+		}
+	}
 	
-//	def List<Presupuesto> trabajosRealizados(){
-//		(allInstances.filter[p|p.realizado]).toList
-//	}
-//	
-	def Presupuesto searchById(Long id) {
+	def List<Trabajo> trabajosRealizados(){
+		(allInstances.filter[p|p.realizado]).toList
+	}
+	
+	def Trabajo searchById(Long id) {
 		val entityManager = this.administradorEntidad
 		try {
 			val criteria = entityManager.criteriaBuilder
@@ -76,7 +75,7 @@ class RepoPresupuestos extends AbstractRepository<Presupuesto> {
 		}
 	}
 
-	def Presupuesto searchByIdUser(String id) {
+	def Trabajo searchByIdUser(String id) {
 		val entityManager = this.administradorEntidad
 		try {
 			val criteria = entityManager.criteriaBuilder
@@ -93,5 +92,6 @@ class RepoPresupuestos extends AbstractRepository<Presupuesto> {
 			entityManager?.close
 		}
 	}
+	
 	
 }

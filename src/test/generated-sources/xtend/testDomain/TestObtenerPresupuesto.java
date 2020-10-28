@@ -2,7 +2,6 @@ package testDomain;
 
 import domain.Presupuesto;
 import exceptions.BusinessException;
-import java.time.LocalDate;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.junit.Before;
@@ -31,10 +30,7 @@ public class TestObtenerPresupuesto {
       public void apply(final Presupuesto it) {
         it.setEspecialidad("Electricista");
         it.setDescripcion("cambio de tablero");
-        it.setDireccion("Santa Rosalia 2720");
         it.setNotas("");
-        it.setMonto(3000);
-        it.setFecha(LocalDate.of(2020, 2, 2));
       }
     };
     Presupuesto _doubleArrow = ObjectExtensions.<Presupuesto>operator_doubleArrow(_presupuesto, _function);
@@ -44,10 +40,7 @@ public class TestObtenerPresupuesto {
       public void apply(final Presupuesto it) {
         it.setEspecialidad("Plomero");
         it.setDescripcion("cambio de caños de agua");
-        it.setDireccion("Belgrano 2720");
         it.setNotas("");
-        it.setMonto(5000);
-        it.setFecha(LocalDate.of(2014, 2, 10));
       }
     };
     Presupuesto _doubleArrow_1 = ObjectExtensions.<Presupuesto>operator_doubleArrow(_presupuesto_1, _function_1);

@@ -23,19 +23,19 @@ class TestObtenerPresupuesto {
 		presupuesto1 = new Presupuesto => [
 			especialidad = "Electricista"
 			descripcion = "cambio de tablero"
-			direccion = "Santa Rosalia 2720"
+//			direccion = "Santa Rosalia 2720"
 			notas = ""
-			monto = 3000
-			fecha = LocalDate.of(2020, 02, 02)
+//			monto = 3000
+//			fecha = LocalDate.of(2020, 02, 02)
 		]
 
 		presupuesto2 = new Presupuesto => [
 			especialidad = "Plomero"
 			descripcion = "cambio de caños de agua"
-			direccion = "Belgrano 2720"
+//			direccion = "Belgrano 2720"
 			notas = ""
-			monto = 5000
-			fecha = LocalDate.of(2014, 02, 10)
+//			monto = 5000
+//			fecha = LocalDate.of(2014, 02, 10)
 		]
 
 		presupuesto3 = new Presupuesto => [

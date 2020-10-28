@@ -253,8 +253,9 @@ public class RestControllerUser extends ResultFactory {
           throw new BusinessException("Debe ingresar el parámetro id");
         }
         final Cliente actualizada = this._jSONUtils.<Cliente>fromJson(body, Cliente.class);
+        Long _valueOf = Long.valueOf(id);
         Long _id = actualizada.getId();
-        boolean _notEquals = (!Objects.equal(id, _id));
+        boolean _notEquals = (!Objects.equal(_valueOf, _id));
         if (_notEquals) {
           ResultFactory.ok(this._jSONUtils.toJson(error2));
           throw new BusinessException("Id en URL distinto del id que viene en el body");

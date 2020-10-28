@@ -1,5 +1,7 @@
 package domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import domain.Chat;
 import domain.Tipo;
 import java.io.Serializable;
@@ -28,9 +30,13 @@ public class Usuario implements Serializable {
   @Column
   private String email;
   
+  @Column
+  private String nacionalidad;
+  
   @Column(length = 50)
   private int dni;
   
+  @JsonDeserialize(using = LocalDateDeserializer.class)
   private LocalDate fechaDeNacimiento;
   
   @Column(length = 20)
@@ -90,6 +96,15 @@ public class Usuario implements Serializable {
   
   public void setEmail(final String email) {
     this.email = email;
+  }
+  
+  @Pure
+  public String getNacionalidad() {
+    return this.nacionalidad;
+  }
+  
+  public void setNacionalidad(final String nacionalidad) {
+    this.nacionalidad = nacionalidad;
   }
   
   @Pure

@@ -19,59 +19,59 @@ import repositorio.RepoProfesionales
 class RestControllerPresupuesto {
 	
 	extension JSONUtils = new JSONUtils
-	RepoClientes repoClientes //= new RepoClientes
-	RepoProfesionales repoProfesionales //= new RepoProfesionales
-	RepoPresupuestos repoPresupuesto// = new RepoPresupuestos()
-	RepoOferta repoOferta// = new RepoOferta()
+	RepoClientes repoClientes = new RepoClientes()
+	RepoProfesionales repoProfesionales = new RepoProfesionales
+	RepoPresupuestos repoPresupuesto = new RepoPresupuestos()
+	RepoOferta repoOferta = new RepoOferta()
 	
 	//busca los trabajos terminados
-	@Get("/presupuestos")
-	def Result presupuestos() {
-		try {
-			val presupuesto = repoPresupuesto.trabajosRealizados()
-			ok(presupuesto.toJson)
-		} catch (Exception e) {
-			internalServerError(e.message)
-		}
-	}
+//	@Get("/presupuestos")
+//	def Result presupuestos() {
+//		try {
+//			val presupuesto = repoPresupuesto.trabajosRealizados()
+//			ok(presupuesto.toJson)
+//		} catch (Exception e) {
+//			internalServerError(e.message)
+//		}
+//	}
 	
 	//busca entre los trabajos terminados
-	@Post("/search_presupuestos")
-	def Result busquedaPresupuestos(@Body String body) {
-		try {
-			val especialidad= getPropertyValue(body,"especialidad")
-			val nombre= getPropertyValue(body,"problema")
-			println(especialidad +" : " + nombre)
-			val busqueda= repoPresupuesto.search(especialidad,nombre)
-			ok(busqueda.toJson)
-		} catch (Exception e) {
-			internalServerError(e.message)
-		}
-	}
+//	@Post("/search_presupuestos")
+//	def Result busquedaPresupuestos(@Body String body) {
+//		try {
+//			val especialidad= getPropertyValue(body,"especialidad")
+//			val nombre= getPropertyValue(body,"problema")
+//			println(especialidad +" : " + nombre)
+//			val busqueda= repoPresupuesto.search(especialidad,nombre)
+//			ok(busqueda.toJson)
+//		} catch (Exception e) {
+//			internalServerError(e.message)
+//		}
+//	}
 	
 	//crea una nueva consulta
-	@Post("/new_qery/:id")
-	def Result nuevaConsulta(@Body String body){
-			try {
-			val consulta= new Presupuesto()=>[
-			descripcion=body.getPropertyValue("descripcion")
-			direccion=body.getPropertyValue("direccion")
-			especialidad=body.getPropertyValue("especialidad")
-			problema=body.getPropertyValue("problema")
-			realizado=false
-			fecha= LocalDate.now
-			]
-			repoPresupuesto.create(consulta)
-			val Presupuesto consultaCreada= repoPresupuesto.searchById(Long.valueOf(consulta.id))
-			val cliente= repoClientes.searchById(Long.valueOf(id))
-//			cliente.addPresupuesto(consultaCreada)
-			repoClientes.update(cliente)
-			println(consultaCreada.toString)
-			ok('{ "status" : "OK" }') 
-		} catch (Exception e) {
-			internalServerError(e.message)
-		}
-	}
+//	@Post("/new_qery/:id")
+//	def Result nuevaConsulta(@Body String body){
+//			try {
+//			val consulta= new Presupuesto()=>[
+//			descripcion=body.getPropertyValue("descripcion")
+//			direccion=body.getPropertyValue("direccion")
+//			especialidad=body.getPropertyValue("especialidad")
+//			problema=body.getPropertyValue("problema")
+//			realizado=false
+//			fecha= LocalDate.now
+//			]
+//			repoPresupuesto.create(consulta)
+//			val Presupuesto consultaCreada= repoPresupuesto.searchById(Long.valueOf(consulta.id))
+//			val cliente= repoClientes.searchById(Long.valueOf(id))
+////			cliente.addPresupuesto(consultaCreada)
+//			repoClientes.update(cliente)
+//			println(consultaCreada.toString)
+//			ok('{ "status" : "OK" }') 
+//		} catch (Exception e) {
+//			internalServerError(e.message)
+//		}
+//	}
 	
 	//devuelve las consultas que realizo el cliente
 	@Get("/query_made/:id")
@@ -108,74 +108,72 @@ class RestControllerPresupuesto {
 	}
 	
 	//crea las ofertas de los tecnicos 
-	@Post("/job_answer/:id")
-	def Result repuestaTrabajo(@Body String body) {
-		try {
-			val oferta= new Oferta()=>[
-			comentario=body.getPropertyValue("comentario")
-			monto=body.getPropertyAsInteger("monto")
-			idProfesional =body.getPropertyAsInteger("idProfesional")
-			nombreApellido = body.getPropertyValue("nombreApellido")
-			fechaCreacion= LocalDate.now
-			]
-			repoOferta.create(oferta)
-			val presupuesto=repoPresupuesto.searchById(Long.valueOf(id))
-			println(presupuesto.toString)
-			presupuesto.addOferta(oferta)
-			repoPresupuesto.update(presupuesto)
-			ok('{ "status" : "OK" }')
-		} catch (Exception e) {
-			internalServerError(e.message)
-		}
-	}
+//	@Post("/job_answer/:id")
+//	def Result repuestaTrabajo(@Body String body) {
+//		try {
+//			val oferta= new Oferta()=>[
+//			comentario=body.getPropertyValue("comentario")
+//			monto=body.getPropertyAsInteger("monto")
+//			idProfesional =body.getPropertyAsInteger("idProfesional")
+//			nombreApellido = body.getPropertyValue("nombreApellido")
+//			fechaCreacion= LocalDate.now
+//			]
+//			repoOferta.create(oferta)
+//			val presupuesto=repoPresupuesto.searchById(Long.valueOf(id))
+//			println(presupuesto.toString)
+//			presupuesto.addOferta(oferta)
+//			repoPresupuesto.update(presupuesto)
+//			ok('{ "status" : "OK" }')
+//		} catch (Exception e) {
+//			internalServerError(e.message)
+//		}
+//	}
 	
 	//consultas las consultas creadas con aquella profesion que le pase
-	@Post("/prof_tecnica")
-	def Result especialidadTecnica(@Body String body) {
-		try {
-			println(body)
-			val user = body.fromJson(Profesional)
-			println(user.profesion)
-			val jobEspecialidad = repoPresupuesto.listPorProfesion(user.profesion)
-			ok(jobEspecialidad.toJson)
-		} catch (Exception e) {
-			internalServerError(e.message)
-		}
-	}
+//	@Post("/prof_tecnica")
+//	def Result especialidadTecnica(@Body String body) {
+//		try {
+//			println(body)
+//			val user = body.fromJson(Profesional)
+//			println(user.profesion)
+//			val jobEspecialidad = repoPresupuesto.listPorProfesion(user.profesion)
+//			ok(jobEspecialidad.toJson)
+//		} catch (Exception e) {
+//			internalServerError(e.message)
+//		}
+//	}
 	
 	
 	//crea los trabajos pedientes
-	@Post("/add_job")
-	def Result crearTrabajo(@Body String body) {
-		try {
-			val presupuestoOb=body.fromJson(Presupuesto)
-			///val id=body.getPropertyValue("id")
-			//val montoBody=body.getPropertyAsInteger("monto")
-			//val idProfBody=body.getPropertyAsInteger("idProfesional")
-			//val notasBody=body.getPropertyValue("notas")
-			println("estoy aquiiiiiiiiiiiiiiiiiii")
-			presupuestoOb.realizado=false
-			presupuestoOb.contratado=true
-			//val presupuesto=repoPresupuesto.searchById(Long.valueOf(id))
-			//presupuesto.monto=montoBody
-			//presupuesto.notas=notasBody
-			//presupuesto.idProfesional=Long.valueOf(idProfBody)
-		//	presupuesto.realizado=false
-			//presupuesto.contratado=true
-			//println("estoy aquiiiiiiiiiiiiiiiiiii 2 222222222222222")
-
-			//this.presupuesto.monto=this.oferta.monto
-   			// this.presupuesto.notas=this.oferta.comentario
-   			//this.presupuesto.idProfesional=this.oferta.idProfesional
-			
-			//println(presupuesto.toString)
-			repoPresupuesto.update(presupuestoOb)
-			//println(presupuesto.toString)
-			ok('{ "status" : "OK" }')
-		} catch (Exception e) {
-			internalServerError(e.message)
-		}
-	}
+//	@Post("/add_job")
+//	def Result crearTrabajo(@Body String body) {
+//		try {
+//			val presupuestoOb=body.fromJson(Presupuesto)
+//			///val id=body.getPropertyValue("id")
+//			//val montoBody=body.getPropertyAsInteger("monto")
+//			//val idProfBody=body.getPropertyAsInteger("idProfesional")
+//			//val notasBody=body.getPropertyValue("notas")
+//			println("estoy aquiiiiiiiiiiiiiiiiiii")
+//			presupuestoOb.realizado=false
+//			presupuestoOb.contratado=true
+//			//val presupuesto=repoPresupuesto.searchById(Long.valueOf(id))
+//			//presupuesto.monto=montoBody
+//			//presupuesto.notas=notasBody
+//			//presupuesto.idProfesional=Long.valueOf(idProfBody)
+//		//	presupuesto.realizado=false
+//			//presupuesto.contratado=true
+//			//println("estoy aquiiiiiiiiiiiiiiiiiii 2 222222222222222")
+//			//this.presupuesto.monto=this.oferta.monto
+//   			// this.presupuesto.notas=this.oferta.comentario
+//   			//this.presupuesto.idProfesional=this.oferta.idProfesional		
+//			//println(presupuesto.toString)
+//			repoPresupuesto.update(presupuestoOb)
+//			//println(presupuesto.toString)
+//			ok('{ "status" : "OK" }')
+//		} catch (Exception e) {
+//			internalServerError(e.message)
+//		}
+//	}
 	
 	
 	//hacer llamados para obtener trabajos pendientes de un usuario en particular

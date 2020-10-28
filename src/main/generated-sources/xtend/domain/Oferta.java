@@ -17,14 +17,11 @@ public class Oferta {
   @GeneratedValue
   private Long id;
   
+  @Column(length = 50)
+  private Long idProfesional;
+  
   @Column(length = 150)
   private String comentario;
-  
-  @Column(length = 20)
-  private int idProfesional;
-  
-  @Column(length = 50)
-  private String nombreApellido;
   
   @Column(length = 100)
   private String especialidad;
@@ -34,7 +31,7 @@ public class Oferta {
   private LocalDate fechaCreacion;
   
   @Column(length = 50)
-  private float monto;
+  private float montoAprox;
   
   @Pure
   public Long getId() {
@@ -46,30 +43,21 @@ public class Oferta {
   }
   
   @Pure
+  public Long getIdProfesional() {
+    return this.idProfesional;
+  }
+  
+  public void setIdProfesional(final Long idProfesional) {
+    this.idProfesional = idProfesional;
+  }
+  
+  @Pure
   public String getComentario() {
     return this.comentario;
   }
   
   public void setComentario(final String comentario) {
     this.comentario = comentario;
-  }
-  
-  @Pure
-  public int getIdProfesional() {
-    return this.idProfesional;
-  }
-  
-  public void setIdProfesional(final int idProfesional) {
-    this.idProfesional = idProfesional;
-  }
-  
-  @Pure
-  public String getNombreApellido() {
-    return this.nombreApellido;
-  }
-  
-  public void setNombreApellido(final String nombreApellido) {
-    this.nombreApellido = nombreApellido;
   }
   
   @Pure
@@ -91,11 +79,11 @@ public class Oferta {
   }
   
   @Pure
-  public float getMonto() {
-    return this.monto;
+  public float getMontoAprox() {
+    return this.montoAprox;
   }
   
-  public void setMonto(final float monto) {
-    this.monto = monto;
+  public void setMontoAprox(final float montoAprox) {
+    this.montoAprox = montoAprox;
   }
 }

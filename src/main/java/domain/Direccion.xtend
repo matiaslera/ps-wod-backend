@@ -1,23 +1,35 @@
 package domain
 
-class Direccion {
+import org.uqbar.commons.model.annotations.Observable
+import javax.persistence.Embeddable
+import org.eclipse.xtend.lib.annotations.Accessors
+import javax.persistence.Column
 
-	String pais
+@Observable
+@Embeddable
+@Accessors
+class Direccion {
 	
+	@Column(length=50)
 	String provincia
 	
+	@Column(length=50)
 	String ciudad
 	
-	String barrio
+	@Column(length=50)
+	int codPostal
 	
+	@Column(length=50)
 	String calle
 	
-	String altura
+	@Column(length=50)
+	int altura
 	
-	String dep_piso
+	@Column(length=50)
+	String pisoDep
 	
 	override toString(){
-		"La direccion es:" + pais + "de la provincia" + provincia + "de la ciudad:"+ ciudad + "del barrio" + barrio + "de la calle" + calle + "altura" + altura + dep_piso
+		"La direccion es:" + "de la provincia" + provincia + "de la ciudad:"+ ciudad + "del barrio" + codPostal + "de la calle" + calle + "altura" + altura + pisoDep
 	}
 	
 		

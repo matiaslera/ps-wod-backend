@@ -2,59 +2,45 @@ package domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import domain.Direccion;
 import domain.Oferta;
 import java.time.LocalDate;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import org.eclipse.xtend.lib.annotations.Accessors;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.Pure;
+import org.uqbar.commons.model.annotations.Observable;
 
-@Entity
+@Observable
+@Embeddable
 @Accessors
 @SuppressWarnings("all")
 public class Presupuesto {
-  @Id
-  @GeneratedValue
-  private Long id;
-  
   @Column(length = 50)
-  private Long idProfesional;
-  
-  @Column(length = 50)
-  private String problema;
+  private String nombre;
   
   @Column(length = 50)
   private String especialidad;
   
-  @Column(length = 250)
+  @Column(length = 150)
   private String descripcion;
   
-  @Column(length = 50)
-  private String direccion;
-  
-  @Column(length = 250)
+  @Column(length = 150)
   private String notas;
   
-  @Column(length = 50)
-  private float monto;
-  
-  @Column
-  private boolean realizado = false;
-  
-  @Column
-  private boolean contratado = false;
+  @Embedded
+  private Direccion direccion;
   
   @Column
   @JsonFormat(pattern = "yyyy-MM-dd")
-  private LocalDate fecha;
+  private LocalDate fechaCreacion;
   
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JsonProperty("ofertas")
@@ -78,34 +64,16 @@ public class Presupuesto {
   }
   
   public String toString() {
-    return ((((("id: " + this.id) + " nombre: ") + this.problema) + " especialidad: ") + this.especialidad);
+    return (((((" nombre: " + this.nombre) + " especialidad: ") + this.especialidad) + " descripcion:") + this.descripcion);
   }
   
   @Pure
-  public Long getId() {
-    return this.id;
+  public String getNombre() {
+    return this.nombre;
   }
   
-  public void setId(final Long id) {
-    this.id = id;
-  }
-  
-  @Pure
-  public Long getIdProfesional() {
-    return this.idProfesional;
-  }
-  
-  public void setIdProfesional(final Long idProfesional) {
-    this.idProfesional = idProfesional;
-  }
-  
-  @Pure
-  public String getProblema() {
-    return this.problema;
-  }
-  
-  public void setProblema(final String problema) {
-    this.problema = problema;
+  public void setNombre(final String nombre) {
+    this.nombre = nombre;
   }
   
   @Pure
@@ -127,15 +95,6 @@ public class Presupuesto {
   }
   
   @Pure
-  public String getDireccion() {
-    return this.direccion;
-  }
-  
-  public void setDireccion(final String direccion) {
-    this.direccion = direccion;
-  }
-  
-  @Pure
   public String getNotas() {
     return this.notas;
   }
@@ -145,39 +104,21 @@ public class Presupuesto {
   }
   
   @Pure
-  public float getMonto() {
-    return this.monto;
+  public Direccion getDireccion() {
+    return this.direccion;
   }
   
-  public void setMonto(final float monto) {
-    this.monto = monto;
-  }
-  
-  @Pure
-  public boolean isRealizado() {
-    return this.realizado;
-  }
-  
-  public void setRealizado(final boolean realizado) {
-    this.realizado = realizado;
+  public void setDireccion(final Direccion direccion) {
+    this.direccion = direccion;
   }
   
   @Pure
-  public boolean isContratado() {
-    return this.contratado;
+  public LocalDate getFechaCreacion() {
+    return this.fechaCreacion;
   }
   
-  public void setContratado(final boolean contratado) {
-    this.contratado = contratado;
-  }
-  
-  @Pure
-  public LocalDate getFecha() {
-    return this.fecha;
-  }
-  
-  public void setFecha(final LocalDate fecha) {
-    this.fecha = fecha;
+  public void setFechaCreacion(final LocalDate fechaCreacion) {
+    this.fechaCreacion = fechaCreacion;
   }
   
   @Pure

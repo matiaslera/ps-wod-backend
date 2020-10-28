@@ -27,8 +27,8 @@ class Cliente implements Serializable {
 	@Embedded
 	Usuario usuario
 	
-//	@Transient
-//	Direccion direccion
+	@Embedded
+	Direccion direccion
 	
 //	@OneToMany(fetch=FetchType.EAGER)
 //	@Transient

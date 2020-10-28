@@ -7,6 +7,8 @@ import javax.persistence.Embeddable
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.commons.model.annotations.Observable
 import repositorio.RepoChats
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
 
 //import serializacion.LocalDateTimePersistenceConverter
 //import serializacion.LocalDatePersistenceConverter
@@ -28,9 +30,14 @@ class Usuario implements Serializable {
 	@Column
 	String email
 	
+	@Column
+	String nacionalidad
+	
 	@Column(length=50)
 	int dni
-
+	
+  //   @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer)
 	LocalDate fechaDeNacimiento
 
 	@Column(length=20)

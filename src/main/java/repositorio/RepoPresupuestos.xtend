@@ -1,12 +1,10 @@
 package repositorio
 
-import org.eclipse.xtend.lib.annotations.Accessors
-import java.util.List
 import domain.Presupuesto
-import exceptions.BusinessException
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Root
+import org.eclipse.xtend.lib.annotations.Accessors
 import org.hibernate.HibernateException
 
 @Accessors
@@ -24,10 +22,6 @@ class RepoPresupuestos extends AbstractRepository<Presupuesto> {
 		instance
 	}
 
-//	def List<Presupuesto> filtrarPresupuestoPorProfesion(String especialidad) {
-//		(trabajosRealizados.filter[p|p.especialidad.equals(especialidad)]).toList
-//	}
-//	
 	override getTipoEntidad() {
 		Presupuesto
 	}
@@ -37,6 +31,11 @@ class RepoPresupuestos extends AbstractRepository<Presupuesto> {
 			query.where(criteria.equal(camposCandidato.get("nombre"), pre.nombre))
 			}
 	}
+
+//	def List<Presupuesto> filtrarPresupuestoPorProfesion(String especialidad) {
+//		(trabajosRealizados.filter[p|p.especialidad.equals(especialidad)]).toList
+//	}
+//	
 //	def List<Presupuesto> listPorProfesion(String especialidad) {
 //		(allInstances.filter[p|p.especialidad.equals(especialidad) && p.realizado===false]).toList
 //	}
@@ -52,10 +51,7 @@ class RepoPresupuestos extends AbstractRepository<Presupuesto> {
 //		}
 //	}
 	
-//	def List<Presupuesto> trabajosRealizados(){
-//		(allInstances.filter[p|p.realizado]).toList
-//	}
-//	
+
 	def Presupuesto searchById(Long id) {
 		val entityManager = this.administradorEntidad
 		try {

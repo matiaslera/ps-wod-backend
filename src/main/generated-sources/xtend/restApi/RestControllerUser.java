@@ -226,7 +226,7 @@ public class RestControllerUser extends ResultFactory {
             final Profesional profesional = this.repoProfesionales.searchByEmail(email);
             return ResultFactory.ok(this._jSONUtils.toJson(profesional));
           }
-          _xblockexpression_1 = ResultFactory.ok(this._jSONUtils.toJson("sin usuario"));
+          _xblockexpression_1 = ResultFactory.ok("{ \"userEmail\" : \"ninguno\" }");
         }
         _xtrycatchfinallyexpression = _xblockexpression_1;
       } catch (final Throwable _t) {
@@ -490,6 +490,7 @@ public class RestControllerUser extends ResultFactory {
       Result _xblockexpression = null;
       {
         final Profesional user = this._jSONUtils.<Profesional>fromJson(body, Profesional.class);
+        InputOutput.<String>println(("profesional" + user));
         aBlock.apply(user);
         _xblockexpression = ResultFactory.ok("{ \"status\" : \"OK\" }");
       }

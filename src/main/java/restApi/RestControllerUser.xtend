@@ -13,12 +13,12 @@ import org.uqbar.xtrest.api.annotation.Get
 import org.uqbar.xtrest.api.annotation.Post
 import org.uqbar.xtrest.api.annotation.Put
 import org.uqbar.xtrest.json.JSONUtils
+import org.eclipse.xtend.lib.annotations.Accessors
+import org.uqbar.commons.model.annotations.Observable
 import repositorio.RepoClientes
 import repositorio.RepoProfesionales
 import repositorio.RepoUsuario
 import exceptions.BusinessException
-import org.eclipse.xtend.lib.annotations.Accessors
-import org.uqbar.commons.model.annotations.Observable
 
 @Controller
 class RestControllerUser {
@@ -119,7 +119,7 @@ class RestControllerUser {
 			val profesional=repoProfesionales.searchByEmail(email)
 			return ok(profesional.toJson())
 		}
- 		ok("sin usuario".toJson())
+ 		ok('{ "userEmail" : "ninguno" }')
 		} catch (UserException e) {
 			notFound("No se encontro ningun usuario")
 		}
@@ -240,6 +240,7 @@ class RestControllerUser {
 	def createUpdateProfesional((Profesional)=>void aBlock, String body,String error) {
 		try {
 			val user = body.fromJson(Profesional)
+			println("profesional"+ user)
 			aBlock.apply(user)
 			ok('{ "status" : "OK" }');
 		} catch (Exception e) {

@@ -13,6 +13,7 @@ import repositorio.RepoPresupuestos
 import repositorio.RepoProfesionales
 import repositorio.RepoTrabajo
 import repositorio.RepoUsuario
+import domain.Estado
 
 class WorkOfDayBootstrap implements Bootstrap {
 
@@ -22,7 +23,6 @@ class WorkOfDayBootstrap implements Bootstrap {
 	RepoPresupuestos repoPresupuesto = new RepoPresupuestos()
 	RepoTrabajo repoTrabajo = new RepoTrabajo()
 
-	Usuario usuario0
 	Usuario usuario1
 	Usuario usuario2
 	Usuario usuario3
@@ -62,6 +62,11 @@ class WorkOfDayBootstrap implements Bootstrap {
 	Trabajo trabajo3
 	Trabajo trabajo4
 	Trabajo trabajo5
+	Trabajo trabajo6
+	Trabajo trabajo7
+	Trabajo trabajo8
+	Trabajo trabajo9
+	Trabajo trabajo10
 
 	new() {
 		isPending
@@ -69,17 +74,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 	}
 
 	def void startUsuario() {
-		usuario0 = new Usuario() => [
-			apellido = "San Martin"
-			nombre = "Jose"
-			email = "josedesanmartin@hotmail.com"
-			fechaDeNacimiento = LocalDate.of(1994, 02, 15)
-			fotoUrl = "sin foto"
-			proveedor = "facebook"
-			uid = "sdsn22ne43q21ea"
-			dni = 23001144
-			telefono = 1500601478
-		]
+
 		usuario1 = new Usuario() => [
 			apellido = "user1"
 			nombre = "Manuel Belgrano"
@@ -146,17 +141,12 @@ class WorkOfDayBootstrap implements Bootstrap {
 		profesional3 = new Profesional() => [
 			usuario = usuario6
 		]
-//		this.createUser(usuario)
-//		this.createUser(usuario1)
-//		this.createUser(usuario2)
-//		this.createUser(usuario3)
 		this.createCliente(cliente1)
 		this.createCliente(cliente2)
 		this.createCliente(cliente3)
 		this.createProfesional(profesional1)
 		this.createProfesional(profesional2)
 		this.createProfesional(profesional3)
-	// this.updateUser(finalizado01,usuario1)
 	}
 
 	def createUser(Usuario user) {
@@ -165,7 +155,7 @@ class WorkOfDayBootstrap implements Bootstrap {
 			repoUser.create(user)
 			println("Usuario:" + user.nombre + " creado")
 		} else {
-			val vueloBD = list.head
+			// val vueloBD = list.head
 //			user.id = vueloBD.id
 			repoUser.update(user)
 //			println("Usuario:" + user.id + " actualizado")
@@ -201,120 +191,118 @@ class WorkOfDayBootstrap implements Bootstrap {
 
 	def void startPresupuesto() {
 		presupuesto1 = new Presupuesto => [
-		  	especialidad = "Electricidad"
-		  	nombre="cambio de tablero"
-		 	descripcion = "cambio de tablero para una sala de rack informatica primer piso"
-		  	direccion = domicilio1
-		  	notas = ""
-		  	fechaCreacion = LocalDate.of(2020, 02, 02)
-		  ]
-		  presupuesto2 = new Presupuesto => [
-		  	especialidad = "Plomeria"
-		  	nombre="cambio de caños "
-		  	descripcion = "cambio de caños de agua por 2mm en el lugar del estacionamiento"
-		  	direccion = domicilio2
-		  	notas = ""
-		  	fechaCreacion = LocalDate.of(2014, 02, 10)
-		  ]
-		  presupuesto3 = new Presupuesto => [
-		  	especialidad = "Electricidad"
-		  	nombre="armar tablero "
-		  	descripcion = "armar tablero de comando para bomba trifasica"
-		  	direccion =domicilio3
-		  	notas = ""
-		  	fechaCreacion = LocalDate.of(2017, 02, 10)
-		  ]
-		  presupuesto4 = new Presupuesto => [
-		  	especialidad = "Electricidad"
-		  	nombre="instalacion de cables "
-		  	descripcion = "instalacion de cables por bandeja desde el 1 hasta 3 el piso"
-		    direccion = domicilio4
-		  	notas = ""
-		  	fechaCreacion = LocalDate.of(2016, 02, 10)
-		  ]
-		  presupuesto5 = new Presupuesto => [
-		  	especialidad = "Herreria"
-		  	nombre="Soldadura de Rejas "
-		  	descripcion = "Soldadura de rejas para ventanas"
-		  	direccion = domicilio1
-		  	notas = ""
-		  	fechaCreacion = LocalDate.of(2016, 03, 10)
-		  ]
-		  presupuesto6 = new Presupuesto => [
-		  	especialidad = "Herreria"
-		  	nombre="soldadura de estructuras "
-		  	descripcion = "soldar una estructura para escaleras de planta baja al primer piso "
-		  	direccion = domicilio2
-		  	notas = ""
-		  	fechaCreacion = LocalDate.of(2016, 02, 10)
-		  ]
-		  presupuesto7 = new Presupuesto => [
-		  	especialidad = "Gasista"
-		  	nombre="cambio de caños "
-		  	descripcion = "se cambian caños por caños fisurados"
-		  	direccion =domicilio3
-		  	notas = ""
-		 	fechaCreacion = LocalDate.of(2017, 05, 10)
-		  ]
-		  presupuesto8 = new Presupuesto => [
-		  	especialidad = "Gasista"
-		  	nombre="instalacion de termotanque "
-		  	descripcion = "instalacion de un termotanque en planta baja"
-		  	direccion = domicilio4
-		  	notas = ""
-		  	fechaCreacion = LocalDate.of(2016, 02, 10)
-		  ]
-		  presupuesto9 = new Presupuesto => [
-		  	especialidad = "Carpinteria"
-		  	nombre="restauracion "
-		  	descripcion = "se restaura una mesa antiguaa , se cambian tornillos y se pinta"
-		  	direccion = domicilio1
-		  	notas = ""
-		  	fechaCreacion = LocalDate.of(2018, 12, 10)
-		  ]
-		  presupuesto10 = new Presupuesto => [
-		  	especialidad = "Carpinteria"
-		 	nombre="respaldar de cama "
-		  	descripcion = "se realiza un respaldar a medida con mesa de luz flotante y estacion de carga de celulares"
-		  	direccion = domicilio2
-		  	notas = ""
-		  	fechaCreacion = LocalDate.of(2019, 11, 10)
-		  ]
-		  presupuesto11 = new Presupuesto => [
-		  	especialidad = "Armado en Seco"
-		  	nombre="colocacion de divisiones "
-		  	descripcion = "se coloca una nueva division entre la sala de estar y el comedor"
-		  	direccion = domicilio3
-		  	notas = ""
-		  	fechaCreacion = LocalDate.of(2019, 08, 10)
-		  ]
-		  presupuesto12 = new Presupuesto => [
-		 	especialidad = "Pintor"
-		  	nombre="paredes exteriores "
-		  	descripcion = "se pintan las paredes exteriores , con una liquido especial , para que tenga durabilidad en la interperie ya sea calor , lluvia o humedad"
-		  	direccion = domicilio4
-		  	notas = ""
-		  	fechaCreacion = LocalDate.of(2017, 03, 11)
-		  ]
-		  
-		  finalizado01 = new Presupuesto => [
-		 	especialidad = "Electricidad"
-		  	nombre="instalacion de puesta tierra "
-		  	descripcion = "instalacion de puesta tierra en el estacionamiento del edificio"
-		    direccion = domicilio1
-		  	notas = ""
-		  	fechaCreacion = LocalDate.of(2017, 09, 11)
-		  ]
-		  
-		  finalizado02 = new Presupuesto => [
-		  	especialidad = "Electricidad"
-		  	nombre="instalacion de termica "
-		  	descripcion = "instalacion de termica piso 1 dpto a, b, c"
-		    direccion = domicilio2
-		  	notas = ""
-		  	fechaCreacion = LocalDate.of(2017, 05, 11)
-		  ]
-		  
+			especialidad = "Electricidad"
+			nombre = "cambio de tablero"
+			descripcion = "cambio de tablero para una sala de rack informatica primer piso"
+			direccion = domicilio1
+			notas = ""
+			fechaCreacion = LocalDate.of(2020, 02, 02)
+		]
+		presupuesto2 = new Presupuesto => [
+			especialidad = "Plomeria"
+			nombre = "cambio de caños "
+			descripcion = "cambio de caños de agua por 2mm en el lugar del estacionamiento"
+			direccion = domicilio2
+			notas = ""
+			fechaCreacion = LocalDate.of(2014, 02, 10)
+		]
+		presupuesto3 = new Presupuesto => [
+			especialidad = "Electricidad"
+			nombre = "armar tablero "
+			descripcion = "armar tablero de comando para bomba trifasica"
+			direccion = domicilio3
+			notas = ""
+			fechaCreacion = LocalDate.of(2017, 02, 10)
+		]
+		presupuesto4 = new Presupuesto => [
+			especialidad = "Electricidad"
+			nombre = "instalacion de cables "
+			descripcion = "instalacion de cables por bandeja desde el 1 hasta 3 el piso"
+			direccion = domicilio4
+			notas = ""
+			fechaCreacion = LocalDate.of(2016, 02, 10)
+		]
+		presupuesto5 = new Presupuesto => [
+			especialidad = "Herreria"
+			nombre = "Soldadura de Rejas "
+			descripcion = "Soldadura de rejas para ventanas"
+			direccion = domicilio1
+			notas = ""
+			fechaCreacion = LocalDate.of(2016, 03, 10)
+		]
+		presupuesto6 = new Presupuesto => [
+			especialidad = "Herreria"
+			nombre = "soldadura de estructuras "
+			descripcion = "soldar una estructura para escaleras de planta baja al primer piso "
+			direccion = domicilio2
+			notas = ""
+			fechaCreacion = LocalDate.of(2016, 02, 10)
+		]
+		presupuesto7 = new Presupuesto => [
+			especialidad = "Gasista"
+			nombre = "cambio de caños "
+			descripcion = "se cambian caños por caños fisurados"
+			direccion = domicilio3
+			notas = ""
+			fechaCreacion = LocalDate.of(2017, 05, 10)
+		]
+		presupuesto8 = new Presupuesto => [
+			especialidad = "Gasista"
+			nombre = "instalacion de termotanque "
+			descripcion = "instalacion de un termotanque en planta baja"
+			direccion = domicilio4
+			notas = ""
+			fechaCreacion = LocalDate.of(2016, 02, 10)
+		]
+		presupuesto9 = new Presupuesto => [
+			especialidad = "Carpinteria"
+			nombre = "restauracion "
+			descripcion = "se restaura una mesa antiguaa , se cambian tornillos y se pinta"
+			direccion = domicilio1
+			notas = ""
+			fechaCreacion = LocalDate.of(2018, 12, 10)
+		]
+		presupuesto10 = new Presupuesto => [
+			especialidad = "Carpinteria"
+			nombre = "respaldar de cama "
+			descripcion = "se realiza un respaldar a medida con mesa de luz flotante y estacion de carga de celulares"
+			direccion = domicilio2
+			notas = ""
+			fechaCreacion = LocalDate.of(2019, 11, 10)
+		]
+		presupuesto11 = new Presupuesto => [
+			especialidad = "Armado en Seco"
+			nombre = "colocacion de divisiones "
+			descripcion = "se coloca una nueva division entre la sala de estar y el comedor"
+			direccion = domicilio3
+			notas = ""
+			fechaCreacion = LocalDate.of(2019, 08, 10)
+		]
+		presupuesto12 = new Presupuesto => [
+			especialidad = "Pintor"
+			nombre = "paredes exteriores "
+			descripcion = "se pintan las paredes exteriores , con una liquido especial , para que tenga durabilidad en la interperie ya sea calor , lluvia o humedad"
+			direccion = domicilio4
+			notas = ""
+			fechaCreacion = LocalDate.of(2017, 03, 11)
+		]
+		finalizado01 = new Presupuesto => [
+			especialidad = "Electricidad"
+			nombre = "instalacion de puesta tierra "
+			descripcion = "instalacion de puesta tierra en el estacionamiento del edificio"
+			direccion = domicilio1
+			notas = ""
+			fechaCreacion = LocalDate.of(2017, 09, 11)
+		]
+		finalizado02 = new Presupuesto => [
+			especialidad = "Electricidad"
+			nombre = "instalacion de termica "
+			descripcion = "instalacion de termica piso 1 dpto a, b, c"
+			direccion = domicilio2
+			notas = ""
+			fechaCreacion = LocalDate.of(2017, 05, 11)
+		]
+
 	}
 
 	def void startDireccion() {
@@ -326,7 +314,6 @@ class WorkOfDayBootstrap implements Bootstrap {
 			altura = 1234
 			pisoDep = "pb"
 		]
-
 		domicilio2 = new Direccion => [
 			provincia = "Buenos Aires"
 			ciudad = "Quilmes"
@@ -335,7 +322,6 @@ class WorkOfDayBootstrap implements Bootstrap {
 			altura = 1234
 			pisoDep = "pb"
 		]
-
 		domicilio3 = new Direccion => [
 			provincia = "Buenos Aires"
 			ciudad = "Lomas De Zamora"
@@ -344,7 +330,6 @@ class WorkOfDayBootstrap implements Bootstrap {
 			altura = 1234
 			pisoDep = "2"
 		]
-
 		domicilio4 = new Direccion => [
 			provincia = "Buenos Aires"
 			ciudad = "Tigre"
@@ -358,21 +343,17 @@ class WorkOfDayBootstrap implements Bootstrap {
 
 	def void startTrabajo() {
 		trabajo1 = new Trabajo => [
-			contratado = false
-			realizado = false
+			estado = Estado.FINALIZADO
 			montoFinal = 300.200
 			fechaFinalizacion = LocalDate.of(2020, 02, 02)
 			calificacion = 5
-			idCliente = 1L
-			idProfesional = 1L
+			idCliente = 4L
+			idProfesional = 4L
 			presupuesto = presupuesto1
 		]
-
 		trabajo2 = new Trabajo => [
-			contratado = true
-			realizado = true
+			estado = Estado.FINALIZADO
 			montoFinal = 300.200
-			fechaFinalizacion = LocalDate.of(2020, 02, 02)
 			calificacion = 5
 			idCliente = 1L
 			idProfesional = 1L
@@ -380,12 +361,9 @@ class WorkOfDayBootstrap implements Bootstrap {
 			montoFinal = 5000.23
 			fechaFinalizacion = LocalDate.of(2014, 02, 10)
 		]
-
 		trabajo3 = new Trabajo => [
-			contratado = true
-			realizado = true
+			estado = Estado.FINALIZADO
 			montoFinal = 300.200
-			fechaFinalizacion = LocalDate.of(2020, 02, 02)
 			calificacion = 5
 			idCliente = 1L
 			idProfesional = 1L
@@ -393,10 +371,8 @@ class WorkOfDayBootstrap implements Bootstrap {
 			montoFinal = 500.90
 			fechaFinalizacion = LocalDate.of(2017, 02, 10)
 		]
-
 		trabajo4 = new Trabajo => [
-			contratado = true
-			realizado = true
+			estado = Estado.FINALIZADO
 			montoFinal = 300.200
 			fechaFinalizacion = LocalDate.of(2020, 02, 02)
 			calificacion = 5
@@ -404,14 +380,10 @@ class WorkOfDayBootstrap implements Bootstrap {
 			idProfesional = 1L
 			presupuesto = presupuesto4
 			montoFinal = 6000.56
-			fechaFinalizacion = LocalDate.of(2016, 02, 10)
 		]
-
 		trabajo5 = new Trabajo => [
-			contratado = true
-			realizado = true
+			estado = Estado.FINALIZADO
 			montoFinal = 300.200
-			fechaFinalizacion = LocalDate.of(2020, 02, 02)
 			calificacion = 5
 			idCliente = 1L
 			idProfesional = 1L
@@ -419,12 +391,39 @@ class WorkOfDayBootstrap implements Bootstrap {
 			montoFinal = 10000.56
 			fechaFinalizacion = LocalDate.of(2016, 03, 10)
 		]
+		trabajo6 = new Trabajo => [
+			estado = Estado.PUBLICADO
+			idCliente = 4L
+			presupuesto = presupuesto1
+		]
+		trabajo7 = new Trabajo => [
+			estado = Estado.PUBLICADO
+			idCliente = 4L
+			presupuesto = presupuesto3
+		]
+		trabajo8 = new Trabajo => [
+			estado = Estado.PUBLICADO
+			idCliente = 4L
+			presupuesto = presupuesto4
+		]
+		trabajo9 = new Trabajo => [
+			estado = Estado.CONTRATADO
+			idCliente = 4L
+			idProfesional = 4L
+			presupuesto = presupuesto3
+			montoFinal = 500.90
+			fechaFinalizacion = LocalDate.of(2017, 02, 10)
+		]
 		
 		this.createTrabajo(trabajo1)
 		this.createTrabajo(trabajo2)
 		this.createTrabajo(trabajo3)
 		this.createTrabajo(trabajo4)
 		this.createTrabajo(trabajo5)
+		this.createTrabajo(trabajo6)
+		this.createTrabajo(trabajo7)
+		this.createTrabajo(trabajo8)
+		this.createTrabajo(trabajo9)
 	}
 
 	def createPresupuesto(Presupuesto pres) {

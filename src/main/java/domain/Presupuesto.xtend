@@ -6,13 +6,14 @@ import java.time.LocalDate
 import java.util.Set
 import javax.persistence.CascadeType
 import javax.persistence.Column
-import javax.persistence.Entity
+import javax.persistence.Embeddable
+import javax.persistence.Embedded
 import javax.persistence.FetchType
 import javax.persistence.OneToMany
 import org.eclipse.xtend.lib.annotations.Accessors
-import javax.persistence.Embedded
 import org.uqbar.commons.model.annotations.Observable
-import javax.persistence.Embeddable
+import java.time.format.DateTimeFormatter
+import com.fasterxml.jackson.annotation.JsonIgnore
 
 @Observable
 @Embeddable
@@ -34,16 +35,16 @@ class Presupuesto {
 	@Embedded
 	Direccion direccion
 		
-	//@JsonFormat(pattern = "YYYY-MM-dd")
-	//@JsonSerialize(using=LocalDateSerializer)
-	//@JsonDeserialize(using=LocalDateDeserializer)
 	@Column
 	@JsonFormat(pattern="yyyy-MM-dd")
+	@JsonIgnore
 	LocalDate fechaCreacion
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JsonProperty("ofertas")
 	Set<Oferta> ofertas ///=new HashSet<Oferta>() 
+	
+	static String DATE_PATTERN = "yyyy/MM/dd"
 	
 	def void addOferta(Oferta presupuesto){
 		ofertas.add(presupuesto)
@@ -60,4 +61,23 @@ class Presupuesto {
 	override toString(){
 	 " nombre: "+ nombre + " especialidad: "+especialidad + " descripcion:" + descripcion
 	}
+	
+	@JsonProperty("fechaCreacion")
+	def String fechaNacimiento() {
+		formatter.format(this.fechaCreacion)
+	}
+
+	@JsonProperty("fechaCreacion")
+	def void asignarFechaDeNacimiento(String fecha) {
+		if(fecha!==null){
+		this.fechaCreacion = LocalDate.parse(fecha, formatter)}
+	}
+
+	def formatter() {
+		DateTimeFormatter.ofPattern(DATE_PATTERN)
+	}
 }
+
+	//@JsonFormat(pattern = "YYYY-MM-dd")
+	//@JsonSerialize(using=LocalDateSerializer)
+	//@JsonDeserialize(using=LocalDateDeserializer)

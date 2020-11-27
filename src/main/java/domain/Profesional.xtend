@@ -13,6 +13,9 @@ import javax.persistence.Id
 import javax.persistence.Table
 import javax.persistence.Transient
 import org.eclipse.xtend.lib.annotations.Accessors
+import javax.persistence.OneToMany
+import javax.persistence.FetchType
+import javax.persistence.CascadeType
 
 @Entity
 @Table(name="Profesional")
@@ -42,21 +45,20 @@ class Profesional implements Serializable{
 	@Column
 	boolean guardia = false
 		
-//	@OneToMany(fetch=FetchType.EAGER,cascade =CascadeType.ALL)
-	@Transient
-	Set<Presupuesto> trabajos =new HashSet<Presupuesto>()
+	@OneToMany(fetch=FetchType.EAGER,cascade =CascadeType.ALL)
+	Set<Trabajo> trabajos =new HashSet<Trabajo>()
 	
 	//new (Usuario user){usuario=user}
 	new (){}
 	
-	def void agregarTrabajo(Presupuesto problema) {
+	def void agregarTrabajo(Trabajo problema) {
 		if(!trabajos.contains(problema)){
 		trabajos.add(problema)
 			//problema.setProfesional(this)
 		}
 	}
 	
-	def void removeTrabajo(Presupuesto problema) {
+	def void removeTrabajo(Trabajo problema) {
 		if(trabajos.contains(problema)){
 			trabajos.remove(problema)
 			//problema.setProfesional(null)

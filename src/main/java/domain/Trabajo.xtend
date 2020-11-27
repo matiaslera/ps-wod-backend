@@ -8,10 +8,13 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import javax.persistence.Table
 import javax.persistence.Embedded
 import java.time.LocalDate
+import com.fasterxml.jackson.annotation.JsonProperty
+import java.time.format.DateTimeFormatter
+import com.fasterxml.jackson.annotation.JsonIgnore
 
 @Entity
-@Accessors
 @Table(name="Trabajo")
+@Accessors
 class Trabajo {
 	
 	@Id
@@ -34,15 +37,39 @@ class Trabajo {
 	int calificacion
 	
 	@Column(length=10)
+	@JsonIgnore
 	LocalDate fechaFinalizacion
 	
 	@Column
-	boolean realizado = false
-	
-	@Column
-	boolean contratado = false
-	
+	Estado estado
+		
+	static String DATE_PATTERN = "yyyy/MM/dd"
 	override toString(){
-		"este trabajo con id: " + id +" esta contratado:"+realizado +" esta contratado: "+ contratado+ " con el profesional id: "+idProfesional +" con el cliente id: "+idCliente
+		"este trabajo con id: " + id +" cual es el estado:"+estado + " con el profesional id: "+idProfesional +" con el cliente id: "+idCliente
+	}
+		
+	@JsonProperty("fechaFinalizacion")
+	def String fechaFinalizacion() {
+		if(this.fechaFinalizacion===null){
+			return "null"
+		}
+		formatter.format(this.fechaFinalizacion)
+	}
+
+	@JsonProperty("fechaFinalizacion")
+	def void asignarFechaDeFinalizacion(String fecha) {
+		if(fecha!==null){
+		this.fechaFinalizacion = LocalDate.parse(fecha, formatter)}
+	}
+
+	def formatter() {
+		DateTimeFormatter.ofPattern(DATE_PATTERN)
 	}
 	}
+	
+enum Estado{
+	PUBLICADO,
+	CONTRATADO,
+	FINALIZADO,
+	CANCELADO
+}

@@ -1,10 +1,12 @@
 package domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import domain.Direccion;
 import domain.Oferta;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -40,11 +42,14 @@ public class Presupuesto {
   
   @Column
   @JsonFormat(pattern = "yyyy-MM-dd")
+  @JsonIgnore
   private LocalDate fechaCreacion;
   
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JsonProperty("ofertas")
   private Set<Oferta> ofertas;
+  
+  private static String DATE_PATTERN = "yyyy/MM/dd";
   
   public void addOferta(final Oferta presupuesto) {
     this.ofertas.add(presupuesto);
@@ -65,6 +70,22 @@ public class Presupuesto {
   
   public String toString() {
     return (((((" nombre: " + this.nombre) + " especialidad: ") + this.especialidad) + " descripcion:") + this.descripcion);
+  }
+  
+  @JsonProperty("fechaCreacion")
+  public String fechaNacimiento() {
+    return this.formatter().format(this.fechaCreacion);
+  }
+  
+  @JsonProperty("fechaCreacion")
+  public void asignarFechaDeNacimiento(final String fecha) {
+    if ((fecha != null)) {
+      this.fechaCreacion = LocalDate.parse(fecha, this.formatter());
+    }
+  }
+  
+  public DateTimeFormatter formatter() {
+    return DateTimeFormatter.ofPattern(Presupuesto.DATE_PATTERN);
   }
   
   @Pure

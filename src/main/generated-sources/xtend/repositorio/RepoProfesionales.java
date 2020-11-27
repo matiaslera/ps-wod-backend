@@ -1,7 +1,7 @@
 package repositorio;
 
-import domain.Presupuesto;
 import domain.Profesional;
+import domain.Trabajo;
 import java.util.List;
 import java.util.function.Consumer;
 import javax.persistence.EntityManager;
@@ -34,10 +34,10 @@ public class RepoProfesionales extends AbstractRepository<Profesional> {
     return _xblockexpression;
   }
   
-  public void enviarNotificacionDePresupuesto(final Presupuesto problema) {
+  public void enviarNotificacionDePresupuesto(final Trabajo problema) {
     final Consumer<Profesional> _function = new Consumer<Profesional>() {
       public void accept(final Profesional profesional) {
-        boolean _equals = profesional.getProfesion().equals(problema.getEspecialidad());
+        boolean _equals = profesional.getProfesion().equals(problema.getPresupuesto().getEspecialidad());
         if (_equals) {
           profesional.agregarTrabajo(problema);
           RepoProfesionales.this.update(profesional);

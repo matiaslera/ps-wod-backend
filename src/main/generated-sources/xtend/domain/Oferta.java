@@ -1,7 +1,10 @@
 package domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,12 +29,39 @@ public class Oferta {
   @Column(length = 100)
   private String especialidad;
   
+  @Column(length = 50)
+  private String nombreProf;
+  
+  @Column(length = 50)
+  private String apellidoProf;
+  
   @Column(length = 250)
   @JsonFormat(pattern = "yyyy-MM-dd")
+  @JsonIgnore
   private LocalDate fechaCreacion;
   
   @Column(length = 50)
   private float montoAprox;
+  
+  private static String DATE_PATTERN = "yyyy/MM/dd";
+  
+  public String toString() {
+    return ((((("este es la oferta con id: " + this.id) + "id del profesional: ") + this.idProfesional) + "COMEntario del profe: ") + this.comentario);
+  }
+  
+  @JsonProperty("fechaCreacion")
+  public String fechaNacimiento() {
+    return this.formatter().format(this.fechaCreacion);
+  }
+  
+  @JsonProperty("fechaCreacion")
+  public void asignarFechaDeNacimiento(final String fecha) {
+    this.fechaCreacion = LocalDate.parse(fecha, this.formatter());
+  }
+  
+  public DateTimeFormatter formatter() {
+    return DateTimeFormatter.ofPattern(Oferta.DATE_PATTERN);
+  }
   
   @Pure
   public Long getId() {
@@ -67,6 +97,24 @@ public class Oferta {
   
   public void setEspecialidad(final String especialidad) {
     this.especialidad = especialidad;
+  }
+  
+  @Pure
+  public String getNombreProf() {
+    return this.nombreProf;
+  }
+  
+  public void setNombreProf(final String nombreProf) {
+    this.nombreProf = nombreProf;
+  }
+  
+  @Pure
+  public String getApellidoProf() {
+    return this.apellidoProf;
+  }
+  
+  public void setApellidoProf(final String apellidoProf) {
+    this.apellidoProf = apellidoProf;
   }
   
   @Pure

@@ -2,12 +2,12 @@ package repositorio
 
 import domain.Profesional
 import java.util.List
-import domain.Presupuesto
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Root
 import org.hibernate.HibernateException
 import javax.persistence.NoResultException
+import domain.Trabajo
 
 class RepoProfesionales extends AbstractRepository <Profesional>{
 
@@ -21,9 +21,9 @@ class RepoProfesionales extends AbstractRepository <Profesional>{
 	}
 
 	
-	def enviarNotificacionDePresupuesto(Presupuesto problema) {
+	def enviarNotificacionDePresupuesto(Trabajo problema) {
 		allInstances.forEach [ profesional |
-			if (profesional.profesion.equals(problema.especialidad)) {
+			if (profesional.profesion.equals(problema.presupuesto.especialidad)) {
 				//val profesionalEncontrado=searchById(profesional.id)
 				//profesionalEncontrado.agregarPresupuesto(problema)
 				profesional.agregarTrabajo(problema)

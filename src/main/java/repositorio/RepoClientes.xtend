@@ -1,16 +1,12 @@
 package repositorio
 
 import domain.Cliente
-import org.eclipse.xtend.lib.annotations.Accessors
+import javax.persistence.NoResultException
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Root
+import org.eclipse.xtend.lib.annotations.Accessors
 import org.hibernate.HibernateException
-import javax.persistence.EntityManagerFactory
-import javax.persistence.Persistence
-import javax.persistence.EntityManager
-import domain.Usuario
-import javax.persistence.NoResultException
 
 @Accessors
 class RepoClientes extends AbstractRepository<Cliente> {
@@ -130,21 +126,4 @@ class RepoClientes extends AbstractRepository<Cliente> {
 //		val user=searchById(id)
 //		return user.ofertasJob.filter[job|job.contratado==false && job.realizado==false].toSet
 //	}
-}
-
-@Accessors
-class SingletonClientes{
-	
-	 static SingletonClientes clientePers = new SingletonClientes()
-	
-	 EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("WorkOfDay")
-	EntityManager entityManager = entityManagerFactory.createEntityManager()
-	
-	def static SingletonClientes getInstance() {
-		if (clientePers === null) {
-			clientePers = new SingletonClientes()
-		}
-		clientePers
-	}
-	
 }
